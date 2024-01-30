@@ -1,4 +1,4 @@
-import type { IFishingPermit, LakeId } from "~/interfaces/fishing-permit.interface";
+import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 
 const DRIFT_SEASON_ENDPOINTS = {
     GET_ALL: '/drift-season/get-all',
@@ -13,7 +13,7 @@ const DRIFT_SEASON_ENDPOINTS = {
 export class DriftSeasonApi extends ApiUtil {
 
 
-    async getAllDriftSeasons(): Promise<IFishingPermit[]> {
+    async getAllDriftSeasons(): Promise<IDriftSeason[]> {
         try {
             const permits = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_ALL })
 
@@ -25,7 +25,7 @@ export class DriftSeasonApi extends ApiUtil {
 
     }
 
-    async getDriftSeasonById(id: string): Promise<IFishingPermit | null> {
+    async getDriftSeasonById(id: string): Promise<IDriftSeason | null> {
         try {
             const permit = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_BY_ID, query: { id } })
 
@@ -37,31 +37,31 @@ export class DriftSeasonApi extends ApiUtil {
 
     }
 
-    async createDriftSeason(payload:
-        { firstName: string, lastName: string, email: string, lakeId: LakeId, startsAt: string, endsAt: string }): Promise<IFishingPermit | null> {
-        try {
-            const permit = await this.post({ url: DRIFT_SEASON_ENDPOINTS.CREATE, payload })
+    // async createDriftSeason(payload:
+    //     { firstName: string, lastName: string, age: number }): Promise<IFishingPermit | null> {
+    //     try {
+    //         const permit = await this.post({ url: DRIFT_SEASON_ENDPOINTS.CREATE, payload })
 
-            return permit
-        } catch (error) {
-            console.error(error)
-            return null
-        }
+    //         return permit
+    //     } catch (error) {
+    //         console.error(error)
+    //         return null
+    //     }
 
-    }
+    // }
 
-    async addDriverToDriftSeason(payload:
-        { permitId: string, specie: string, weightInGrams: number }): Promise<IFishingPermit | null> {
-        try {
-            const permit = await this.post({ url: DRIFT_SEASON_ENDPOINTS.ADD_DRIVER_TO_SEASON, payload })
+    // async addDriverToDriftSeason(payload:
+    //     { permitId: string, specie: string, weightInGrams: number }): Promise<IFishingPermit | null> {
+    //     try {
+    //         const permit = await this.post({ url: DRIFT_SEASON_ENDPOINTS.ADD_DRIVER_TO_SEASON, payload })
 
-            return permit
-        } catch (error) {
-            console.error(error)
-            return null
-        }
+    //         return permit
+    //     } catch (error) {
+    //         console.error(error)
+    //         return null
+    //     }
 
-    }
+    // }
 }
 
 export default new FishingPermitApi()
