@@ -30,8 +30,8 @@ export default {
         path: '/'
       },
       {
-        label: 'Uusi lupa',
-        path: '/fishing-permit/new'
+        label: 'Uusi Kuski',
+        path: '/drivers/new'
       },
       {
         label: 'Profiili',
