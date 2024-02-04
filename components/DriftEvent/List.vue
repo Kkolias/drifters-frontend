@@ -51,7 +51,7 @@ export default {
   methods: {
     async fetchEvents(): Promise<void> {
       this.setLoading(true);
-      const drivers = await apiDriftEvent.getAllDriftSeasons();
+      const drivers = await apiDriftEvent.getAllDriftEvents();
       this.setDriftEventList(drivers);
       this.setLoading(false);
     },

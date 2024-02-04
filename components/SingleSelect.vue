@@ -12,7 +12,7 @@
                 <li v-for="(option, key) in optionList" :key="key">
                     <button type="button" class="blank select-option-btn" @click="selectOption(option)">
 
-                        {{ option.label }}
+                        {{ optionLabel(option) }}
                     </button>
                 </li>
             </ul>
@@ -49,6 +49,11 @@ export default {
         },
     },
     methods: {
+        optionLabel(option: any): string {
+            if(typeof option === 'string') return option
+            return option?.label
+        },
+
         toggleListOpen(value: boolean): void {
             console.log(value)
             this.isListOpen = value

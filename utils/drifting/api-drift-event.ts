@@ -9,7 +9,7 @@ const DRIFT_EVENT_ENDPOINTS = {
 };
 
 export class DriftEventApi extends ApiUtil {
-  async getAllDriftSeasons(): Promise<IDriftEvent[]> {
+  async getAllDriftEvents(): Promise<IDriftEvent[]> {
     try {
       const events = await this.get({ url: DRIFT_EVENT_ENDPOINTS.GET_ALL });
 
@@ -20,11 +20,31 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async getDriftSeasonById(id: string): Promise<IDriftEvent | null> {
+  async getDriftSEventById(id: string): Promise<IDriftEvent | null> {
     try {
       const event = await this.get({
         url: DRIFT_EVENT_ENDPOINTS.GET_BY_ID,
         query: { id },
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async createDriftEvent(payload: {
+    country: string;
+    name: string;
+    startsAt: string;
+    endsAt: string;
+    seasonId: string;
+  }): Promise<IDriftEvent | null> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.CREATE,
+        payload,
       });
 
       return event;

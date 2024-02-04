@@ -1,3 +1,4 @@
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 
 const DRIFT_SEASON_ENDPOINTS = {
@@ -15,9 +16,9 @@ export class DriftSeasonApi extends ApiUtil {
 
     async getAllDriftSeasons(): Promise<IDriftSeason[]> {
         try {
-            const permits = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_ALL })
+            const seasons = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_ALL })
 
-            return permits
+            return seasons
         } catch (error) {
             console.error(error)
             return []
@@ -27,9 +28,9 @@ export class DriftSeasonApi extends ApiUtil {
 
     async getDriftSeasonById(id: string): Promise<IDriftSeason | null> {
         try {
-            const permit = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_BY_ID, query: { id } })
+            const season = await this.get({ url: DRIFT_SEASON_ENDPOINTS.GET_BY_ID, query: { id } })
 
-            return permit
+            return season
         } catch (error) {
             console.error(error)
             return null
@@ -37,18 +38,18 @@ export class DriftSeasonApi extends ApiUtil {
 
     }
 
-    // async createDriftSeason(payload:
-    //     { firstName: string, lastName: string, age: number }): Promise<IFishingPermit | null> {
-    //     try {
-    //         const permit = await this.post({ url: DRIFT_SEASON_ENDPOINTS.CREATE, payload })
+    async createDriftSeason(payload:
+        { serie: DriftSerie, year: number }): Promise<IDriftSeason | null> {
+        try {
+            const season = await this.post({ url: DRIFT_SEASON_ENDPOINTS.CREATE, payload })
 
-    //         return permit
-    //     } catch (error) {
-    //         console.error(error)
-    //         return null
-    //     }
+            return season
+        } catch (error) {
+            console.error(error)
+            return null
+        }
 
-    // }
+    }
 
     // async addDriverToDriftSeason(payload:
     //     { permitId: string, specie: string, weightInGrams: number }): Promise<IFishingPermit | null> {
@@ -64,4 +65,4 @@ export class DriftSeasonApi extends ApiUtil {
     // }
 }
 
-export default new FishingPermitApi()
+export default new DriftSeasonApi()

@@ -12,7 +12,6 @@
               {{ nav.label }}
             </NuxtLink>
           </li>
-
         </ul>
       </div>
     </nav>
@@ -26,52 +25,51 @@ export default {
 
     navList: [
       {
-        label: 'Etusivu',
-        path: '/'
+        label: "Etusivu",
+        path: "/",
       },
       {
-        label: 'Uusi Kuski',
-        path: '/drivers/new'
+        label: "Kuskit",
+        path: "/drivers",
       },
       {
-        label: 'Profiili',
-        path: '/profile'
+        label: "Kaudet",
+        path: "/drift-season",
       },
       {
-        label: 'Kaikki luvat',
-        path: '/fishing-permit/all-permits'
+        label: "Profiili",
+        path: "/profile",
       },
-    ]
+    ],
   }),
   computed: {
     path(): string {
-      return this.$route?.path || ''
-    }
+      return this.$route?.path || "";
+    },
   },
   watch: {
     path() {
-      this.navOpen = false
-    }
+      this.navOpen = false;
+    },
   },
   mounted() {
-    window?.addEventListener('click', this.chechClickPosition)
+    window?.addEventListener("click", this.chechClickPosition);
   },
   destroyed() {
-    window?.removeEventListener('click', this.chechClickPosition)
+    window?.removeEventListener("click", this.chechClickPosition);
   },
   beforeUnmount() {
-    window?.removeEventListener('click', this.chechClickPosition)
+    window?.removeEventListener("click", this.chechClickPosition);
   },
   methods: {
     chechClickPosition(e: any): void {
-      if (!e?.target?.closest('.component-Navbar')) {
-        this.navOpen = false
+      if (!e?.target?.closest(".component-Navbar")) {
+        this.navOpen = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
-
 
 <style lang="less" scoped>
 .component-Navbar {
@@ -85,7 +83,6 @@ export default {
 
     li {
       transition: all 0.3s ease;
-
 
       a {
         text-decoration: none;
@@ -121,9 +118,8 @@ export default {
       border-radius: 3px;
       z-index: 1;
       transform-origin: 4px 0px;
-      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-        background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-        opacity 0.55s ease;
+      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+        background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 
       &:first-child {
         transform-origin: 0% 0%;
@@ -137,7 +133,7 @@ export default {
 
   .menuToggle {
     input {
-      &:checked~span {
+      &:checked ~ span {
         opacity: 1;
         transform: rotate(45deg) translate(-2px, -1px);
         background: var(--green-1);
@@ -152,10 +148,9 @@ export default {
         }
       }
 
-      &:checked~.menuItem {
+      &:checked ~ .menuItem {
         transform: none;
       }
-
     }
   }
 
@@ -169,7 +164,7 @@ export default {
     list-style-type: none;
     -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 
     li {
       padding: 10px 0;

@@ -7,7 +7,7 @@ const DRIFT_DRIVER = {
     ADD_CAR: '/driver/add-car',
 }
 
-export class DriftSeasonApi extends ApiUtil {
+export class DriftDriversApi extends ApiUtil {
 
 
     async getAllDrivers(): Promise<IDriver[]> {
@@ -47,4 +47,4 @@ export class DriftSeasonApi extends ApiUtil {
     }
 }
 
-export default new DriftSeasonApi()
+export default new DriftDriversApi()

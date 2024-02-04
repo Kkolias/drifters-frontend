@@ -1,7 +1,7 @@
 <template>
-  <div class="page-new-fishing-permit">
-    <DriversEditForm />
-  </div>
+    <div class="page-new-fishing-permit">
+        <DriftEventEditForm />
+    </div>
 </template>
 
 <script lang="ts">
