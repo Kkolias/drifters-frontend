@@ -37,6 +37,18 @@ export default {
         path: "/drift-season",
       },
       {
+        label: "Tapahtumat",
+        path: "/drift-event",
+      },
+      {
+        label: "Kisapäivät",
+        path: "/drift-competition-day",
+      },
+      {
+        label: "Sarjataulukot",
+        path: "/leaderboard",
+      },
+      {
         label: "Profiili",
         path: "/profile",
       },
