@@ -8,6 +8,19 @@
         </div>
 
         <div class="input-wrapper">
+          <label for="serie">Kausi:</label>
+          <SingleSelect
+            class="single-select"
+            placeholderOption="Valitse sarja"
+            id="serie"
+            :value="selectedSeasonLabel"
+            :optionList="parsedSeasonList"
+            @select="selectSeason"
+          />
+          <ErrorHover :errorMessage="errorTexts.seasonId" />
+        </div>
+
+        <div class="input-wrapper">
           <label for="country">Maa:</label>
           <input
             v-model="driftEvent.country"
@@ -71,13 +84,16 @@
 </template>
 
 <script lang="ts">
+import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import driftEventApi from "../../utils/drifting/api-drift-event";
+import driftSeasonApi from "~/utils/drifting/api-drift-season";
 
 interface ErrorTexts {
   country: string;
   name: string;
   startsAt: string;
   endsAt: string;
+  seasonId: string
 }
 
 interface DriftEventEditFormData {
@@ -89,6 +105,8 @@ interface DriftEventEditFormData {
     endsAt: string;
     seasonId: string;
   };
+
+  seasonList: IDriftSeason[];
 
   errorTexts: ErrorTexts;
   overViewErrorMessage: string;
@@ -109,6 +127,7 @@ export default {
       country: "",
       startsAt: "",
       endsAt: "",
+      seasonId: "",
     },
     driftEvent: {
       id: "",
@@ -118,8 +137,32 @@ export default {
       endsAt: "",
       seasonId: "",
     },
+
+    seasonList: [],
   }),
+  computed: {
+    selectedSeasonLabel(): string {
+      return this.parsedSeasonList.find((q) => q.key === this.driftEvent.seasonId)?.label || "Valitse kausi";
+    },
+    parsedSeasonList() {
+      return this.seasonList.map((q) => ({
+        key: q?._id,
+        label: `${q?.serie} - ${q?.year}`
+      })) || []
+    }
+  },
+  mounted() {
+    this.fetchSeasonList();
+  },
   methods: {
+    async fetchSeasonList() {
+      const r = await driftSeasonApi.getAllDriftSeasons();
+      this.seasonList = r;
+    },
+    selectSeason(season: any): void {
+      this.driftEvent.seasonId = season?.key;
+    },
+
     async submit(e: Event) {
       if (this.loading) return;
       this.setLoading(true);
@@ -180,6 +223,7 @@ export default {
       this.setErrorTextByKey("country", "");
       this.setErrorTextByKey("startsAt", "");
       this.setErrorTextByKey("endsAt", "");
+      this.setErrorTextByKey("seasonId", "");
       this.setOverViewErrorMessage("");
     },
     setOverViewErrorMessage(message: string): void {

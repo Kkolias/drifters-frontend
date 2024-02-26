@@ -20,7 +20,7 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async getDriftSEventById(id: string): Promise<IDriftEvent | null> {
+  async getDriftEventById(id: string): Promise<IDriftEvent | null> {
     try {
       const event = await this.get({
         url: DRIFT_EVENT_ENDPOINTS.GET_BY_ID,
