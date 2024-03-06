@@ -5,6 +5,7 @@ const DRIFT_SEASON_ENDPOINTS = {
   GET_BY_ID: "/qualifying/get-by-id",
   CREATE: "/qualifying/create",
   CREATE_RESULT_ITEM: "/qualifying/create-result-item",
+  CREATE_RESULT_ITEM_LIST: "/qualifying/create-result-item-list",
   ADD_RUN_TO_RESULT: "/qualifying/add-run-to-result",
 };
 
@@ -39,6 +40,23 @@ export class QualifyingApi extends ApiUtil {
       const season = await this.post({
         url: DRIFT_SEASON_ENDPOINTS.CREATE,
         payload: { eventId },
+      });
+
+      return season;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async createResultItemListToQualifying(
+    qualifyingId: string,
+    driverIdList: string[]
+  ): Promise<IQualifying | null> {
+    try {
+      const season = await this.post({
+        url: DRIFT_SEASON_ENDPOINTS.CREATE_RESULT_ITEM_LIST,
+        payload: { qualifyingId, driverIdList },
       });
 
       return season;

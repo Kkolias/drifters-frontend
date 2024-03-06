@@ -11,10 +11,10 @@
           <label for="event">Tapahtuma:</label>
           <SingleSelect
             class="single-select"
-            placeholderOption="Valitse sarja"
+            placeholderOption="Valitse tapahtuma"
             id="event"
-            :value="qualifying.eventId"
-            :optionList="parsedEventList"
+            :value="selectedEvent"
+            :optionList="filteredEventList"
             @select="selectEvent"
           />
           <ErrorHover :errorMessage="errorTexts.eventId" />
@@ -64,6 +64,8 @@ interface QualifyingEditFormData {
 export default {
   props: {
     initialId: { type: String, default: "" },
+    initialEventId: { type: String, default: "" },
+    emitSuccess: { type: Boolean, default: false },
   },
   data: (): QualifyingEditFormData => ({
     loading: false,
@@ -79,15 +81,30 @@ export default {
     eventList: [],
   }),
   computed: {
+    selectedEvent(): string {
+      return (
+        this.parsedEventList?.find(
+          (event) => event.key === this.qualifying.eventId
+        )?.label || ""
+      );
+    },
     parsedEventList(): Partial<ParsedDriftEvent>[] {
       return this.eventList.map((event) => ({
         key: event._id,
         label: event.name,
       }));
     },
+    filteredEventList(): Partial<ParsedDriftEvent>[] {
+      if (!this.eventList) return this.parsedEventList;
+      return this.parsedEventList.filter(
+        (event) => event.key !== this.initialEventId
+      );
+    },
   },
-  mounted() {
-    this.fetchEventList();
+  async mounted() {
+    await this.fetchEventList();
+
+    if (this.initialEventId) this.qualifying.eventId = this.initialEventId;
   },
   methods: {
     async fetchEventList() {
@@ -118,7 +135,8 @@ export default {
       const newQualifying = await qualifyingApi.createQualifying(eventId);
 
       if (newQualifying) {
-        this.$router.push(`/qualifying`);
+        if (this.emitSuccess) this.$emit("success");
+        else this.$router.push(`/qualifying`);
       } else {
         this.setOverViewErrorMessage("Virhe luodessa lajittelua");
       }
@@ -150,11 +168,6 @@ export default {
 
 <style lang="less" scoped>
 .component-QualifyingEditForm {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
   .form-wrapper {
     border: 2px solid var(--black-2);
     border-radius: 10px;
