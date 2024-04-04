@@ -9,6 +9,13 @@
       >
         <span> Luo lajittelu </span>
       </button>
+      <button
+        v-if="qualifyingItem"
+        class="primary open-edit-form"
+        @click="setShowAddDriversToResultList(true)"
+      >
+        <span> Muokkaa kuljettajalistaa </span>
+      </button>
     </div>
     <Modal :value="editFormOpen" @close="setEditFormOpen(false)">
       <QualifyingEditForm
@@ -18,6 +25,12 @@
         @success="reloadData()"
       />
     </Modal>
+    <QualifyingAddDriversToResulList
+      v-if="qualifyingItem && showAddDriversToResultList"
+      :qualifyingItem="qualifyingItem"
+      @reload="reloadData()"
+      @closeModal="setShowAddDriversToResultList(false)"
+    />
   </div>
 </template>
 
@@ -27,6 +40,7 @@ import { type PropType } from "vue";
 
 interface IData {
   editFormOpen: boolean;
+  showAddDriversToResultList: boolean;
 }
 
 export default {
@@ -41,6 +55,7 @@ export default {
   },
   data: (): IData => ({
     editFormOpen: false,
+    showAddDriversToResultList: false,
   }),
   computed: {
     initialId(): string {
@@ -54,6 +69,9 @@ export default {
     },
     setEditFormOpen(val: boolean): void {
       this.editFormOpen = val;
+    },
+    setShowAddDriversToResultList(val: boolean): void {
+      this.showAddDriversToResultList = val;
     },
   },
 };

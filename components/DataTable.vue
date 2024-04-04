@@ -3,6 +3,7 @@
     <table>
       <thead>
         <tr>
+          <th v-if="selectable"></th>
           <th v-for="(header, key) in headerList" :key="key"
             :class="{ selected: isHeaderSelected(header), reversed: isReversedSort }">
             <button class="blank" @click="handleSetSortHeader(header)">
@@ -13,6 +14,9 @@
       </thead>
       <tbody>
         <tr v-for="(data, key) in sortedDataList" :key="key">
+          <td v-if="selectable">
+            <input type="checkbox" :checked="isSelected(data)" @click="itemClick(data)" />
+          </td>
           <td v-for="header in headerList" :key="header.key">
             <NuxtLink v-if="isLinkColumn(header)" :to="data.link">
               {{ data[header.key] }}
@@ -52,6 +56,10 @@ export default {
       type: Array as PropType<any[]>,
       default: () => []
     },
+    selectable: {
+      type: Boolean,
+      default: false
+    }
   },
   data: (): DataTableData => ({
     sortByHeader: null,
@@ -76,11 +84,18 @@ export default {
     }
   },
   methods: {
+    itemClick(data: any): void {
+      this.$emit('itemClick', data)
+    },
     isLinkColumn(header: HeaderItem): boolean {
       return header?.isLink || false
     },
     isHeaderSelected(header: HeaderItem) {
       return header?.key === this.sortByHeader?.key
+    },
+    isSelected(data: any): boolean {
+      console.log(data)
+      return data.selected
     },
     handleSetSortHeader(header: HeaderItem): void {
       if (this.isHeaderSelected(header)) {
