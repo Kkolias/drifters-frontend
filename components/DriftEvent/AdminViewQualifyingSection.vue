@@ -2,20 +2,28 @@
   <div class="component-DriftEventAdminViewQualifyingSection">
     <div class="content-wrapper">
       <h2>Lajittelut</h2>
-      <button
-        v-if="!qualifyingItem"
-        class="primary open-edit-form"
-        @click="setEditFormOpen(true)"
-      >
-        <span> Luo lajittelu </span>
-      </button>
-      <button
-        v-if="qualifyingItem"
-        class="primary open-edit-form"
-        @click="setShowAddDriversToResultList(true)"
-      >
-        <span> Muokkaa kuljettajalistaa </span>
-      </button>
+      <div class="button-section">
+        <button
+          v-if="!qualifyingItem"
+          class="primary open-edit-form"
+          @click="setEditFormOpen(true)"
+        >
+          <span> Luo lajittelu </span>
+        </button>
+        <button
+          v-if="qualifyingItem"
+          class="primary open-edit-form"
+          @click="setShowAddDriversToResultList(true)"
+        >
+          <span> Muokkaa kuljettajalistaa </span>
+        </button>
+      </div>
+      <div class="result-list-section">
+        <DriftEventAdminViewQualifyingDataTable
+          v-if="qualifyingItem"
+          :qualifyingItem="qualifyingItem"
+        />
+      </div>
     </div>
     <Modal :value="editFormOpen" @close="setEditFormOpen(false)">
       <QualifyingEditForm

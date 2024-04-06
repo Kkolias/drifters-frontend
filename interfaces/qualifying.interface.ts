@@ -10,7 +10,8 @@ export interface IQualifyingRun {
   
   export interface IQualifyingResultItem {
     _id: string
-    driver: IDriver
+    orderNumber: number
+    driver: IDriver | string
     run1: IQualifyingRun | null
     run2: IQualifyingRun | null
   }

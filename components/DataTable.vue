@@ -18,7 +18,10 @@
             <input type="checkbox" :checked="isSelected(data)" @click="itemClick(data)" />
           </td>
           <td v-for="header in headerList" :key="header.key">
-            <NuxtLink v-if="isLinkColumn(header)" :to="data.link">
+            <button v-if="isClickable(header)" class="blank" @click="handleClick(data, header.key)">
+              {{ data[header.key] }}
+            </button>
+            <NuxtLink v-else-if="isLinkColumn(header)" :to="data.link">
               {{ data[header.key] }}
             </NuxtLink>
             <span v-else>
@@ -84,6 +87,12 @@ export default {
     }
   },
   methods: {
+    isClickable(header: any): boolean {
+      return !!header.clickable
+    },
+    handleClick(data: any, key: string): void {
+      this.$emit('cellClick', {data, key})
+    },
     itemClick(data: any): void {
       this.$emit('itemClick', data)
     },

@@ -24,6 +24,7 @@
 import type { IQualifying } from "~/interfaces/qualifying.interface";
 import service from "./AddDriversToResultList.service";
 import type { IDriver } from "~/interfaces/driver.interface";
+import { parsedDriverList } from "~/utils/driver.utils";
 
 interface IData {
   allDrivers: IDriver[];
@@ -55,13 +56,7 @@ export default {
       ];
     },
     dataList() {
-      return this.allDrivers?.map((d) => {
-        return {
-          name: `${d.firstName} ${d.lastName}`,
-          _id: d._id,
-          selected: this.selectedDriverIdList.includes(d._id),
-        };
-      });
+      return parsedDriverList(this.allDrivers, this.selectedDriverIdList);
     },
     qualifyingId(): string {
       return this.qualifyingItem?._id || "";
