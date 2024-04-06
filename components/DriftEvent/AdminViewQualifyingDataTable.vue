@@ -7,6 +7,14 @@
       :dataList="dataList"
       @cellClick="cellClick"
     />
+    <QualifyingRunPointModal
+      v-if="showRunPointModal"
+      :qualifyingResultItem="(selectedResultItem as IQualifyingResultItem)"
+      :qualifyingId="qualifyingId"
+      :selectedRun="selectedRunNumber"
+      @success="updateQualifyingData"
+      @closeModal="closeRunPointModal()"
+    />
   </div>
 </template>
 
@@ -23,6 +31,9 @@ import service, {
 interface IData {
   allDrivers: IDriver[];
   loading: Record<string, boolean>;
+  showRunPointModal: boolean;
+  selectedResultItem: IQualifyingResultItem | null;
+  selectedRunNumber: number;
 }
 
 export default {
@@ -36,8 +47,15 @@ export default {
     loading: {
       allDrivers: false,
     },
+    showRunPointModal: false,
+
+    selectedResultItem: null,
+    selectedRunNumber: 1,
   }),
   computed: {
+    qualifyingId(): string {
+      return this.qualifyingItem?._id || "";
+    },
     headerList() {
       return [
         {
@@ -54,8 +72,8 @@ export default {
           clickable: true,
         },
         {
-            key: "run1Summary",
-            name: "1 vedon yhteenveto"
+          key: "run1Summary",
+          name: "1 vedon yhteenveto",
         },
         {
           key: "run2Points",
@@ -63,8 +81,8 @@ export default {
           clickable: true,
         },
         {
-            key: "run2Summary",
-            name: "2 vedon yhteenveto"
+          key: "run2Summary",
+          name: "2 vedon yhteenveto",
         },
       ];
     },
@@ -94,12 +112,43 @@ export default {
     },
 
     cellClick(payload: any): void {
-        console.log("cellClick", payload);
 
+      const selectedResultId = payload.data._id;
+      const selectedResultItem = this.qualifyingResultList.find(
+        (item) => item._id === selectedResultId
+      );
+      console.log(selectedResultItem)
+      this.setSelectedResultItem(selectedResultItem as IQualifyingResultItem);
+
+      const selectedRunNumber = payload?.key === "run1Points" ? 1 : 2;
+      this.setSelectedRunNumber(selectedRunNumber);
+
+      this.setShowRunPointModal(true);
+    },
+
+    updateQualifyingData(_updatedData: IQualifying): void {
+      //   this.$emit("updateQualifyingData", updatedData);
+      this.closeRunPointModal();
+      this.$emit("reload");
+    },
+
+    closeRunPointModal(): void {
+      this.setSelectedResultItem(null);
+      this.setSelectedRunNumber(1);
+      this.setShowRunPointModal(false);
     },
 
     setLoading(key: string, value: boolean): void {
       this.loading[key] = value;
+    },
+    setSelectedRunNumber(value: number): void {
+      this.selectedRunNumber = value;
+    },
+    setSelectedResultItem(value: IQualifyingResultItem | null): void {
+      this.selectedResultItem = value;
+    },
+    setShowRunPointModal(value: boolean): void {
+      this.showRunPointModal = value;
     },
   },
 };
@@ -107,6 +156,6 @@ export default {
 
 <style lang="less" scoped>
 .component-AdminViewQualifyingDataTable {
-  margin-bottom: 20px;
+  margin-bottom: 100px;
 }
 </style>

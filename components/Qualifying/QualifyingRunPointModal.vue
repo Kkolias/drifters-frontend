@@ -1,0 +1,213 @@
+<template>
+  <div class="component-QualifyingRunPointModal">
+    <Modal :value="true" @close="closeModal()">
+      <div class="content" slot="content">
+        <div class="form-wrapper">
+          <h1>Pisteytä veto</h1>
+          <form @submit.prevent="(e) => submit(e)">
+            <!-- <div v-if="overViewErrorMessage.length" class="error-wrapper">
+              <p class="error-message">{{ overViewErrorMessage }}</p>
+            </div> -->
+
+            <div class="input-wrapper">
+              <label for="line">Linja:</label>
+              <input
+                v-model.number="run.line"
+                type="number"
+                id="line"
+                @click="setErrorTextsDefault()"
+              />
+              <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
+            </div>
+            <div class="input-wrapper">
+              <label for="angle">Kulma:</label>
+              <input
+                v-model.number="run.angle"
+                type="number"
+                id="angle"
+                @click="setErrorTextsDefault()"
+              />
+              <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
+            </div>
+            <div class="input-wrapper">
+              <label for="style">Tyyli:</label>
+              <input
+                v-model.number="run.style"
+                type="number"
+                id="style"
+                @click="setErrorTextsDefault()"
+              />
+              <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
+            </div>
+
+            <div class="button-wrapper">
+              <ButtonWithLoader
+                buttonType="submit"
+                :loading="loading"
+                @click="submit"
+              >
+                <span> Pisteytä </span>
+              </ButtonWithLoader>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Modal>
+  </div>
+</template>
+
+<script lang="ts">
+import type {
+  IQualifyingResultItem,
+} from "~/interfaces/qualifying.interface";
+import service from "./QualifyingRunPointModal.service";
+
+interface IData {
+  run: {
+    line: number;
+    angle: number;
+    style: number;
+  };
+
+  loading: boolean;
+}
+
+export default {
+  props: {
+    qualifyingResultItem: {
+      type: Object as PropType<IQualifyingResultItem>,
+    },
+    qualifyingId: {
+      type: String,
+      default: "",
+    },
+    selectedRun: {
+      type: Number,
+      default: 1,
+    },
+  },
+  data: (): IData => ({
+    run: {
+      line: 0,
+      angle: 0,
+      style: 0,
+    },
+
+    loading: false,
+  }),
+  computed: {
+    resultId(): string {
+      return this.qualifyingResultItem?._id || "";
+    },
+    runKey(): "run1" | "run2" {
+      return service.getRunNumber(this.selectedRun);
+    },
+  },
+  mounted() {
+    this.setData();
+  },
+  methods: {
+    setData(): void {
+      if (this.qualifyingResultItem === null) return;
+      if (!this.runKey) return;
+
+      this.run = {
+        ...this.run,
+        line: this.qualifyingResultItem?.[this.runKey]?.line || 0,
+        angle: this.qualifyingResultItem?.[this.runKey]?.angle || 0,
+        style: this.qualifyingResultItem?.[this.runKey]?.style || 0,
+      };
+    },
+
+    async submit(e: Event) {
+      if (this.loading) return;
+      this.setLoading(true);
+      e.preventDefault();
+
+      const updatedQualifying = await service.updateQualifyingRuns(
+        this.qualifyingId,
+        this.resultId,
+        {
+          [this.runKey]: this.run,
+        }
+      );
+      this.setLoading(false);
+      this.$emit("success", updatedQualifying);
+    },
+
+    setErrorTextsDefault() {
+      console.log("setting error texts default");
+    },
+
+    setLoading(val: boolean) {
+      this.loading = val;
+    },
+
+    closeModal() {
+      this.$emit("closeModal");
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.component-QualifyingRunPointModal {
+  .form-wrapper {
+    border: 2px solid var(--black-2);
+    border-radius: 10px;
+    padding: 24px;
+
+    h1 {
+      text-align: center;
+    }
+
+    max-width: 350px;
+    margin: auto;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .error-wrapper {
+        .error-message {
+          text-align: center;
+          color: var(--error-color);
+          margin: 0;
+        }
+      }
+
+      .input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+
+        input,
+        .single-select {
+          width: 350px;
+        }
+      }
+
+      .button-wrapper {
+        margin-top: 4px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .car-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+      }
+    }
+  }
+}
+</style>

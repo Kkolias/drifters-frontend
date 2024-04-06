@@ -22,6 +22,7 @@
         <DriftEventAdminViewQualifyingDataTable
           v-if="qualifyingItem"
           :qualifyingItem="qualifyingItem"
+          @reload="reloadData()"
         />
       </div>
     </div>
