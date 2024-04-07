@@ -169,6 +169,7 @@ export default {
     border: 2px solid var(--black-2);
     border-radius: 10px;
     padding: 24px;
+    background: var(--black-1);
 
     .button-wrapper {
       display: flex;

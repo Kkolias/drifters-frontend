@@ -46,8 +46,8 @@ export class AdminViewQualifyingDataTableService {
   private parsePointsOfRun(run: IQualifyingRun | null): string {
     // returns in format "line | angle | style"
     if (!run) return "N/A";
-    return `${run.line || "N/A"} | ${run.angle || "N/A"} | ${
-      run.style || "N/A"
+    return `${run.line ?? "N/A"} | ${run.angle ?? "N/A"} | ${
+      run.style ?? "N/A"
     }`;
   }
 
