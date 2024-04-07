@@ -20,21 +20,24 @@
       </button> -->
     </div>
 
-    <!-- <Modal :value="editFormOpen" @close="setEditFormOpen(false)">
-      <DriftCompetitionDayEditForm
-        :initialId="competitionDayId"
-        :initialEventId="eventId"
-        :emitSuccess="true"
-        @success="reloadData()"
-      />
-    </Modal> -->
+    <DriftCompetitionDayAdminBracketView
+      :competitionDayItem="competitionDayItem"
+      :allDriversList="allDriversList"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import type { PropType } from "vue";
 import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
+import type { IDriver } from "~/interfaces/driver.interface";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
+import apiDrivers from "~/utils/drifting/api-drivers";
+
+interface IData {
+  editFormOpen: boolean;
+  allDriversList: IDriver[];
+}
 
 export default {
   props: {
@@ -47,15 +50,23 @@ export default {
       default: "",
     },
   },
-  data: () => ({
+  data: (): IData => ({
     editFormOpen: false,
+    allDriversList: [],
   }),
   computed: {
     competitionDayId(): string {
       return this.competitionDayItem?._id || "";
     },
   },
+  mounted() {
+    this.fetchDrivers();
+  },
   methods: {
+    async fetchDrivers(): Promise<void> {
+      const drivers = await apiDrivers.getAllDrivers();
+      this.allDriversList = drivers;
+    },
     reloadData(): void {
       this.$emit("reload");
     },

@@ -22,8 +22,8 @@ export interface IRunPairItem {
 
 export interface IHeat {
   _id: string;
-  driver1: IDriver;
-  driver2: IDriver;
+  driver1: IDriver | string;
+  driver2: IDriver | string;
   heatType: HeatType; // esim top32 top16 karsinnat
   bracketNumber: number; // vasen on 1-16 oikea 17-32 vasen 2 on 33-40 oikea 41-48 jne
   runList: IRunPairItem[];
