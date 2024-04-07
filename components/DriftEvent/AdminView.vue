@@ -10,6 +10,11 @@
       :eventId="id"
       @reload="fetchData"
     />
+    <DriftEventAdminViewCompetitionDaySection
+      :competitionDayItem="driftEvent?.competitionDay"
+      :eventId="id"
+      @reload="fetchData"
+    />
   </div>
 </template>
 

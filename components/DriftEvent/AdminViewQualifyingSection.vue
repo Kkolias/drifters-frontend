@@ -89,5 +89,20 @@ export default {
 <style lang="less" scoped>
 .component-DriftEventAdminViewQualifyingSection {
   margin-bottom: 20px;
+
+  h2 {
+    // margin: 0;
+    text-align: center;
+  }
+
+  .button-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    button {
+      margin: 0 10px;
+    }
+  }
 }
 </style>

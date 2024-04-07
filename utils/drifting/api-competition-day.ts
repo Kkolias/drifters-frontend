@@ -7,12 +7,16 @@ const DRFIT_COMPETITION_DAY_ENDPOINTS = {
   CREATE_HEAT_TO_DAY: "/competition-day/create-heat-to-day",
   ADD_RUN_TO_HEAT: "/competition-day/add-run-to-heat",
   GIVE_JUDGE_POINTS: "/competition-day/give-judge-points",
+  GENERATE_COMPETITION_DAY_FROM_RESULTS:
+    "/competition-day/generate-competition-day-from-results",
 };
 
 export class CompetitionDayApi extends ApiUtil {
   async getAllCompetitionDays(): Promise<ICompetitionDay[]> {
     try {
-      const seasons = await this.get({ url: DRFIT_COMPETITION_DAY_ENDPOINTS.GET_ALL });
+      const seasons = await this.get({
+        url: DRFIT_COMPETITION_DAY_ENDPOINTS.GET_ALL,
+      });
 
       return seasons;
     } catch (error) {
@@ -43,6 +47,22 @@ export class CompetitionDayApi extends ApiUtil {
       });
 
       return season;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async generateCompetitionDayForEvent(
+    eventId: string
+  ): Promise<ICompetitionDay | null> {
+    try {
+      const competitionDay = await this.post({
+        url: DRFIT_COMPETITION_DAY_ENDPOINTS.GENERATE_COMPETITION_DAY_FROM_RESULTS,
+        payload: { eventId },
+      });
+
+      return competitionDay;
     } catch (error) {
       console.error(error);
       return null;
