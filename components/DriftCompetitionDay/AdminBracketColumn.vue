@@ -69,32 +69,73 @@ export default {
 
 <style lang="less" scoped>
 .component-AdminBracketColumn {
+  height: 100%;
   .heat-list {
     list-style: none;
-    display: inline-flex;
+    margin: auto;
+    padding: 0 10px;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-around;
+    gap: 6px;
+    height: 100%;
 
     .heat {
       list-style: none;
-      padding: 10px;
+      margin: 0;
+      padding: 6px;
       background: var(--black-2);
       border-radius: 10px;
       min-width: 100px;
+
+      // &:nth-child(odd) {
+      //   margin-top: 12px;
+      //   position: relative;
+
+      //   &:before {
+      //     content: "";
+      //     position: absolute;
+      //     left: calc(100% + 17px);
+      //     top: 50%;
+      //     width: 15px;
+      //     height: 99%;
+      //     border-top: 2px solid var(--white-1);
+      //     border-right: 2px solid var(--white-1);
+      //     border-radius: 0 10px 0 0;
+      //     transform: translateX(-100%);
+      //   }
+      // }
+
+      // &:nth-child(even) {
+      //   position: relative;
+
+      //   &:before {
+      //     content: "";
+      //     position: absolute;
+      //     left: calc(100% + 17px);
+      //     bottom: 50%;
+      //     width: 15px;
+      //     height: 99%;
+      //     border-bottom: 2px solid var(--white-1);
+      //     border-right: 2px solid var(--white-1);
+      //     border-radius: 0 0 10px 0;
+      //     transform: translateX(-100%);
+      //   }
+      // }
 
       .heat-number {
         text-align: center;
         font-weight: bold;
       }
 
+      p {
+        margin: 6px;
+        font-size: 14px;
+      }
       .driver {
         border: 1px solid var(--white-1);
         border-radius: 10px;
 
-        p {
-          margin: 8px;
-        }
       }
     }
   }
