@@ -23,6 +23,7 @@
     <DriftCompetitionDayAdminBracketView
       :competitionDayItem="competitionDayItem"
       :allDriversList="allDriversList"
+      @reload="reloadData"
     />
   </div>
 </template>

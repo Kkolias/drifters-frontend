@@ -1,3 +1,4 @@
+import type { JudgePoint } from "~/enums/judge-point.enum";
 import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
 
 const DRFIT_COMPETITION_DAY_ENDPOINTS = {
@@ -30,6 +31,29 @@ export class CompetitionDayApi extends ApiUtil {
       const season = await this.get({
         url: DRFIT_COMPETITION_DAY_ENDPOINTS.GET_BY_ID,
         query: { id },
+      });
+
+      return season;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async giveRunJudgePoints(
+    competitionDayId: string,
+    heatId: string,
+    runId: string,
+    judgePoints: {
+      judgePoint1: JudgePoint;
+      judgePoint2: JudgePoint;
+      judgePoint3: JudgePoint;
+    }
+  ): Promise<ICompetitionDay | null> {
+    try {
+      const season = await this.post({
+        url: DRFIT_COMPETITION_DAY_ENDPOINTS.GIVE_JUDGE_POINTS,
+        payload: { competitionDayId, heatId, runId, judgePoints },
       });
 
       return season;

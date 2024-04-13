@@ -1,22 +1,37 @@
 <template>
   <div class="component-AdminBracketColumn">
+    <h3>{{ title }}</h3>
     <ul class="heat-list">
-      <li v-for="number in runListLength" :key="number" class="heat">
-        <div class="lead driver">
+      <li
+        v-for="number in heatNumberList"
+        :key="number"
+        class="heat"
+        @click="setSelectedHeat(getHeatForNumber(number))"
+      >
+        <div class="lead driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1')}">
           <p>
             {{ getDriver(getHeatForNumber(number).driver1) }}
           </p>
         </div>
         <div class="heat-number">
-          <p>{{ getBracketNumber(getHeatForNumber(number)) }}</p>
+          <p>Heat {{ number }}</p>
         </div>
-        <div class="chase driver">
+        <div class="chase driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(number), 'driver2')}">
           <p>
             {{ getDriver(getHeatForNumber(number).driver2) }}
           </p>
         </div>
       </li>
     </ul>
+
+    <DriftCompetitionDayAdminHeatJudgetModal
+      v-if="selectedHeat"
+      :competitionDayId="competitionDayId"
+      :heat="(selectedHeat as IHeat)"
+      :allDriversList="allDriversList"
+      @close="setSelectedHeat(null)"
+      @reload="reload()"
+    />
   </div>
 </template>
 
@@ -24,9 +39,22 @@
 import type { PropType } from "vue";
 import type { IHeat } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import { getWinnerIdOfHeat } from "~/utils/getWinnerOfHeat";
+
+interface IData {
+  selectedHeat: IHeat | null;
+}
 
 export default {
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    competitionDayId: {
+      type: String,
+      required: true,
+    },
     heatList: {
       type: Array as PropType<IHeat[]>,
       default: () => [],
@@ -39,13 +67,33 @@ export default {
       type: Number,
       default: 0,
     },
+    firstHeatNumber: {
+      type: Number,
+      default: 0,
+    },
   },
+  data: (): IData => ({
+    selectedHeat: null,
+  }),
+  // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
   computed: {
-    firstHeatNumber(): number {
-      return this.heatList[0]?.bracketNumber || 0;
+    // firstHeatNumber(): number {
+    //   return this.heatList[0]?.bracketNumber || 0;
+    // },
+    heatNumberList(): number[] {
+      return Array.from(
+        { length: this.runListLength },
+        (_, i) => i + this.firstHeatNumber
+      );
     },
   },
   methods: {
+    isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
+      const driverId = driverType === 'driver1' ? heat.driver1 : heat.driver2
+
+      const winnerId = getWinnerIdOfHeat(heat)
+      return winnerId === driverId;
+    },
     getHeatForNumber(number: number): any {
       return (
         this.heatList.find((heat) => heat.bracketNumber === number) || {
@@ -55,13 +103,21 @@ export default {
       );
     },
     getDriver(driverId: string): string {
-        console.log({a: this.allDriversList, b: driverId})
+      if (this.runListLength === 4) {
+        console.log(driverId);
+      }
       const driver =
         this.allDriversList.find((d) => d._id === driverId) || null;
       return driver ? `${driver.firstName} ${driver.lastName}` : "N/A";
     },
     getBracketNumber(heat: IHeat): string {
       return `Heat ${heat?.bracketNumber ?? 0 + this.firstHeatNumber}`;
+    },
+    setSelectedHeat(heat: IHeat | null): void {
+      this.selectedHeat = heat;
+    },
+    reload(): void {
+      this.$emit("reload");
     },
   },
 };
@@ -70,6 +126,14 @@ export default {
 <style lang="less" scoped>
 .component-AdminBracketColumn {
   height: 100%;
+
+  h3 {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    background: var(--black-2);
+    // border-radius: 10px 10px 0 0;
+  }
   .heat-list {
     list-style: none;
     margin: auto;
@@ -136,6 +200,11 @@ export default {
         border: 1px solid var(--white-1);
         border-radius: 10px;
 
+        &.winner {
+          border: 1px solid var(--green-1);
+          background: var(--green-1-50);
+          color: var(--black-dark);
+        }
       }
     }
   }
