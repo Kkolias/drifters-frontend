@@ -44,6 +44,14 @@ export default {
       type: String,
       default: "",
     },
+    labelKey: {
+      type: String,
+      default: "label",
+    },
+    valueKey: {
+      type: String,
+      default: "key",
+    },
   },
   data: () => ({
     isListOpen: false,
@@ -53,13 +61,13 @@ export default {
       if (!this.value) return this.placeholderOption;
       if (typeof this.value === "string") return this.value;
 
-      return this.value?.label;
+      return this.value?.[this.labelKey as keyof typeof this.value] || "";
     },
   },
   methods: {
     optionLabel(option: any): string {
       if (typeof option === "string") return option;
-      return option?.label;
+      return option?.[this.labelKey];
     },
 
     toggleListOpen(value: boolean): void {
@@ -71,7 +79,7 @@ export default {
       this.$emit("select", option);
     },
     isOptionSelected(option: any): boolean {
-      return option?.key === this.value;
+      return option?.[this.valueKey] === this.value;
     },
   },
 };
