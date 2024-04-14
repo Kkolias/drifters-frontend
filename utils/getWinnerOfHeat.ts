@@ -6,6 +6,7 @@ import type {
 export function getWinnerIdOfHeat(heat: IHeat): string | null {
   if (!heat) return null;
   const runList = heat?.runList || [];
+  if(runList.length === 0) return null;
   const driver1 = heat?.driver1 as string;
   const driver2 = heat?.driver2 as string;
 

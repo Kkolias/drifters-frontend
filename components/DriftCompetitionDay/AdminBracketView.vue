@@ -40,7 +40,7 @@
       <div class="top-four">
         <DriftCompetitionDayAdminBracketColumn
           :competitionDayId="competitionDayId"
-          :heatList="[]"
+          :heatList="heatListTop4Left"
           :allDriversList="allDriversList"
           :runListLength="1"
           :firstHeatNumber="29"
@@ -51,6 +51,7 @@
       <div class="final">
         <DriftCompetitionDayAdminBracketColumnFinal
           :competitionDayId="competitionDayId"
+          :heatList="heatListFinalAndBronze"
           :allDriversList="allDriversList"
           @reload="reload()"
         />
@@ -59,7 +60,7 @@
       <div class="top-four">
         <DriftCompetitionDayAdminBracketColumn
           :competitionDayId="competitionDayId"
-          :heatList="[]"
+          :heatList="heatListTop4Right"
           :allDriversList="allDriversList"
           :runListLength="1"
           :firstHeatNumber="30"
@@ -166,6 +167,24 @@ export default {
     },
     heatListTop8Right(): IHeat[] {
       return this.heatListTop8Sorted.slice(2, 4);
+    },
+    heatListTop4Sorted(): IHeat[] {
+      const heatList = this.heatList.filter(
+        (heat) => heat.heatType === HeatType.top4
+      );
+      return heatList.sort((a, b) => a?.bracketNumber - b.bracketNumber);
+    },
+    heatListTop4Left(): IHeat[] {
+      return this.heatListTop4Sorted.slice(0, 1);
+    },
+    heatListTop4Right(): IHeat[] {
+      return this.heatListTop4Sorted.slice(1, 2);
+    },
+    heatListFinalAndBronze(): IHeat[] {
+      return this.heatList?.filter(
+        (heat) =>
+          heat.heatType === HeatType.final || heat.heatType === HeatType.bronze
+      ) || [];
     },
   },
   methods: {

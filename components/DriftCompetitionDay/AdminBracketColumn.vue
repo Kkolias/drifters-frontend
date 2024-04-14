@@ -1,5 +1,6 @@
 <template>
   <div class="component-AdminBracketColumn">
+    <!-- {{ heatList }} -->
     <h3>{{ title }}</h3>
     <ul class="heat-list">
       <li
@@ -8,7 +9,12 @@
         class="heat"
         @click="setSelectedHeat(getHeatForNumber(number))"
       >
-        <div class="lead driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1')}">
+        <div
+          class="lead driver"
+          :class="{
+            winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1'),
+          }"
+        >
           <p>
             {{ getDriver(getHeatForNumber(number).driver1) }}
           </p>
@@ -16,7 +22,12 @@
         <div class="heat-number">
           <p>Heat {{ number }}</p>
         </div>
-        <div class="chase driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(number), 'driver2')}">
+        <div
+          class="chase driver"
+          :class="{
+            winner: isWinnerOfHeat(getHeatForNumber(number), 'driver2'),
+          }"
+        >
           <p>
             {{ getDriver(getHeatForNumber(number).driver2) }}
           </p>
@@ -89,9 +100,12 @@ export default {
   },
   methods: {
     isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
-      const driverId = driverType === 'driver1' ? heat.driver1 : heat.driver2
+      const driver1 = heat?.driver1;
+      const driver2 = heat?.driver2;
+      if (!driver1 || !driver2) return false;
+      const driverId = driverType === "driver1" ? driver1 : driver2;
 
-      const winnerId = getWinnerIdOfHeat(heat)
+      const winnerId = getWinnerIdOfHeat(heat);
       return winnerId === driverId;
     },
     getHeatForNumber(number: number): any {
@@ -103,9 +117,6 @@ export default {
       );
     },
     getDriver(driverId: string): string {
-      if (this.runListLength === 4) {
-        console.log(driverId);
-      }
       const driver =
         this.allDriversList.find((d) => d._id === driverId) || null;
       return driver ? `${driver.firstName} ${driver.lastName}` : "N/A";
