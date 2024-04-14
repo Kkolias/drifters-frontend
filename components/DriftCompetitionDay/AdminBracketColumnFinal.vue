@@ -82,7 +82,10 @@ export default {
   computed: {},
   methods: {
     isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
-      const driverId = driverType === 'driver1' ? heat.driver1 : heat.driver2
+      const driver1 = heat?.driver1;
+      const driver2 = heat?.driver2;
+      if (!driver1 || !driver2) return false;
+      const driverId = driverType === "driver1" ? driver1 : driver2;
 
       const winnerId = getWinnerIdOfHeat(heat)
       return winnerId === driverId;

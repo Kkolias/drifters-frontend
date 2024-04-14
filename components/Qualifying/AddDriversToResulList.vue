@@ -3,9 +3,10 @@
     <Modal :value="true" @close="closeModal()">
       <div class="content">
         <h2>Lisää kuljettajia lajitteluun</h2>
-        delete: {{ driverIdListToDelete }} new: {{ newSelectedDriverIdList }}
+        <!-- delete: {{ driverIdListToDelete }} new: {{ newSelectedDriverIdList }} -->
         <LoadingIndicator v-if="loading" />
         <DataTable
+          class="data-table"
           v-else
           :headerList="headerList"
           :dataList="dataList"
@@ -170,6 +171,11 @@ export default {
     border-radius: 10px;
     padding: 24px;
     background: var(--black-1);
+
+    .data-table {
+      max-height: 50vh;
+      overflow-y: auto;
+    }
 
     .button-wrapper {
       display: flex;
