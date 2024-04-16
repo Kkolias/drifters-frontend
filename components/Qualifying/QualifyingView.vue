@@ -1,10 +1,10 @@
 <template>
   <div class="component-QualifyingView">
-    <h1>{{ eventName }}</h1>
-    <h3>
+    <h1 v-if="!isLoading">{{ eventName }}</h1>
+    <h3 v-if="!isLoading">
       Lajittelu <span class="dates">{{ eventDates }}</span>
     </h3>
-    <LoadingIndicator v-if="loading" />
+    <LoadingIndicator v-if="isLoading" />
 
     <QualifyingResultList
       v-if="qualifying"
@@ -21,20 +21,18 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from "vue";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type {
   IQualifying,
   IQualifyingResultItem,
 } from "~/interfaces/qualifying.interface";
-import apiDrivers from "~/utils/drifting/api-drivers";
 import apiQualifying from "~/utils/drifting/api-qualifying";
 import { formatISODateToStringShort } from "~/utils/time";
 
 interface IData {
   qualifying: IQualifying | null;
-  allDriversList: IDriver[];
   loading: boolean;
-  loadingDrivers: boolean;
 }
 
 export default {
@@ -43,14 +41,23 @@ export default {
       type: String,
       required: true,
     },
+    allDriversList: {
+      type: Array as PropType<IDriver[]>,
+      default: () => [],
+    },
+    loadingDrivers: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: (): IData => ({
     qualifying: null,
-    allDriversList: [],
-    loading: false,
-    loadingDrivers: false,
+    loading: true,
   }),
   computed: {
+    isLoading(): boolean {
+      return this.loading || this.loadingDrivers;
+    },
     eventDates(): string {
       const startsAt = this.qualifying?.event?.startsAt || "";
       const endsAt = this.qualifying?.event?.endsAt || "";
@@ -62,7 +69,6 @@ export default {
     },
     selectedResultId(): string {
       const r = (this.$route?.query?.result as string) || "";
-      console.log(r);
       return r;
     },
     selectedResultItem(): IQualifyingResultItem | null {
@@ -87,7 +93,6 @@ export default {
     },
   },
   mounted() {
-    this.fetchDrivers();
     this.fetchQualifying();
   },
   methods: {
@@ -97,17 +102,8 @@ export default {
       this.qualifying = r;
       this.setLoading(false);
     },
-    async fetchDrivers(): Promise<void> {
-      this.setLoadingDrivers(true);
-      const drivers = await apiDrivers.getAllDrivers();
-      this.allDriversList = drivers;
-      this.setLoadingDrivers(false);
-    },
     setLoading(val: boolean): void {
       this.loading = val;
-    },
-    setLoadingDrivers(val: boolean): void {
-      this.loadingDrivers = val;
     },
     setResultId(id: string): void {
       this.$router.push({

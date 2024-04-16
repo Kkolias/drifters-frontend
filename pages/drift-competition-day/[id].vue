@@ -1,19 +1,21 @@
 <template>
-  <div class="page-qualifying">
-    <QualifyingView :qualifyingId="qualifyingId" :allDriversList="allDriversList" :loadingDrivers="loadingDrivers" />
+  <div class="page-drift-competition-day">
+    <DriftCompetitionDayView
+      :qualifyingId="qualifyingId"
+      :allDriversList="allDriversList"
+      :loadingDrivers="loadingDrivers"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import type { IDriver } from '~/interfaces/driver.interface';
-import apiDrivers from '~/utils/drifting/api-drivers';
-
+import type { IDriver } from "~/interfaces/driver.interface";
+import apiDrivers from "~/utils/drifting/api-drivers";
 
 interface IData {
   allDriversList: IDriver[];
   loadingDrivers: boolean;
 }
-
 
 export default {
   data: (): IData => ({
@@ -22,7 +24,7 @@ export default {
   }),
   computed: {
     qualifyingId(): string {
-      return this.$route?.params?.id as string || "";
+      return (this.$route?.params?.id as string) || "";
     },
   },
   mounted() {
@@ -38,6 +40,6 @@ export default {
     setLoadingDrivers(val: boolean): void {
       this.loadingDrivers = val;
     },
-  }
+  },
 };
 </script>

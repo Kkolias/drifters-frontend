@@ -2,6 +2,7 @@ import type { JudgePoint } from "~/enums/judge-point.enum";
 import type { IDriver } from "./driver.interface";
 import type { HeatType } from "~/enums/heat-type.enum";
 import type { RunType } from "~/enums/run-type.enum";
+import type { IDriftEvent } from "./drift-event.interface";
 
 
 export interface IRunItem {
@@ -32,6 +33,14 @@ export interface IHeat {
 export interface ICompetitionDay {
   _id: string;
   eventId: string;
+  event?: IDriftEvent
   heatList: IHeat[];
   createdAt: string;
+  scoreBoard?: IScoreBoardItem[]; // ScOrEbOaRd :D:D:D scoreboard*
+}
+
+export interface IScoreBoardItem {
+  driver: IDriver | null;
+  // points: number; // TODO
+  placement: number;
 }

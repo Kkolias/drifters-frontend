@@ -16,24 +16,24 @@ export default {
       default: false,
     },
   },
-  mounted() {
-    this.handleNoScroll()
-  },
-  beforeUnmount() {
-    this.handleAddScroll()
-  },
-  watch: {
-    value: {
-      immediate: true,
-      handler(value: boolean): void {
-        if (value) {
-          this.handleNoScroll()
-        } else {
-          this.handleAddScroll()
-        }
-      },
-    },
-  },
+  // mounted() {
+  //   this.handleNoScroll()
+  // },
+  // beforeUnmount() {
+  //   this.handleAddScroll()
+  // },
+  // watch: {
+  //   value: {
+  //     immediate: true,
+  //     handler(value: boolean): void {
+  //       if (value) {
+  //         this.handleNoScroll()
+  //       } else {
+  //         this.handleAddScroll()
+  //       }
+  //     },
+  //   },
+  // },
   methods: {
     handleNoScroll(): void {
         if(!document) return

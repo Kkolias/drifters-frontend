@@ -1,6 +1,6 @@
 <template>
   <div class="component-QualifyingResultList">
-    <table>
+    <table class="scoreboard-table">
       <thead>
         <tr>
           <th>Sija</th>
@@ -76,43 +76,43 @@ export default {
 
 <style lang="less" scoped>
 .component-QualifyingResultList {
-  table {
-    max-width: 700px;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 4px;
-    margin: 0 auto;
-    margin-bottom: 100px;
+  // table {
+  //   max-width: 700px;
+  //   width: 100%;
+  //   border-collapse: separate;
+  //   border-spacing: 0 4px;
+  //   margin: 0 auto;
+  //   margin-bottom: 100px;
 
-    thead {
-      th {
-        padding: 10px;
-        font-size: 1.2rem;
+  //   thead {
+  //     th {
+  //       padding: 10px;
+  //       font-size: 1.2rem;
 
-        &.scores {
-          font-size: 1rem;
-        }
-      }
-    }
+  //       &.scores {
+  //         font-size: 1rem;
+  //       }
+  //     }
+  //   }
 
-    tbody {
-      tr {
-        td {
-          background: var(--black-2);
-          padding: 6px;
-          font-size: 1.2rem;
-          line-height: 1.4rem;
-          text-align: center;
+  //   tbody {
+  //     tr {
+  //       td {
+  //         background: var(--black-2);
+  //         padding: 6px;
+  //         font-size: 1.2rem;
+  //         line-height: 1.4rem;
+  //         text-align: center;
 
-          &:first-child {
-            border-radius: 10px 0 0 10px;
-          }
-          &:last-child {
-            border-radius: 0 10px 10px 0;
-          }
-        }
-      }
-    }
-  }
+  //         &:first-child {
+  //           border-radius: 10px 0 0 10px;
+  //         }
+  //         &:last-child {
+  //           border-radius: 0 10px 10px 0;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>
