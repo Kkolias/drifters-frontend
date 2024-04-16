@@ -1,7 +1,9 @@
 <template>
   <div class="component-QualifyingView">
     <h1>{{ eventName }}</h1>
-    <h3>Lajittelu</h3>
+    <h3>
+      Lajittelu <span class="dates">{{ eventDates }}</span>
+    </h3>
     <LoadingIndicator v-if="loading" />
 
     <QualifyingResultList
@@ -10,9 +12,6 @@
       :allDriversList="allDriversList"
       @select="setResultId"
     />
-
-    {{ selectedResultItem }}
-
     <QualifyingResultSummary
       v-if="!!selectedResultItem"
       :qualifyingResultItem="(selectedResultItem as IQualifyingResultItem)"
@@ -29,6 +28,7 @@ import type {
 } from "~/interfaces/qualifying.interface";
 import apiDrivers from "~/utils/drifting/api-drivers";
 import apiQualifying from "~/utils/drifting/api-qualifying";
+import { formatISODateToStringShort } from "~/utils/time";
 
 interface IData {
   qualifying: IQualifying | null;
@@ -51,18 +51,27 @@ export default {
     loadingDrivers: false,
   }),
   computed: {
+    eventDates(): string {
+      const startsAt = this.qualifying?.event?.startsAt || "";
+      const endsAt = this.qualifying?.event?.endsAt || "";
+
+      const formattedStart = formatISODateToStringShort(startsAt);
+      const formattedEnd = formatISODateToStringShort(endsAt);
+
+      return `${formattedStart} - ${formattedEnd}`;
+    },
     selectedResultId(): string {
       const r = (this.$route?.query?.result as string) || "";
-      console.log(r)
-      return r
+      console.log(r);
+      return r;
     },
     selectedResultItem(): IQualifyingResultItem | null {
       const item =
         this.qualifying?.resultList?.find(
           (r) => r?._id === this.selectedResultId
         ) || null;
-    
-        console.log(item);
+
+      console.log(item);
       if (!item) return null;
 
       const driver = this.allDriversList?.find(
@@ -124,6 +133,13 @@ export default {
     font-size: 1.8rem;
     text-align: center;
     margin-bottom: 16px;
+
+    .dates {
+      margin-left: 8px;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--grey-1);
+    }
   }
 }
 </style>

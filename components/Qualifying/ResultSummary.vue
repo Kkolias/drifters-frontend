@@ -6,7 +6,7 @@
           <div class="profile-picure-weapper"></div>
           <div class="driver-info-wrapper">
             <p>
-              {{ driverName }}
+              {{ driverName }} {{ driverNumber }}
             </p>
           </div>
         </div>
@@ -77,6 +77,11 @@ export default {
     driverName(): string {
       const driver = this.qualifyingResultItem?.driver as IDriver;
       return `${driver?.firstName || ""} ${driver?.lastName || ""}`;
+    },
+    driverNumber(): string {
+      const driver = this.qualifyingResultItem?.driver as IDriver;
+      if(!driver?.raceNumber) return "";
+      return `#${driver?.raceNumber}`;
     },
     highestPoints(): number {
       return this.qualifyingResultItem?.highestPoints || 0;

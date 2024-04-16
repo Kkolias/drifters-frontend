@@ -4,6 +4,13 @@ export function formatISODateToString(date: string): string {
     return date.replace(/T.*/, '').split('-').reverse().join('.')
 }
 
+export function formatISODateToStringShort(date: string): string {
+    // 2021-12-31 -> 31.12.2021 
+    // 2020-01-01 -> 1.1.2020
+    const dateArray = date.split('-')
+    return `${parseInt(dateArray[2])}.${parseInt(dateArray[1])}.${dateArray[0]}`
+}
+
 export function toLocaleString(date: Date | string): string {
     return new Date(date).toLocaleString()
 }

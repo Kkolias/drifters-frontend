@@ -40,6 +40,17 @@
           />
           <ErrorHover :errorMessage="errorTexts.age" />
         </div>
+        <div class="input-wrapper">
+          <label for="raceNumber">Numero:</label>
+          <input
+            v-model.number="driver.raceNumber"
+            type="number"
+            id="raceNumber"
+            :class="{ error: errorTexts.raceNumber.length }"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.raceNumber" />
+        </div>
 
         <ul class="car-list">
           <li v-for="car in driver.cars">
@@ -81,6 +92,7 @@ interface ErrorTexts {
   firstName: string;
   lastName: string;
   age: string;
+  raceNumber: string;
 }
 
 interface DriverEditFormData {
@@ -90,6 +102,7 @@ interface DriverEditFormData {
     lastName: string;
     age: string;
     cars: ICar[];
+    raceNumber: number;
   };
 
   errorTexts: ErrorTexts;
@@ -111,12 +124,14 @@ export default {
       firstName: "",
       lastName: "",
       age: "",
+      raceNumber: "",
     },
     driver: {
       id: "",
       firstName: "",
       lastName: "",
       age: "",
+      raceNumber: 0,
       cars: [],
     },
     newCarModalOpen: false,
@@ -149,14 +164,21 @@ export default {
         lastName,
         age,
         cars,
-      }: { firstName: string; lastName: string; age: string; cars: ICar[] } =
-        this.driver;
+        raceNumber,
+      }: {
+        firstName: string;
+        lastName: string;
+        age: string;
+        cars: ICar[];
+        raceNumber: number;
+      } = this.driver;
       const ageNumber = parseInt(age);
 
       const newDriver = await apiDrivers.createDriver({
         firstName,
         lastName,
         age: ageNumber,
+        raceNumber,
         cars,
       });
 

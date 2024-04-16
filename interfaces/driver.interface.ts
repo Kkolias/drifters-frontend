@@ -16,6 +16,7 @@ export interface ICar {
     lastName: string;
     age: number
     createdAt: string;
+    raceNumber: number | null;
     cars: ICar[]
   }
   
