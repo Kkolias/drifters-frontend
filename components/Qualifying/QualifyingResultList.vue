@@ -7,6 +7,7 @@
           <th>Kuljettaja</th>
           <th>Pisteet</th>
           <th class="scores">(Linja | Kulma |Tyyli)</th>
+          <th title="Sijoituksesta saatavat mestaruuspisteet">Sij. pisteet</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,7 @@
             </button>
           </td>
           <td>{{ getPoints(result) }}</td>
+          <td>{{ getChampionShipPoints(index) }}</td>
         </tr>
       </tbody>
     </table>
@@ -66,6 +68,13 @@ export default {
       return `${higherRun?.line ?? 0} | ${higherRun?.angle ?? 0} | ${
         higherRun?.style ?? 0
       }`;
+    },
+    getChampionShipPoints(index: number): string {
+      // 1st-8th get points, 1st gets 8 and 8th gets 1
+      const pointsForPlace = [8, 7, 6, 5, 4, 3, 2, 1];
+
+      if (index >= pointsForPlace.length) return "0";
+      return `+${pointsForPlace[index]}`;
     },
     handleClick(resultItem: IQualifyingResultItem): void {
       this.$emit("select", resultItem?._id || "");

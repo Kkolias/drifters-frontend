@@ -1,61 +1,66 @@
-button {
-    border: none;
+a {
+    text-decoration: none;
+    color: var(--white-1);
+}
+
+button,
+.button {
+  border: none;
+  cursor: pointer;
+
+  &.primary {
+    height: 34px;
+    border-radius: 10px;
+    background: var(--green-1);
+    width: fit-content;
+    padding: 0 8px;
+    font-size: 16px;
+    color: var(--black-1);
+    transition: 0.25s ease-in-out;
+
+    span {
+      line-height: 34px;
+    }
+
+    &:hover {
+      &:not(:disabled) {
+        box-shadow: 0px 0px 4px 1px var(--green-1-50);
+        transform: scale(1.02);
+      }
+    }
+
+    &:disabled {
+      background: var(--black-2);
+      cursor: not-allowed;
+    }
+  }
+
+  &.secondary {
+    height: 34px;
+    border-radius: 10px;
+    background: transparent;
+    border: 2px solid var(--green-1);
+    // background: var(--green-1);
+    width: fit-content;
+    padding: 0 8px;
+    font-size: 16px;
+    color: var(--black-1);
+    transition: 0.25s ease-in-out;
+    color: var(--green-1);
+
+    span {
+      color: var(--green-1);
+      line-height: 34px;
+    }
+
+    &:hover {
+      box-shadow: 0px 0px 4px 1px var(--green-1-50);
+      transform: scale(1.02);
+    }
+  }
+
+  &.blank {
+    all: unset;
     cursor: pointer;
-
-    &.primary {
-        height: 34px;
-        border-radius: 10px;
-        background: var(--green-1);
-        width: fit-content;
-        padding: 0 8px;
-        font-size: 16px;
-        color: var(--black-1);
-        transition: 0.25s ease-in-out;
-
-        span {
-            line-height: 34px;
-        }
-
-        &:hover {
-            &:not(:disabled) {
-                box-shadow: 0px 0px 4px 1px var(--green-1-50);
-                transform: scale(1.02);
-            }
-        }
-
-        &:disabled {
-            background: var(--black-2);
-            cursor: not-allowed;
-
-        }
-    }
-
-    &.secondary {
-        height: 34px;
-        border-radius: 10px;
-        background: transparent;
-        border: 2px solid var(--green-1);
-        // background: var(--green-1);
-        width: fit-content;
-        padding: 0 8px;
-        font-size: 16px;
-        color: var(--black-1);
-        transition: 0.25s ease-in-out;
-        color: var(--green-1);
-
-        span {
-            color: var(--green-1);
-            line-height: 34px;
-        }
-
-        &:hover {
-            box-shadow: 0px 0px 4px 1px var(--green-1-50);
-            transform: scale(1.02);
-        }
-    }
-
-    &.blank {
-        all: unset;
-        cursor: pointer;
-    }
+  }
 }

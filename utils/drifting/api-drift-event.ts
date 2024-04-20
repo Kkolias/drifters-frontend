@@ -6,6 +6,8 @@ const DRIFT_EVENT_ENDPOINTS = {
   GET_BY_ID: "/drift-event/get-by-id",
   CREATE: "/drift-event/create-drift-event",
   ADD_DRIVER_TO_SEASON: "/drift-event/add-qualifying-to-drift-event",
+  HANDLE_QUALIFYING_SCORING: "/drift-event/handle-qualifying-scoring",
+  HANDLE_COMPETITION_DAY_SCORING: "/drift-event/handle-competition-day-scoring",
 };
 
 export class DriftEventApi extends ApiUtil {
@@ -45,6 +47,34 @@ export class DriftEventApi extends ApiUtil {
       const event = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.CREATE,
         payload,
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async handleQualifyingScoring(eventId: string): Promise<IDriftEvent | null> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.HANDLE_QUALIFYING_SCORING,
+        payload: { eventId },
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async handleCompetitionDayScoring(eventId: string): Promise<IDriftEvent | null> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.HANDLE_COMPETITION_DAY_SCORING,
+        payload: { eventId },
       });
 
       return event;

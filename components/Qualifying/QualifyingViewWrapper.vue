@@ -1,9 +1,5 @@
 <template>
   <div class="component-QualifyingView">
-    <h1 v-if="!isLoading">{{ eventName }}</h1>
-    <h3 v-if="!isLoading">
-      Lajittelu <span class="dates">{{ eventDates }}</span>
-    </h3>
     <LoadingIndicator v-if="isLoading" />
 
     <QualifyingResultList
@@ -27,7 +23,6 @@ import type {
   IQualifying,
   IQualifyingResultItem,
 } from "~/interfaces/qualifying.interface";
-import apiQualifying from "~/utils/drifting/api-qualifying";
 import { formatISODateToStringShort } from "~/utils/time";
 
 interface IData {
@@ -37,8 +32,8 @@ interface IData {
 
 export default {
   props: {
-    qualifyingId: {
-      type: String,
+    qualifying: {
+      type: Object as PropType<IQualifying>,
       required: true,
     },
     allDriversList: {
@@ -49,14 +44,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    loadingQualifying: {
+      type: Boolean,
+      default: false,
+    },
   },
-  data: (): IData => ({
-    qualifying: null,
-    loading: true,
-  }),
   computed: {
     isLoading(): boolean {
-      return this.loading || this.loadingDrivers;
+      return this.loadingQualifying || this.loadingDrivers;
     },
     eventDates(): string {
       const startsAt = this.qualifying?.event?.startsAt || "";
@@ -92,19 +87,7 @@ export default {
       return this.qualifying?.event?.name || "";
     },
   },
-  mounted() {
-    this.fetchQualifying();
-  },
   methods: {
-    async fetchQualifying(): Promise<void> {
-      this.setLoading(true);
-      const r = await apiQualifying.getQualifyingById(this.qualifyingId);
-      this.qualifying = r;
-      this.setLoading(false);
-    },
-    setLoading(val: boolean): void {
-      this.loading = val;
-    },
     setResultId(id: string): void {
       this.$router.push({
         query: {

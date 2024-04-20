@@ -11,6 +11,13 @@
       >
         <span> Luo Kisapäivä tuloksista </span>
       </button>
+      <button
+        v-if="competitionDayItem"
+        class="primary open-edit-form"
+        @click="generateScoring()"
+      >
+        <span> Generoi pisteytys </span>
+      </button>
       <!-- <button
         v-if="competitionDayItem"
         class="primary open-edit-form"
@@ -33,6 +40,7 @@ import type { PropType } from "vue";
 import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
+import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDrivers from "~/utils/drifting/api-drivers";
 
 interface IData {
@@ -83,6 +91,10 @@ export default {
       if (generated) {
         this.reloadData();
       }
+    },
+    async generateScoring(): Promise<void> {
+      await apiDriftEvent.handleCompetitionDayScoring(this.eventId);
+      this.reloadData();
     },
   },
 };

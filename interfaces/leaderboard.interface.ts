@@ -3,7 +3,7 @@ import type { IDriver } from "./driver.interface";
 
 export interface ScoreboardItem {
     _id: string;
-    driver: IDriver;
+    driver: string;
     score: number;
     numOfWins: number;
     numOfSeconds: number;

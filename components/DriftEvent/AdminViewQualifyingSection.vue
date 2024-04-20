@@ -17,6 +17,13 @@
         >
           <span> Muokkaa kuljettajalistaa </span>
         </button>
+        <button
+          v-if="qualifyingItem"
+          class="primary open-edit-form"
+          @click="generateQualifyingScores()"
+        >
+          <span> Generoi pisteytys </span>
+        </button>
       </div>
       <div class="result-list-section">
         <DriftEventAdminViewQualifyingDataTable
@@ -46,6 +53,7 @@
 <script lang="ts">
 import type { IQualifying } from "~/interfaces/qualifying.interface";
 import { type PropType } from "vue";
+import apiDriftEvent from "~/utils/drifting/api-drift-event";
 
 interface IData {
   editFormOpen: boolean;
@@ -81,6 +89,10 @@ export default {
     },
     setShowAddDriversToResultList(val: boolean): void {
       this.showAddDriversToResultList = val;
+    },
+    async generateQualifyingScores(): Promise<void> {
+      await apiDriftEvent.handleQualifyingScoring(this.eventId)
+      this.reloadData()
     },
   },
 };
