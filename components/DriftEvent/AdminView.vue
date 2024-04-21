@@ -1,10 +1,7 @@
 <template>
   <div class="component-DriftEventAdminView">
     <LoadingIndicator v-if="loading" />
-    <pre>
-            {{ driftEvent }}
-        </pre
-    >
+
     <DriftEventAdminViewQualifyingSection
       :qualifyingItem="driftEvent?.qualifying"
       :eventId="id"

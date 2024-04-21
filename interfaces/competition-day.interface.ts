@@ -36,6 +36,7 @@ export interface ICompetitionDay {
   event?: IDriftEvent
   heatList: IHeat[];
   createdAt: string;
+  date: string;
   scoreBoard?: IScoreBoardItem[]; // ScOrEbOaRd :D:D:D scoreboard*
 }
 

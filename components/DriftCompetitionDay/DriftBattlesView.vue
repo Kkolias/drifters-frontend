@@ -1,7 +1,7 @@
 <template>
   <div class="component-DriftCompetitionDayView">
     <LoadingIndicator v-if="isLoading" />
-
+    <h3>{{ battlesDate }}</h3>
     <div class="buttons-wrapper" v-if="!!scoreboard?.length">
       <button
         class="blank bracket-icon"
@@ -67,14 +67,10 @@ export default {
     isLoading(): boolean {
       return this.loadingCompetitionDay || this.loadingDrivers;
     },
-    eventDates(): string {
-      const startsAt = this.competitionDay?.event?.startsAt || "";
-      const endsAt = this.competitionDay?.event?.endsAt || "";
-
-      const formattedStart = formatISODateToStringShort(startsAt);
-      const formattedEnd = formatISODateToStringShort(endsAt);
-
-      return `${formattedStart} - ${formattedEnd}`;
+    battlesDate(): string {
+      const date = this.competitionDay?.date || "";
+      if (!date) return "";
+      return `Päivämäärä: ${formatISODateToStringShort(date)}`;
     },
     eventName(): string {
       return this.competitionDay?.event?.name || "";

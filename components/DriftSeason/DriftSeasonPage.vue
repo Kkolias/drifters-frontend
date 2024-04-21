@@ -1,7 +1,10 @@
 <template>
   <div class="component-DriftEventPage">
     <h1>{{ serie }} {{ seasonYear }}</h1>
-    <p class="event-dates">{{ driftEventName }} {{ eventDates }}</p>
+    <p class="event-details">
+      {{ driftEventName }}
+      <span class="city">{{ eventTrackCity }}</span>
+    </p>
     <section class="select-view-section">
       <DriftSeasonViewSelection v-if="!!season" :season="season" />
     </section>
@@ -16,6 +19,7 @@
         :loadingDrivers="loading.drivers"
         :allDriversList="allDriversList"
       />
+      <p v-else class="no-data">Tietoja puuttuu</p>
     </section>
     <section class="view-section" v-if="isViewSelected('battles')">
       <DriftCompetitionDayDriftBattlesView
@@ -119,13 +123,15 @@ export default {
     driftEventName(): string {
       return this.driftEvent?.name || "";
     },
-    eventDates(): string {
-      if (!this.driftEvent) return "";
-      const startsAt = this.driftEvent?.startsAt || "";
-      const endsAt = this.driftEvent?.endsAt || "";
-      const startDate = formatISODateToStringShort(startsAt) || "";
-      const endDate = formatISODateToStringShort(endsAt) || "";
-      return `${startDate} - ${endDate}`;
+    eventTrack(): string {
+      return this.driftEvent?.track || "";
+    },
+    eventCity(): string {
+      return this.driftEvent?.city || "";
+    },
+    eventTrackCity(): string {
+      if (!this.eventCity || !this.eventTrack) return "";
+      return ` - ${this.eventTrack}, ${this.eventCity}`;
     },
   },
   mounted() {
@@ -157,6 +163,10 @@ export default {
       this.setLoading("season", false);
     },
     async fetchQualifying(): Promise<void> {
+      if(!this.qualifyingId) {
+        this.qualifying = null;
+        return;
+      }
       this.setLoading("qualifying", true);
       const r = await apiQualifying.getQualifyingById(this.qualifyingId);
       this.qualifying = r;
@@ -199,11 +209,21 @@ export default {
     color: var(--green-1);
     margin: 0;
   }
-  .event-dates,
+  .event-details,
   .no-data {
     font-size: 1.5rem;
     text-align: center;
     margin: 0;
+  }
+
+  .event-details {
+    .track {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    .city {
+      font-size: 1.2rem;
+    }
   }
 
   .select-view-section {

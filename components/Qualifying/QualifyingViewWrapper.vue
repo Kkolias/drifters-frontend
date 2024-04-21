@@ -1,6 +1,7 @@
 <template>
   <div class="component-QualifyingView">
     <LoadingIndicator v-if="isLoading" />
+    <h3>{{ qualifyingDate }}</h3>
 
     <QualifyingResultList
       v-if="qualifying"
@@ -53,15 +54,12 @@ export default {
     isLoading(): boolean {
       return this.loadingQualifying || this.loadingDrivers;
     },
-    eventDates(): string {
-      const startsAt = this.qualifying?.event?.startsAt || "";
-      const endsAt = this.qualifying?.event?.endsAt || "";
-
-      const formattedStart = formatISODateToStringShort(startsAt);
-      const formattedEnd = formatISODateToStringShort(endsAt);
-
-      return `${formattedStart} - ${formattedEnd}`;
+    qualifyingDate(): string {
+      const date = this.qualifying?.date ||''
+      if (!date) return "";
+      return `Päivämäärä: ${formatISODateToStringShort(date)}`;
     },
+    
     selectedResultId(): string {
       const r = (this.$route?.query?.result as string) || "";
       return r;

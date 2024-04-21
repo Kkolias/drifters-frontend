@@ -24,5 +24,6 @@ export interface IQualifying {
   eventId: string;
   event?: IDriftEvent | null;
   resultList: IQualifyingResultItem[];
+  date: string;
   createdAt: string;
 }
