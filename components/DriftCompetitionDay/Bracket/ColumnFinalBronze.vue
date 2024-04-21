@@ -1,7 +1,7 @@
 <template>
   <div class="component-BracketColumnFinal">
     <ul class="heat-list">
-      <li class="heat">
+      <li class="heat" @click="showHeat(getHeatForNumber(32))">
         <h3>Finaali</h3>
         <div class="heat-wrapper final">
           <div
@@ -25,7 +25,7 @@
           </div>
         </div>
       </li>
-      <li class="heat">
+      <li class="heat" @click="showHeat(getHeatForNumber(31))">
         <h3>Pronssi</h3>
         <div class="heat-wrapper bronze">
           <div
@@ -77,6 +77,9 @@ export default {
   // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
   computed: {},
   methods: {
+    showHeat(heat: IHeat) {
+      this.$emit("showHeat", heat?._id);
+    },
     isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
       const driver1 = heat?.driver1;
       const driver2 = heat?.driver2;

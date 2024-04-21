@@ -3,7 +3,7 @@
     <!-- {{ heatList }} -->
     <h3>{{ title }}</h3>
     <ul class="heat-list">
-      <li v-for="number in heatNumberList" :key="number" class="heat">
+      <li v-for="number in heatNumberList" :key="number" class="heat" @click="showHeat(getHeatForNumber(number))">
         <div
           class="lead driver"
           :class="{
@@ -79,6 +79,9 @@ export default {
     },
   },
   methods: {
+    showHeat(heat: IHeat) {
+      this.$emit("showHeat", heat?._id);
+    },
     isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
       const driver1 = heat?.driver1;
       const driver2 = heat?.driver2;
