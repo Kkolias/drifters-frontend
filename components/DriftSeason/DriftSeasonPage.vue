@@ -1,43 +1,46 @@
 <template>
   <div class="component-DriftEventPage">
-    <h1>{{ serie }} {{ seasonYear }}</h1>
-    <p class="event-details">
-      {{ driftEventName }}
-      <span class="city">{{ eventTrackCity }}</span>
-    </p>
-    <section class="select-view-section">
-      <DriftSeasonViewSelection v-if="!!season" :season="season" />
-    </section>
-    <section class="view-section" v-if="isViewSelected('events')">
-      <DriftSeasonEventList v-if="!!season" :season="season" />
-    </section>
-    <section class="view-section" v-if="isViewSelected('qualifying')">
-      <QualifyingViewWrapper
-        v-if="qualifying"
-        :qualifying="qualifying"
-        :loadingQualifying="loading.qualifying"
-        :loadingDrivers="loading.drivers"
-        :allDriversList="allDriversList"
-      />
-      <p v-else class="no-data">Tietoja puuttuu</p>
-    </section>
-    <section class="view-section" v-if="isViewSelected('battles')">
-      <DriftCompetitionDayDriftBattlesView
-        v-if="competitionDay"
-        :competitionDay="competitionDay"
-        :loadingDrivers="loading.drivers"
-        :loadingCompetitionDay="loading.competitionDay"
-      />
-      <p v-else class="no-data">Tietoja puuttuu</p>
-    </section>
-    <section class="view-section" v-if="isViewSelected('leaderboard')">
-      <LeaderboardScoreboardView
-        v-if="season"
-        :loading="loading.drivers || loading.season"
-        :scoreboard="scoreboard"
-        :allDriversList="allDriversList"
-      />
-    </section>
+    <LoadingIndicator v-if="isLoading" />
+    <div class="content-wrapper" v-if="!isLoading">
+      <h1>{{ serie }} {{ seasonYear }}</h1>
+      <p class="event-details">
+        {{ driftEventName }}
+        <span class="city">{{ eventTrackCity }}</span>
+      </p>
+      <section class="select-view-section">
+        <DriftSeasonViewSelection v-if="!!season" :season="season" />
+      </section>
+      <section class="view-section" v-if="isViewSelected('events')">
+        <DriftSeasonEventList v-if="!!season" :season="season" />
+      </section>
+      <section class="view-section" v-if="isViewSelected('qualifying')">
+        <QualifyingViewWrapper
+          v-if="qualifying"
+          :qualifying="qualifying"
+          :loadingQualifying="loading.qualifying"
+          :loadingDrivers="loading.drivers"
+          :allDriversList="allDriversList"
+        />
+        <p v-else class="no-data">Tietoja puuttuu</p>
+      </section>
+      <section class="view-section" v-if="isViewSelected('battles')">
+        <DriftCompetitionDayDriftBattlesView
+          v-if="competitionDay"
+          :competitionDay="competitionDay"
+          :loadingDrivers="loading.drivers"
+          :loadingCompetitionDay="loading.competitionDay"
+        />
+        <p v-else class="no-data">Tietoja puuttuu</p>
+      </section>
+      <section class="view-section" v-if="isViewSelected('leaderboard')">
+        <LeaderboardScoreboardView
+          v-if="season"
+          :loading="loading.drivers || loading.season"
+          :scoreboard="scoreboard"
+          :allDriversList="allDriversList"
+        />
+      </section>
+    </div>
   </div>
 </template>
 
@@ -88,14 +91,17 @@ export default {
     allDriversList: [],
 
     loading: {
-      driftEvent: false,
-      season: false,
-      qualifying: false,
-      drivers: false,
-      competitionDay: false,
+      driftEvent: true,
+      season: true,
+      qualifying: true,
+      drivers: true,
+      competitionDay: true,
     },
   }),
   computed: {
+    isLoading(): boolean {
+      return this.loading.season;
+    },
     queryParams() {
       return this.$route.query;
     },
@@ -137,6 +143,15 @@ export default {
   mounted() {
     this.fetchDriftSeason();
     this.fetchDrivers();
+    if (this.eventId) {
+      this.fetchDriftEvent();
+    }
+    if (this.qualifyingId) {
+      this.fetchQualifying();
+    }
+    if (this.competitionDayId) {
+      this.fetchCompetitionDay();
+    }
   },
   watch: {
     eventId() {
@@ -163,7 +178,7 @@ export default {
       this.setLoading("season", false);
     },
     async fetchQualifying(): Promise<void> {
-      if(!this.qualifyingId) {
+      if (!this.qualifyingId) {
         this.qualifying = null;
         return;
       }

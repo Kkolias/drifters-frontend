@@ -7,7 +7,7 @@
             <div class="profile-picture"></div>
             <p :class="{ winner: isWinner('driver1') }">{{ driver1Name }}</p>
             <p v-if="isWinner('driver1')" class="advance-text">
-              Jatkaa seuraavaan vaiheeseen
+              {{ advanceText }}
             </p>
           </div>
           <div class="heat-wrapper">
@@ -17,7 +17,7 @@
             <div class="profile-picture"></div>
             <p :class="{ winner: isWinner('driver2') }">{{ driver2Name }}</p>
             <p v-if="isWinner('driver2')" class="advance-text">
-              Jatkaa seuraavaan vaiheeseen
+              {{ advanceText }}
             </p>
           </div>
         </div>
@@ -95,6 +95,15 @@ export default {
     },
     heatNumber(): string {
       return `Heat ${this.heatItem?.bracketNumber}`;
+    },
+    advanceText() {
+      if (this.heatItem?.bracketNumber === 32) {
+        return "Voittaja";
+      }
+      if (this.heatItem?.bracketNumber === 31) {
+        return "Pronssi";
+      }
+      return "Jatkaa seuraavaan vaiheeseen";
     },
   },
   methods: {
@@ -242,22 +251,22 @@ export default {
               color: var(--black-dark);
               line-height: 28px;
               border: 1px solid var(--white-1);
-            //   &.left {
-            //     background: var(--green-1);
-            //     border-radius: 10px 0 0 10px;
-            //     position: absolute;
-            //     left: 1px;
-            //     top: 50%;
-            //     transform: translate(-100%, -50%);
-            //   }
-            //   &.right {
-            //     background: var(--green-1);
-            //     border-radius: 0 10px 10px 0;
-            //     position: absolute;
-            //     right: 1px;
-            //     top: 50%;
-            //     transform: translate(100%, -50%);
-            //   }
+              //   &.left {
+              //     background: var(--green-1);
+              //     border-radius: 10px 0 0 10px;
+              //     position: absolute;
+              //     left: 1px;
+              //     top: 50%;
+              //     transform: translate(-100%, -50%);
+              //   }
+              //   &.right {
+              //     background: var(--green-1);
+              //     border-radius: 0 10px 10px 0;
+              //     position: absolute;
+              //     right: 1px;
+              //     top: 50%;
+              //     transform: translate(100%, -50%);
+              //   }
               &.omt {
                 display: none;
               }
@@ -286,7 +295,8 @@ export default {
                 transform: translate(100%, -50%);
               }
             }
-            &.omt, &.not-judget {
+            &.omt,
+            &.not-judget {
               .result {
                 display: none;
               }
