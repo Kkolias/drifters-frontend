@@ -65,11 +65,11 @@ export class CompetitionDayApi extends ApiUtil {
     }
   }
 
-  async createCompetitionDay(eventId: string): Promise<ICompetitionDay | null> {
+  async createCompetitionDay(eventId: string, date: string): Promise<ICompetitionDay | null> {
     try {
       const season = await this.post({
         url: DRFIT_COMPETITION_DAY_ENDPOINTS.CREATE,
-        payload: { eventId },
+        payload: { eventId, date },
       });
 
       return season;

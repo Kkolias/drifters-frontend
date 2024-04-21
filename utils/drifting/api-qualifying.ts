@@ -39,11 +39,11 @@ export class QualifyingApi extends ApiUtil {
     }
   }
 
-  async createQualifying(eventId: string): Promise<IQualifying | null> {
+  async createQualifying(eventId: string, date: string): Promise<IQualifying | null> {
     try {
       const season = await this.post({
         url: DRIFT_SEASON_ENDPOINTS.CREATE,
-        payload: { eventId },
+        payload: { eventId, date },
       });
 
       return season;

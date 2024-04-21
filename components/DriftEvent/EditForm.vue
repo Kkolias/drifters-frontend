@@ -32,6 +32,28 @@
           <ErrorHover :errorMessage="errorTexts.country" />
         </div>
         <div class="input-wrapper">
+          <label for="city">Kaupunki:</label>
+          <input
+            v-model="driftEvent.city"
+            type="text"
+            :class="{ error: errorTexts.city.length }"
+            id="city"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.city" />
+        </div>
+        <div class="input-wrapper">
+          <label for="track">Rata:</label>
+          <input
+            v-model="driftEvent.track"
+            type="text"
+            :class="{ error: errorTexts.track.length }"
+            id="track"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.track" />
+        </div>
+        <div class="input-wrapper">
           <label for="name">Nimi:</label>
           <input
             v-model="driftEvent.name"
@@ -90,6 +112,8 @@ import driftSeasonApi from "~/utils/drifting/api-drift-season";
 
 interface ErrorTexts {
   country: string;
+  city: string;
+  track: string;
   name: string;
   startsAt: string;
   endsAt: string;
@@ -100,6 +124,8 @@ interface DriftEventEditFormData {
   driftEvent: {
     id: string;
     country: string;
+    city: string;
+    track: string;
     name: string;
     startsAt: string;
     endsAt: string;
@@ -125,6 +151,8 @@ export default {
     errorTexts: {
       name: "",
       country: "",
+      city: "",
+      track: "",
       startsAt: "",
       endsAt: "",
       seasonId: "",
@@ -132,6 +160,8 @@ export default {
     driftEvent: {
       id: "",
       country: "",
+      city: "",
+      track: "",
       name: "",
       startsAt: "",
       endsAt: "",
@@ -180,12 +210,16 @@ export default {
     async createDriver() {
       const {
         country,
+        city,
+        track,
         name,
         startsAt,
         endsAt,
         seasonId,
       }: {
         country: string;
+        city: string;
+        track: string;
         name: string;
         startsAt: string;
         endsAt: string;
@@ -194,6 +228,8 @@ export default {
 
       const newEvent = await driftEventApi.createDriftEvent({
         country,
+        city,
+        track,
         name,
         startsAt,
         endsAt,
@@ -216,11 +252,21 @@ export default {
         isError = true;
         this.setErrorTextByKey("country", "maa vaaditaan");
       }
+      if (!this.driftEvent?.city?.length) {
+        isError = true;
+        this.setErrorTextByKey("city", "kaupunki vaaditaan");
+      }
+      if (!this.driftEvent?.track?.length) {
+        isError = true;
+        this.setErrorTextByKey("track", "rata vaaditaan");
+      }
       return isError;
     },
     setErrorTextsDefault(): void {
       this.setErrorTextByKey("name", "");
       this.setErrorTextByKey("country", "");
+      this.setErrorTextByKey("city", "");
+      this.setErrorTextByKey("track", "");
       this.setErrorTextByKey("startsAt", "");
       this.setErrorTextByKey("endsAt", "");
       this.setErrorTextByKey("seasonId", "");

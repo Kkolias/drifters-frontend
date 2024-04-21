@@ -19,6 +19,18 @@
           />
           <ErrorHover :errorMessage="errorTexts.eventId" />
         </div>
+        <div class="input-wrapper">
+          <label for="date">Päivämäärä:</label>
+          <input
+            v-model="competitionDay.date"
+            placeholder=""
+            :class="{ error: errorTexts.date.length }"
+            type="datetime-local"
+            id="date"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.date" />
+        </div>
 
         <div class="button-wrapper">
           <ButtonWithLoader
@@ -46,11 +58,13 @@ interface ParsedDriftEvent extends IDriftEvent {
 
 interface ErrorTexts {
   eventId: string;
+  date: string;
 }
 
 interface IEditFormData {
   competitionDay: {
     eventId: string;
+    date: string;
   };
 
   eventList: IDriftEvent[];
@@ -73,9 +87,11 @@ export default {
     overViewErrorMessage: "",
     errorTexts: {
       eventId: "",
+      date: "",
     },
     competitionDay: {
       eventId: "",
+      date: "",
     },
 
     eventList: [],
@@ -124,9 +140,9 @@ export default {
       this.setLoading(false);
     },
     async create() {
-      const { eventId } = this.competitionDay;
+      const { eventId, date } = this.competitionDay;
 
-      const newItem = await competitionDayApi.createCompetitionDay(eventId);
+      const newItem = await competitionDayApi.createCompetitionDay(eventId, date);
 
       if (newItem) {
         if (this.emitSuccess) this.$emit("success");
@@ -140,6 +156,10 @@ export default {
       if (!this.competitionDay?.eventId?.length) {
         isError = true;
         this.setErrorTextByKey("eventId", "Sarja vaaditaan");
+      }
+      if (!this.competitionDay?.date?.length) {
+        isError = true;
+        this.setErrorTextByKey("date", "Päivämäärä vaaditaan");
       }
 
       return isError;

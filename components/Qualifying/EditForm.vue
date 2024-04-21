@@ -19,6 +19,18 @@
           />
           <ErrorHover :errorMessage="errorTexts.eventId" />
         </div>
+        <div class="input-wrapper">
+          <label for="date">Päivämäärä:</label>
+          <input
+            v-model="qualifying.date"
+            placeholder=""
+            :class="{ error: errorTexts.date.length }"
+            type="datetime-local"
+            id="date"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.date" />
+        </div>
 
         <div class="button-wrapper">
           <ButtonWithLoader
@@ -46,11 +58,13 @@ interface ParsedDriftEvent extends IDriftEvent {
 
 interface ErrorTexts {
   eventId: string;
+  date: string;
 }
 
 interface QualifyingEditFormData {
   qualifying: {
     eventId: string;
+    date: string;
   };
 
   eventList: IDriftEvent[];
@@ -73,9 +87,11 @@ export default {
     overViewErrorMessage: "",
     errorTexts: {
       eventId: "",
+      date: "",
     },
     qualifying: {
       eventId: "",
+      date: "",
     },
 
     eventList: [],
@@ -130,9 +146,9 @@ export default {
       this.setLoading(false);
     },
     async create() {
-      const { eventId } = this.qualifying;
+      const { eventId, date } = this.qualifying;
 
-      const newQualifying = await qualifyingApi.createQualifying(eventId);
+      const newQualifying = await qualifyingApi.createQualifying(eventId, date);
 
       if (newQualifying) {
         if (this.emitSuccess) this.$emit("success");
@@ -146,6 +162,10 @@ export default {
       if (!this.qualifying?.eventId?.length) {
         isError = true;
         this.setErrorTextByKey("eventId", "Sarja vaaditaan");
+      }
+      if (!this.qualifying?.date?.length) {
+        isError = true;
+        this.setErrorTextByKey("date", "Päivämäärä vaaditaan");
       }
 
       return isError;

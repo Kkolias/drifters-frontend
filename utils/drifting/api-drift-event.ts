@@ -38,6 +38,8 @@ export class DriftEventApi extends ApiUtil {
 
   async createDriftEvent(payload: {
     country: string;
+    city: string;
+    track: string;
     name: string;
     startsAt: string;
     endsAt: string;
@@ -70,7 +72,9 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async handleCompetitionDayScoring(eventId: string): Promise<IDriftEvent | null> {
+  async handleCompetitionDayScoring(
+    eventId: string
+  ): Promise<IDriftEvent | null> {
     try {
       const event = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.HANDLE_COMPETITION_DAY_SCORING,
