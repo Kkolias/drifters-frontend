@@ -1,5 +1,8 @@
 <template>
   <div class="component-DriftEventPage">
+    <div class="back-link-to-series">
+      <NuxtLink class="blank button" to="/series">Takaisin sarjoihin</NuxtLink>
+    </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <h1>{{ serie }} {{ seasonYear }}</h1>
@@ -218,6 +221,46 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftEventPage {
+  .back-link-to-series {
+    max-width: 1400px;
+    width: 100%;
+    margin: auto;
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .button {
+      color: var(--white-1);
+      font-weight: 700;
+      margin-left: 26px;
+      line-height: 20px;
+      transition: 0.25s ease-in-out;
+
+      &:before {
+        content: "";
+        position: absolute;
+        background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+        background-size: contain;
+        background-position: center;
+        width: 20px;
+        height: 20px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) rotate(180deg);
+        transition: 0.25s ease-in-out;
+      }
+
+      &:hover {
+        color: var(--green-1);
+        
+        &:before {
+          background-image: url("~/assets/svg/arrow-green.svg");
+          transform: translateY(-50%) rotate(180deg) scale(1.05);
+        }
+      }
+    }
+  }
   h1 {
     font-size: 2.6rem;
     text-align: center;

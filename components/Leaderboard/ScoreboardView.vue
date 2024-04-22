@@ -1,7 +1,7 @@
 <template>
   <div class="component-ScoreboardView">
     <LoadingIndicator v-if="loading" />
-    <table v-else class="scoreboard-table">
+    <table v-else-if="scoreboard.length" class="scoreboard-table">
       <thead>
         <tr>
           <th>Sija</th>

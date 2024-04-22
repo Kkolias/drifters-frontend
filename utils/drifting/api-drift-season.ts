@@ -53,6 +53,7 @@ export class DriftSeasonApi extends ApiUtil {
 
   async createDriftSeason(payload: {
     serie: DriftSerie;
+    name: string
     year: number;
   }): Promise<IDriftSeason | null> {
     try {

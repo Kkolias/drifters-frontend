@@ -105,6 +105,7 @@ export default {
         right: 20px;
         top: 50%;
         transform: translateY(-50%);
+        transition: all 0.25s ease-in-out;
       }
 
       .to-event {

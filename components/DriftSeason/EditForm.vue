@@ -20,6 +20,15 @@
           <ErrorHover :errorMessage="errorTexts.serie" />
         </div>
         <div class="input-wrapper">
+          <label for="name">Kauden nimi (vapaaehtoinen):</label>
+          <input
+            v-model="driftSeason.name"
+            type="text"
+            id="name"
+            @click="setErrorTextsDefault()"
+          />
+        </div>
+        <div class="input-wrapper">
           <label for="year">Vuosi:</label>
           <input
             v-model.number="driftSeason.year"
@@ -57,6 +66,7 @@ interface ErrorTexts {
 interface DriftSeasonEditFormData {
   driftSeason: {
     serie: DriftSerie | "";
+    name: string;
     year: number;
   };
 
@@ -80,15 +90,16 @@ export default {
     },
     driftSeason: {
       serie: "",
+      name: "",
       year: new Date().getFullYear(),
     },
   }),
   computed: {
     serieOptionList(): string[] {
       const r = Object.values(DriftSerie);
-      console.log(r)
-      return r
-    }
+      console.log(r);
+      return r;
+    },
   },
   methods: {
     selectSerie(serie: DriftSerie) {
@@ -110,11 +121,12 @@ export default {
       this.setLoading(false);
     },
     async createDriver() {
-      const { serie, year } = this.driftSeason;;
+      const { serie, name, year } = this.driftSeason;
       const givenSerie = serie as DriftSerie;
 
       const newEvent = await driftSeasonApi.createDriftSeason({
         serie: givenSerie,
+        name,
         year,
       });
 

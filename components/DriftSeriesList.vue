@@ -22,9 +22,11 @@
               v-for="(season, key) in serie.seasonList"
               :key="key"
             >
-              <div class="season-overview">
-                <h3>{{ serie.name }} {{ season.year }}</h3>
-              </div>
+              <NuxtLink class="button blank" :to="getSeasonPath(season)">
+                <div class="season-overview">
+                  <h3>{{ getSeasonName(season, serie) }} {{ season.year }}</h3>
+                </div>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -66,6 +68,12 @@ export default {
     this.fetchSeasonList();
   },
   methods: {
+    getSeasonName(season: IDriftSeason, serie: any): string {
+      return season?.name ? season.name : serie.name;
+    },
+    getSeasonPath(season: IDriftSeason): string {
+      return `/drift-season/${season._id}?view=events`;
+    },
     handleOpenList(index: number): void {
       if (this.isListOpen(index)) {
         this.openedLists = this.openedLists.filter((i) => i !== index);
@@ -132,7 +140,7 @@ export default {
           height: 35px;
           right: 12px;
           top: 50%;
-          transform: translateY(-50%) rotate(-90deg);
+          transform: translateY(-50%) rotate(0deg);
           transition: 0.25s ease-in-out;
         }
         &.selected {
@@ -186,6 +194,7 @@ export default {
               right: 12px;
               top: 50%;
               transform: translateY(-50%);
+              transition: 0.25s ease-in-out;
             }
             &:hover {
               transform: scale(1.05);
