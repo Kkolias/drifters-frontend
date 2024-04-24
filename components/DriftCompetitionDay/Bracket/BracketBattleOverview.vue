@@ -147,9 +147,10 @@ export default {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 
     .top-section {
-      display: flex;
+      display: grid;
       justify-content: center;
       gap: 24px;
+      grid-template-columns: 1fr 75px 1fr;
 
       .driver-left,
       .driver-right {
@@ -176,6 +177,7 @@ export default {
       .heat-wrapper {
         display: flex;
         align-items: center;
+        justify-content: center;
 
         h3 {
           margin: 0;
@@ -183,12 +185,12 @@ export default {
           font-weight: bold;
         }
       }
-      .driver-left {
-        margin-right: 48px;
-      }
-      .driver-right {
-        margin-left: 48px;
-      }
+      // .driver-left {
+      //   margin-right: 48px;
+      // }
+      // .driver-right {
+      //   margin-left: 48px;
+      // }
     }
 
     .run-list {

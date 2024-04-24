@@ -1,6 +1,34 @@
 <template>
-  <div class="component-DriftSeasonViewSelection">
+  <div class="component-DriftEventViewSelection">
     <div class="button-wrapper">
+      <NuxtLink
+        :disabled="!isSelectedEvent"
+        class="select-view qualifying"
+        :class="[
+          {
+            selected: isViewSelected('qualifying'),
+            disabled: !isSelectedEvent,
+          },
+          isSelectedEvent ? 'not-disabled' : 'disabled',
+        ]"
+        :to="getQueryPath('qualifying')"
+      >
+        <span>Lajittelu</span>
+      </NuxtLink>
+      <NuxtLink
+        :disabled="!isSelectedEvent"
+        class="select-view battles"
+        :class="[
+          {
+            selected: isViewSelected('battles'),
+            disabled: !isSelectedEvent,
+          },
+          isSelectedEvent ? 'not-disabled' : 'disabled',
+        ]"
+        :to="getQueryPath('battles')"
+      >
+        <span>Kilpailu</span>
+      </NuxtLink>
       <NuxtLink
         class="select-view season always-visible"
         :class="{ selected: isViewSelected('events') }"
@@ -41,7 +69,7 @@ export default {
       return this.$route.query;
     },
     isSelectedEvent(): boolean {
-      return !!this.queryParams?.["event-id"];
+      return !!this.$route?.params?.eventId
     },
   },
   methods: {
@@ -61,7 +89,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.component-DriftSeasonViewSelection {
+.component-DriftEventViewSelection {
   margin-top: 24px;
   .button-wrapper {
     display: flex;

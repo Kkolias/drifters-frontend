@@ -1,5 +1,10 @@
 <template>
   <div class="component-DriftSeriesList">
+    <h1>Drifting-sarjat ja kaudet</h1>
+    <h3 class="subtitle">
+      Enemmän tai vähemmän kattava lista drifting-kilpailusarjoista ja niiden
+      kausista
+    </h3>
     <ul class="serie-list">
       <li class="serie" v-for="(serie, index) in series" :key="index">
         <button
@@ -9,10 +14,7 @@
         >
           <h2>{{ serie.name }}</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam a
-            tenetur atque! Assumenda iste facere, ullam, esse architecto maxime
-            nam distinctio, magnam officiis culpa quisquam. Animi, tempora!
-            Amet, necessitatibus iure.
+            {{ serie.subText }}
           </p>
         </button>
         <div v-if="isListOpen(index)" class="season-list-wrapper">
@@ -22,7 +24,7 @@
               v-for="(season, key) in serie.seasonList"
               :key="key"
             >
-              <NuxtLink class="button blank" :to="getSeasonPath(season)">
+              <NuxtLink class="button blank link" :to="getSeasonPath(season)">
                 <div class="season-overview">
                   <h3>{{ getSeasonName(season, serie) }} {{ season.year }}</h3>
                 </div>
@@ -40,6 +42,7 @@ import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
+import text from "~/lang/series.lang";
 
 interface IData {
   seasons: IDriftSeason[];
@@ -58,6 +61,7 @@ export default {
       return Object.values(DriftSerie).map((serie) => {
         return {
           name: DRIFT_SERIES_LABEL[serie],
+          subText: text.fi.seriesTexts?.[serie] || "",
           seasonList:
             this.seasons?.filter((season) => season?.serie === serie) || [],
         };
@@ -96,6 +100,18 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftSeriesList {
+  h1 {
+    color: var(--green-1);
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 48px;
+  }
   .serie-list {
     list-style: none;
     margin: 0;
@@ -172,9 +188,29 @@ export default {
           .season {
             border: 1px solid var(--white-1);
             border-radius: 10px;
-            padding: 12px;
+            padding: 0;
             position: relative;
             transition: all 0.25s ease-in-out;
+
+            .season-overview {
+              padding: 12px;
+            }
+
+            .link {
+              &:before {
+                content: "";
+                position: absolute;
+                background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+                background-size: contain;
+                background-position: center;
+                width: 25px;
+                height: 25px;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: 0.25s ease-in-out;
+              }
+            }
 
             h3 {
               margin: 0;
@@ -183,24 +219,25 @@ export default {
               color: var(--green-1);
             }
 
-            &:before {
-              content: "";
-              position: absolute;
-              background: url("~/assets/svg/arrow-grey.svg") no-repeat;
-              background-size: contain;
-              background-position: center;
-              width: 25px;
-              height: 25px;
-              right: 12px;
-              top: 50%;
-              transform: translateY(-50%);
-              transition: 0.25s ease-in-out;
-            }
+            // &:before {
+            //   content: "";
+            //   position: absolute;
+            //   background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+            //   background-size: contain;
+            //   background-position: center;
+            //   width: 25px;
+            //   height: 25px;
+            //   right: 12px;
+            //   top: 50%;
+            //   transform: translateY(-50%);
+            //   transition: 0.25s ease-in-out;
+            // }
             &:hover {
               transform: scale(1.05);
-
-              &:before {
-                background-image: url("~/assets/svg/arrow-green.svg");
+              .link {
+                &:before {
+                  background-image: url("~/assets/svg/arrow-green.svg");
+                }
               }
             }
           }

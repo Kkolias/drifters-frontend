@@ -4,7 +4,7 @@
     <h2 v-if="showNoEventList">Ei näytettäviä tapahtumia</h2>
     <ul v-if="showEventList" class="event-list">
       <li v-for="(event, index) in eventList" :key="index" class="event-item">
-        <NuxtLink class="to-event" :to="eventQueryPath(event)">
+        <NuxtLink class="to-event" :to="pathToEvent(event)">
           <div class="top-row">
             <h3 class="event-name">{{ eventName(event) }}</h3>
           </div>
@@ -49,13 +49,8 @@ export default {
     },
   },
   methods: {
-    eventQueryPath(event: IDriftEvent) {
-      return {
-        query: {
-          "event-id": event?._id,
-          view: "events",
-        },
-      };
+    pathToEvent(event: IDriftEvent) {
+      return `/drift-season/${this.season._id}/event/${event._id}?view=qualifying`;
     },
     eventName(event: IDriftEvent) {
       return event?.name;
@@ -85,31 +80,31 @@ export default {
     gap: 16px;
 
     .event-item {
-      border: 2px solid var(--white-1);
-      border-radius: 10px;
-      padding-right: 50px;
-      padding-left: 20px;
-      position: relative;
-      max-width: 400px;
-      width: 100%;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-      transition: all 0.25s ease-in-out;
-
-      &:before {
-        content: "";
-        background: url("~/assets/svg/arrow-grey.svg") no-repeat;
-        background-size: 20px;
-        width: 35px;
-        height: 35px;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        transition: all 0.25s ease-in-out;
-      }
-
       .to-event {
-        display: inline-block;
+        display: block;
+        border: 2px solid var(--white-1);
+        border-radius: 10px;
+        padding-right: 50px;
+        padding-left: 20px;
+        position: relative;
+        width: 350px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+
+        transition: all 0.25s ease-in-out;
+        &:before {
+          content: "";
+          background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+          background-size: 20px;
+          width: 35px;
+          height: 35px;
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          transition: all 0.25s ease-in-out;
+        }
+
+        // display: inline-block;
         text-decoration: none;
         color: var(--white-1);
 
@@ -139,15 +134,14 @@ export default {
             font-size: 16px;
           }
         }
-      }
-
-      &:hover {
-        &:before {
-          background: url("~/assets/svg/arrow-green.svg") no-repeat;
-          background-size: 20px;
+        &:hover {
+          &:before {
+            background: url("~/assets/svg/arrow-green.svg") no-repeat;
+            background-size: 20px;
+          }
+          box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+          transform: scale(1.05);
         }
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
-        transform: scale(1.05);
       }
     }
   }

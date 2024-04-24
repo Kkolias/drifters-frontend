@@ -11,12 +11,15 @@
         <span class="city">{{ eventTrackCity }}</span>
       </p>
       <section class="select-view-section">
-        <DriftSeasonViewSelection v-if="!!season" :season="season" />
+        <DriftSeasonEventDriftEventViewSelection
+          v-if="!!season"
+          :season="season"
+        />
       </section>
       <section class="view-section" v-if="isViewSelected('events')">
         <DriftSeasonEventList v-if="!!season" :season="season" />
       </section>
-      <!-- <section class="view-section" v-if="isViewSelected('qualifying')">
+      <section class="view-section" v-if="isViewSelected('qualifying')">
         <QualifyingViewWrapper
           v-if="qualifying"
           :qualifying="qualifying"
@@ -25,8 +28,8 @@
           :allDriversList="allDriversList"
         />
         <p v-else class="no-data">Tietoja puuttuu</p>
-      </section> -->
-      <!-- <section class="view-section" v-if="isViewSelected('battles')">
+      </section>
+      <section class="view-section" v-if="isViewSelected('battles')">
         <DriftCompetitionDayDriftBattlesView
           v-if="competitionDay"
           :competitionDay="competitionDay"
@@ -34,15 +37,15 @@
           :loadingCompetitionDay="loading.competitionDay"
         />
         <p v-else class="no-data">Tietoja puuttuu</p>
-      </section> -->
-      <section class="view-section" v-if="isViewSelected('leaderboard')">
-        <LeaderboardScoreboardView
-          v-if="season"
-          :loading="loading.drivers || loading.season"
-          :scoreboard="scoreboard"
-          :allDriversList="allDriversList"
-        />
       </section>
+      <section class="view-section" v-if="isViewSelected('leaderboard')">
+          <LeaderboardScoreboardView
+            v-if="season"
+            :loading="loading.drivers || loading.season"
+            :scoreboard="scoreboard"
+            :allDriversList="allDriversList"
+          />
+        </section>
     </div>
   </div>
 </template>
@@ -85,6 +88,10 @@ export default {
       type: String,
       required: true,
     },
+    eventId: {
+        type: String,
+        required: true,
+    },
   },
   data: (): IData => ({
     driftEvent: null,
@@ -108,15 +115,12 @@ export default {
     queryParams() {
       return this.$route.query;
     },
-    // eventId() {
-    //   return (this.$route?.query?.["event-id"] as string) || "";
-    // },
-    // qualifyingId(): string {
-    //   return this.driftEvent?.qualifying?._id || "";
-    // },
-    // competitionDayId(): string {
-    //   return this.driftEvent?.competitionDay?._id || "";
-    // },
+    qualifyingId(): string {
+      return this.driftEvent?.qualifying?._id || "";
+    },
+    competitionDayId(): string {
+      return this.driftEvent?.competitionDay?._id || "";
+    },
     seasonYear(): string {
       return `${this.season?.year}` || "";
     },
@@ -146,62 +150,62 @@ export default {
   mounted() {
     this.fetchDriftSeason();
     this.fetchDrivers();
-    // if (this.eventId) {
-    //   this.fetchDriftEvent();
-    // }
-    // if (this.qualifyingId) {
-    //   this.fetchQualifying();
-    // }
-    // if (this.competitionDayId) {
-    //   this.fetchCompetitionDay();
-    // }
+    if (this.eventId) {
+      this.fetchDriftEvent();
+    }
+    if (this.qualifyingId) {
+      this.fetchQualifying();
+    }
+    if (this.competitionDayId) {
+      this.fetchCompetitionDay();
+    }
   },
-  // watch: {
-  //   eventId() {
-  //     this.fetchDriftEvent();
-  //   },
-  //   qualifyingId() {
-  //     this.fetchQualifying();
-  //   },
-  //   competitionDayId() {
-  //     this.fetchCompetitionDay();
-  //   },
-  // },
+  watch: {
+    eventId() {
+      this.fetchDriftEvent();
+    },
+    qualifyingId() {
+      this.fetchQualifying();
+    },
+    competitionDayId() {
+      this.fetchCompetitionDay();
+    },
+  },
   methods: {
-    // async fetchDriftEvent(): Promise<void> {
-    //   this.setLoading("driftEvent", true);
-    //   const r = await apiDriftEvent.getDriftEventById(this.eventId);
-    //   this.driftEvent = r;
-    //   this.setLoading("driftEvent", false);
-    // },
+    async fetchDriftEvent(): Promise<void> {
+      this.setLoading("driftEvent", true);
+      const r = await apiDriftEvent.getDriftEventById(this.eventId);
+      this.driftEvent = r;
+      this.setLoading("driftEvent", false);
+    },
     async fetchDriftSeason(): Promise<void> {
       this.setLoading("season", true);
       const r = await apiDriftSeason.getDriftSeasonById(this.seasonId);
       this.season = r;
       this.setLoading("season", false);
     },
-    // async fetchQualifying(): Promise<void> {
-    //   if (!this.qualifyingId) {
-    //     this.qualifying = null;
-    //     return;
-    //   }
-    //   this.setLoading("qualifying", true);
-    //   const r = await apiQualifying.getQualifyingById(this.qualifyingId);
-    //   this.qualifying = r;
-    //   this.setLoading("qualifying", false);
-    // },
-    // async fetchCompetitionDay(): Promise<void> {
-    //   if (!this.competitionDayId) {
-    //     this.competitionDay = null;
-    //     return;
-    //   }
-    //   this.setLoading("competitionDay", true);
-    //   const r = await apiCompetitionDay.getCompetitionDayById(
-    //     this.competitionDayId
-    //   );
-    //   this.competitionDay = r;
-    //   this.setLoading("competitionDay", false);
-    // },
+    async fetchQualifying(): Promise<void> {
+      if (!this.qualifyingId) {
+        this.qualifying = null;
+        return;
+      }
+      this.setLoading("qualifying", true);
+      const r = await apiQualifying.getQualifyingById(this.qualifyingId);
+      this.qualifying = r;
+      this.setLoading("qualifying", false);
+    },
+    async fetchCompetitionDay(): Promise<void> {
+      if (!this.competitionDayId) {
+        this.competitionDay = null;
+        return;
+      }
+      this.setLoading("competitionDay", true);
+      const r = await apiCompetitionDay.getCompetitionDayById(
+        this.competitionDayId
+      );
+      this.competitionDay = r;
+      this.setLoading("competitionDay", false);
+    },
     async fetchDrivers(): Promise<void> {
       this.setLoading("drivers", true);
       const r = await apiDrivers.getAllDrivers();
@@ -253,7 +257,7 @@ export default {
 
       &:hover {
         color: var(--green-1);
-        
+
         &:before {
           background-image: url("~/assets/svg/arrow-green.svg");
           transform: translateY(-50%) rotate(180deg) scale(1.05);
