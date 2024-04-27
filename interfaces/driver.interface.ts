@@ -14,7 +14,7 @@ export interface ICar {
     _id: string;
     firstName: string;
     lastName: string;
-    age: number
+    birthday: string | null;
     createdAt: string;
     raceNumber: number | null;
     cars: ICar[]

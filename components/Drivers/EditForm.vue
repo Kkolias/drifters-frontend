@@ -30,15 +30,16 @@
           <ErrorHover :errorMessage="errorTexts.lastName" />
         </div>
         <div class="input-wrapper">
-          <label for="email">Ikä:</label>
+          <label for="birthday">Syntymäpäivä:</label>
           <input
-            v-model="driver.age"
-            type="text"
-            id="email"
-            :class="{ error: errorTexts.age.length }"
+            v-model="driver.birthday"
+            placeholder=""
+            :class="{ error: errorTexts.birthday.length }"
+            type="datetime-local"
+            id="birthday"
             @click="setErrorTextsDefault()"
           />
-          <ErrorHover :errorMessage="errorTexts.age" />
+          <ErrorHover :errorMessage="errorTexts.birthday" />
         </div>
         <div class="input-wrapper">
           <label for="raceNumber">Numero:</label>
@@ -91,7 +92,7 @@ import apiDrivers from "../../utils/drifting/api-drivers";
 interface ErrorTexts {
   firstName: string;
   lastName: string;
-  age: string;
+  birthday: string;
   raceNumber: string;
 }
 
@@ -100,7 +101,7 @@ interface DriverEditFormData {
     id: string;
     firstName: string;
     lastName: string;
-    age: string;
+    birthday: string;
     cars: ICar[];
     raceNumber: number;
   };
@@ -123,14 +124,14 @@ export default {
     errorTexts: {
       firstName: "",
       lastName: "",
-      age: "",
+      birthday: "",
       raceNumber: "",
     },
     driver: {
       id: "",
       firstName: "",
       lastName: "",
-      age: "",
+      birthday: "",
       raceNumber: 0,
       cars: [],
     },
@@ -162,22 +163,21 @@ export default {
       const {
         firstName,
         lastName,
-        age,
+        birthday,
         cars,
         raceNumber,
       }: {
         firstName: string;
         lastName: string;
-        age: string;
+        birthday: string;
         cars: ICar[];
         raceNumber: number;
       } = this.driver;
-      const ageNumber = parseInt(age);
 
       const newDriver = await apiDrivers.createDriver({
         firstName,
         lastName,
-        age: ageNumber,
+        birthday,
         raceNumber,
         cars,
       });
@@ -198,16 +198,16 @@ export default {
         isError = true;
         this.setErrorTextByKey("lastName", "Sukunimi vaaditaan");
       }
-      if (!this.driver?.age?.length || isNaN(parseInt(this.driver?.age))) {
-        isError = true;
-        this.setErrorTextByKey("age", "Ikä virheellinen");
-      }
+      // if (!this.driver?.birthday?.length) {
+      //   isError = true;
+      //   this.setErrorTextByKey("birthday", "Syntymä virheellinen");
+      // }
       return isError;
     },
     setErrorTextsDefault(): void {
       this.setErrorTextByKey("firstName", "");
       this.setErrorTextByKey("lastName", "");
-      this.setErrorTextByKey("age", "");
+      this.setErrorTextByKey("birthday", "");
       this.setOverViewErrorMessage("");
     },
     setOverViewErrorMessage(message: string): void {

@@ -38,8 +38,8 @@ export default {
                     key: 'lastName'
                 },
                 {
-                    name: 'Ikä',
-                    key: 'age'
+                    name: 'Syntymäpäivä',
+                    key: 'birthday'
                 },
                 {
                     name: 'Autot',

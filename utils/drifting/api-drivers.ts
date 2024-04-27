@@ -34,7 +34,7 @@ export class DriftDriversApi extends ApiUtil {
 
     }
 
-    async createDriver(payload: { firstName: string, lastName: string, age: number, cars: ICar[], raceNumber: number }): Promise<IDriver | null> {
+    async createDriver(payload: { firstName: string, lastName: string, birthday: string, cars: ICar[], raceNumber: number }): Promise<IDriver | null> {
         try {
             const driver = await this.post({ url: DRIFT_DRIVER.CREATE, payload })
 
