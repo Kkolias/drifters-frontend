@@ -48,6 +48,18 @@
       >
         <span>Pistetaulukko</span>
       </NuxtLink>
+      <NuxtLink
+        :disabled="!isSelectedEvent"
+        class="select-view seasons always-visible"
+        :class="[
+          {
+            selected: isViewSelected('seasons'),
+          },
+        ]"
+        :to="getQueryPath('seasons')"
+      >
+        <span>Muut kaudet</span>
+      </NuxtLink>
     </div>
     <div class="bottom-line"></div>
   </div>
@@ -69,7 +81,7 @@ export default {
       return this.$route.query;
     },
     isSelectedEvent(): boolean {
-      return !!this.$route?.params?.eventId
+      return !!this.$route?.params?.eventId;
     },
   },
   methods: {

@@ -43,6 +43,9 @@
           :allDriversList="allDriversList"
         />
       </section>
+      <section class="view-section" v-if="isViewSelected('seasons')">
+        <DriftSeriesList :selectedSeason="seasonId" />
+      </section>
     </div>
   </div>
 </template>
@@ -55,11 +58,8 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
-import apiCompetitionDay from "~/utils/drifting/api-competition-day";
-import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiDrivers from "~/utils/drifting/api-drivers";
-import apiQualifying from "~/utils/drifting/api-qualifying";
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -253,7 +253,7 @@ export default {
 
       &:hover {
         color: var(--green-1);
-        
+
         &:before {
           background-image: url("~/assets/svg/arrow-green.svg");
           transform: translateY(-50%) rotate(180deg) scale(1.05);

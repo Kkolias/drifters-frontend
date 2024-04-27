@@ -1,6 +1,6 @@
 <template>
     <div class="page-series">
-        <DriftSeriesList  />
+        <DriftSeriesPage  />
     </div>
 </template>
 

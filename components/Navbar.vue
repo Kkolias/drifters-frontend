@@ -29,29 +29,33 @@ export default {
         path: "/",
       },
       {
-        label: "Kuskit",
-        path: "/drivers",
-      },
-      {
-        label: "Kaudet",
-        path: "/drift-season",
-      },
-      {
-        label: "Tapahtumat",
-        path: "/drift-event",
-      },
-      {
-        label: "Kisapäivät",
-        path: "/drift-competition-day",
-      },
-      {
-        label: "Sarjataulukot",
-        path: "/leaderboard",
-      },
-      {
-        label: "Profiili",
-        path: "/profile",
-      },
+        label: "Sarjat",
+        path: "/series"
+      }
+      // {
+      //   label: "Kuskit",
+      //   path: "/drivers",
+      // },
+      // {
+      //   label: "Kaudet",
+      //   path: "/drift-season",
+      // },
+      // {
+      //   label: "Tapahtumat",
+      //   path: "/drift-event",
+      // },
+      // {
+      //   label: "Kisapäivät",
+      //   path: "/drift-competition-day",
+      // },
+      // {
+      //   label: "Sarjataulukot",
+      //   path: "/leaderboard",
+      // },
+      // {
+      //   label: "Profiili",
+      //   path: "/profile",
+      // },
     ],
   }),
   computed: {

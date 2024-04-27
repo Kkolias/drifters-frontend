@@ -39,13 +39,16 @@
         <p v-else class="no-data">Tietoja puuttuu</p>
       </section>
       <section class="view-section" v-if="isViewSelected('leaderboard')">
-          <LeaderboardScoreboardView
-            v-if="season"
-            :loading="loading.drivers || loading.season"
-            :scoreboard="scoreboard"
-            :allDriversList="allDriversList"
-          />
-        </section>
+        <LeaderboardScoreboardView
+          v-if="season"
+          :loading="loading.drivers || loading.season"
+          :scoreboard="scoreboard"
+          :allDriversList="allDriversList"
+        />
+      </section>
+      <section class="view-section" v-if="isViewSelected('seasons')">
+        <DriftSeriesList :selectedSeason="seasonId" />
+      </section>
     </div>
   </div>
 </template>
@@ -89,8 +92,8 @@ export default {
       required: true,
     },
     eventId: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
   },
   data: (): IData => ({

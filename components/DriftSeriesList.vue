@@ -1,12 +1,34 @@
 <template>
   <div class="component-DriftSeriesList">
-    <h1>Drifting-sarjat ja kaudet</h1>
-    <h3 class="subtitle">
-      Enemmän tai vähemmän kattava lista drifting-kilpailusarjoista ja niiden
-      kausista
+    <div class="only-seasons-list" v-if="selectedSeriesSeasonList.length">
+      <h2>Muut sarjan kaudet</h2>
+      <ul class="season-list">
+        <li
+          class="season"
+          :class="{ selected: isSelectedSeason(season) }"
+          v-for="(season, key) in selectedSeriesSeasonList"
+          :key="key"
+        >
+          <NuxtLink class="button blank link" :to="getSeasonPath(season)">
+            <div class="season-overview">
+              <h3>
+                {{ getSeasonName(season, getSerieForSeason(season)) }}
+                {{ season.year }}
+              </h3>
+            </div>
+          </NuxtLink>
+        </li>
+      </ul>
+    </div>
+    <h3 v-if="notSelectedSeries.length && selectedSeriesSeasonList.length">
+      Muut sarjat
     </h3>
-    <ul class="serie-list">
-      <li class="serie" v-for="(serie, index) in series" :key="index">
+    <ul class="serie-list" v-if="notSelectedSeries.length">
+      <li
+        class="serie"
+        v-for="(serie, index) in notSelectedSeries"
+        :key="index"
+      >
         <button
           class="blank serie-overview"
           :class="{ selected: isListOpen(index) }"
@@ -51,6 +73,12 @@ interface IData {
 }
 
 export default {
+  props: {
+    selectedSeason: {
+      type: String,
+      default: "",
+    },
+  },
   data: (): IData => ({
     seasons: [],
     loading: false,
@@ -67,11 +95,35 @@ export default {
         };
       });
     },
+    selectedSeriesSeasonList(): any[] {
+      const selectedSeries = this.series.find((serie) =>
+        this.seriesHasSelectedSeason(serie)
+      );
+      return selectedSeries?.seasonList || [];
+    },
+    notSelectedSeries(): any[] {
+      return this.series.filter(
+        (serie) => !this.seriesHasSelectedSeason(serie)
+      );
+    },
   },
   mounted() {
     this.fetchSeasonList();
   },
   methods: {
+    getSerieForSeason(season: IDriftSeason): any {
+      return this.series.find((serie) =>
+        serie.seasonList.some((s: any) => s._id === season._id)
+      );
+    },
+    seriesHasSelectedSeason(serie: any): boolean {
+      return serie.seasonList.some(
+        (season: any) => season?._id === this.selectedSeason
+      );
+    },
+    isSelectedSeason(season: IDriftSeason): boolean {
+      return season._id === this.selectedSeason;
+    },
     getSeasonName(season: IDriftSeason, serie: any): string {
       return season?.name ? season.name : serie.name;
     },
@@ -100,12 +152,8 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftSeriesList {
-  h1 {
-    color: var(--green-1);
-    font-size: 36px;
-    font-weight: 700;
+  h3 {
     text-align: center;
-    margin-bottom: 8px;
   }
   .subtitle {
     text-align: center;
@@ -174,73 +222,75 @@ export default {
           }
         }
       }
+    }
+  }
+  .only-seasons-list {
+    max-width: 550px;
+    width: 100%;
+    margin: auto;
 
-      .season-list-wrapper {
-        .season-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          padding: 12px;
-          gap: 8px;
+    h2 {
+      text-align: center;
+      margin: 0;
+    }
+  }
+  .season-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 8px;
 
-          .season {
-            border: 1px solid var(--white-1);
-            border-radius: 10px;
-            padding: 0;
-            position: relative;
-            transition: all 0.25s ease-in-out;
+    .season {
+      border: 1px solid var(--white-1);
+      border-radius: 10px;
+      padding: 0;
+      position: relative;
+      transition: all 0.25s ease-in-out;
 
-            .season-overview {
-              padding: 12px;
-            }
+      .season-overview {
+        padding: 12px;
+      }
 
-            .link {
-              &:before {
-                content: "";
-                position: absolute;
-                background: url("~/assets/svg/arrow-grey.svg") no-repeat;
-                background-size: contain;
-                background-position: center;
-                width: 25px;
-                height: 25px;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                transition: 0.25s ease-in-out;
-              }
-            }
+      .link {
+        &:before {
+          content: "";
+          position: absolute;
+          background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+          background-size: contain;
+          background-position: center;
+          width: 25px;
+          height: 25px;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          transition: 0.25s ease-in-out;
+        }
+      }
 
-            h3 {
-              margin: 0;
-              font-size: 20px;
-              font-weight: 700;
-              color: var(--green-1);
-            }
+      h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--green-1);
+      }
 
-            // &:before {
-            //   content: "";
-            //   position: absolute;
-            //   background: url("~/assets/svg/arrow-grey.svg") no-repeat;
-            //   background-size: contain;
-            //   background-position: center;
-            //   width: 25px;
-            //   height: 25px;
-            //   right: 12px;
-            //   top: 50%;
-            //   transform: translateY(-50%);
-            //   transition: 0.25s ease-in-out;
-            // }
-            &:hover {
-              transform: scale(1.05);
-              .link {
-                &:before {
-                  background-image: url("~/assets/svg/arrow-green.svg");
-                }
-              }
-            }
+      &:hover {
+        transform: scale(1.05);
+        .link {
+          &:before {
+            background-image: url("~/assets/svg/arrow-green.svg");
           }
+        }
+      }
+
+      &.selected {
+        background: var(--green-1-25);
+
+        h3 {
+          color: var(--black-1);
         }
       }
     }
