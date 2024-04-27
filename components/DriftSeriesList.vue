@@ -40,7 +40,7 @@
           </p>
         </button>
         <div v-if="isListOpen(index)" class="season-list-wrapper">
-          <ul class="season-list">
+          <ul class="season-list" v-if="serie?.seasonList?.length">
             <li
               class="season"
               v-for="(season, key) in serie.seasonList"
@@ -53,6 +53,9 @@
               </NuxtLink>
             </li>
           </ul>
+          <div class="no-seasons" v-else>
+            <p>Ei kausia</p>
+          </div>
         </div>
       </li>
     </ul>
@@ -159,6 +162,15 @@ export default {
     text-align: center;
     margin-top: 0;
     margin-bottom: 48px;
+  }
+
+  .no-seasons {
+    p {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+    
+    }
   }
   .serie-list {
     list-style: none;
