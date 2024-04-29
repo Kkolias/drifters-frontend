@@ -58,6 +58,7 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
+import { useDriversStore } from "~/store/drivers";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiDrivers from "~/utils/drifting/api-drivers";
 
@@ -67,8 +68,6 @@ interface IData {
 
   competitionDay: ICompetitionDay | null;
   qualifying: IQualifying | null;
-
-  allDriversList: IDriver[];
 
   loading: {
     driftEvent: boolean;
@@ -91,7 +90,6 @@ export default {
     season: null,
     qualifying: null,
     competitionDay: null,
-    allDriversList: [],
 
     loading: {
       driftEvent: true,
@@ -107,6 +105,9 @@ export default {
     },
     queryParams() {
       return this.$route.query;
+    },
+    allDriversList(): IDriver[] {
+      return useDriversStore().getDrivers;
     },
     // eventId() {
     //   return (this.$route?.query?.["event-id"] as string) || "";
@@ -204,8 +205,7 @@ export default {
     // },
     async fetchDrivers(): Promise<void> {
       this.setLoading("drivers", true);
-      const r = await apiDrivers.getAllDrivers();
-      this.allDriversList = r;
+      await useDriversStore().fetchDrivers();
       this.setLoading("drivers", false);
     },
     setLoading(key: keyof IData["loading"], loading: boolean): void {
