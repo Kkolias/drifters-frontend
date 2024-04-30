@@ -24,5 +24,6 @@ logs
 !.env.example
 
 yarn.lock
+pnpm-lock.yaml
 
 .vscode
