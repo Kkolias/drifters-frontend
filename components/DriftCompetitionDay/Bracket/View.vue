@@ -1,115 +1,115 @@
 <template>
   <div class="component-BracketView">
-    <p class="subtitle">
-      Kilpailun tulokset bracket muodossa.
-    </p>
+    <p class="subtitle">Kilpailun tulokset bracket muodossa.</p>
     <!-- <pre>
           {{ heatListTop16Left }}
       </pre> -->
-    <div class="bracket-container">
-      <div class="top-thirty-two">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop32Left"
-          :allDriversList="allDriversList"
-          :runListLength="8"
-          :firstHeatNumber="1"
-          title="Top 32"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="top-sexteen">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop16Left"
-          :allDriversList="allDriversList"
-          :runListLength="4"
-          :firstHeatNumber="17"
-          title="Top 16"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="top-eight">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop8Left"
-          :allDriversList="allDriversList"
-          :runListLength="2"
-          :firstHeatNumber="25"
-          title="Top 8"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="top-four">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop4Left"
-          :allDriversList="allDriversList"
-          :runListLength="1"
-          :firstHeatNumber="29"
-          title="Top 4"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="final">
-        <DriftCompetitionDayBracketColumnFinalBronze
-          :competitionDayId="competitionDayId"
-          :heatList="heatListFinalAndBronze"
-          :allDriversList="allDriversList"
-          @showHeat="showHeat"
-        />
-      </div>
+    <div class="scroll-container">
+      <div class="bracket-container">
+        <div class="top-thirty-two">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop32Left"
+            :allDriversList="allDriversList"
+            :runListLength="8"
+            :firstHeatNumber="1"
+            title="Top 32"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-sexteen">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop16Left"
+            :allDriversList="allDriversList"
+            :runListLength="4"
+            :firstHeatNumber="17"
+            title="Top 16"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-eight">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop8Left"
+            :allDriversList="allDriversList"
+            :runListLength="2"
+            :firstHeatNumber="25"
+            title="Top 8"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-four">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop4Left"
+            :allDriversList="allDriversList"
+            :runListLength="1"
+            :firstHeatNumber="29"
+            title="Top 4"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="final">
+          <DriftCompetitionDayBracketColumnFinalBronze
+            :competitionDayId="competitionDayId"
+            :heatList="heatListFinalAndBronze"
+            :allDriversList="allDriversList"
+            @showHeat="showHeat"
+          />
+        </div>
 
-      <div class="top-four">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop4Right"
-          :allDriversList="allDriversList"
-          :runListLength="1"
-          :firstHeatNumber="30"
-          title="Top 4"
-          @showHeat="showHeat"
-        />
+        <div class="top-four">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop4Right"
+            :allDriversList="allDriversList"
+            :runListLength="1"
+            :firstHeatNumber="30"
+            title="Top 4"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-eight">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop8Right"
+            :allDriversList="allDriversList"
+            :runListLength="2"
+            :firstHeatNumber="27"
+            title="Top 8"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-sexteen">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop16Right"
+            :allDriversList="allDriversList"
+            :runListLength="4"
+            :firstHeatNumber="21"
+            title="Top 16"
+            @showHeat="showHeat"
+          />
+        </div>
+        <div class="top-thirty-two">
+          <DriftCompetitionDayBracketColumn
+            :competitionDayId="competitionDayId"
+            :heatList="heatListTop32Right"
+            :allDriversList="allDriversList"
+            :runListLength="8"
+            :firstHeatNumber="9"
+            title="Top 32"
+            @showHeat="showHeat"
+          />
+        </div>
       </div>
-      <div class="top-eight">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop8Right"
-          :allDriversList="allDriversList"
-          :runListLength="2"
-          :firstHeatNumber="27"
-          title="Top 8"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="top-sexteen">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop16Right"
-          :allDriversList="allDriversList"
-          :runListLength="4"
-          :firstHeatNumber="21"
-          title="Top 16"
-          @showHeat="showHeat"
-        />
-      </div>
-      <div class="top-thirty-two">
-        <DriftCompetitionDayBracketColumn
-          :competitionDayId="competitionDayId"
-          :heatList="heatListTop32Right"
-          :allDriversList="allDriversList"
-          :runListLength="8"
-          :firstHeatNumber="9"
-          title="Top 32"
-          @showHeat="showHeat"
-        />
-      </div>
+      <DriftCompetitionDayBracketBattleOverview
+        v-if="selectedHeatItem"
+        :heatItem="selectedHeatItem"
+        @close="closeHeatModal()"
+      />
     </div>
-    <DriftCompetitionDayBracketBattleOverview
-      v-if="selectedHeatItem"
-      :heatItem="selectedHeatItem"
-      @close="closeHeatModal()"
-    />
   </div>
 </template>
 
@@ -135,10 +135,11 @@ export default {
   computed: {
     selectedHeatItem(): IHeat | null {
       const selectedHeatId = this.$route?.query?.["heat"];
-     
-      const match = this.heatList?.find((heat) => heat?._id === selectedHeatId) || null
-      console.log(match)
-      return match
+
+      const match =
+        this.heatList?.find((heat) => heat?._id === selectedHeatId) || null;
+      console.log(match);
+      return match;
     },
     competitionDayId(): string {
       return this.competitionDayItem?._id || "";
@@ -226,7 +227,7 @@ export default {
   .bracket-container {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
-    align-items: space-between;
+    overflow-x: auto;
     max-width: 1400px;
     margin: auto;
   }

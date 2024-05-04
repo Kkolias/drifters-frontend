@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: ["@pinia/nuxt"],
-  css: ["~/assets/less/main.less"],
 
   // default title for all pages
   app: {
@@ -21,4 +20,5 @@ export default defineNuxtConfig({
       ],
     },
   },
+  css: ["~/assets/less/main.less"],
 });

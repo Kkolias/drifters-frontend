@@ -1,0 +1,112 @@
+.component-DriftEventViewSelection,
+.component-DriftSeasonViewSelection {
+  margin-top: 24px;
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1rem;
+    height: 54px;
+    overflow-y: hidden;
+
+    .select-view {
+      width: 200px;
+      height: 46px;
+      background: var(--black-2);
+      border-radius: 10px 10px 0 0;
+      transition: all 0.25s ease-in-out;
+
+      span {
+        font-size: 1.6rem;
+        text-align: center;
+        display: block;
+        line-height: 46px;
+        transition: all 0.25s ease-in-out;
+      }
+
+      &.selected {
+        background: var(--green-1);
+        height: 52px;
+
+        span {
+          color: var(--black-1);
+          font-weight: 700;
+          line-height: 52px;
+        }
+      }
+
+      &.disabled {
+        transform: translateY(75%);
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &.not-disabled {
+        // use slideIn animation on class change
+        animation: slideIn 0.25s ease-in-out;
+      }
+
+      &:not(.always-visible) {
+        // transition to make buttons appear from the bottom
+        // animation: slideIn 2s ease-in-out;
+
+        @keyframes slideIn {
+          0% {
+            transform: translateY(100%);
+            // opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            // opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom-line {
+    width: 100%;
+    height: 2px;
+    background: var(--green-1);
+  }
+
+  @media only screen and (max-width: 1090px) {
+    // overflow-x: auto;
+    .button-wrapper {
+      height: 46px;
+      justify-content: unset;
+
+      .select-view {
+        &:first-child {
+          margin-left: auto;
+        }
+
+        &:last-child {
+          margin-right: auto;
+        }
+      }
+
+      .select-view {
+        width: auto;
+        padding: 0 1rem;
+        height: 38px;
+        span {
+          font-size: 1.3rem;
+          line-height: 38px;
+          white-space: nowrap;
+        }
+
+        &.selected {
+          height: 44px;
+
+          span {
+            color: var(--black-1);
+            font-weight: 700;
+            line-height: 44px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,6 +2,9 @@
   <div class="component-BracketBattleOverview">
     <Modal :value="true" @close="closeModal()">
       <div class="content" slot="content">
+        <div class="heat-wrapper">
+          <h3>{{ heatNumber }}</h3>
+        </div>
         <div class="top-section">
           <div class="driver-left">
             <div class="profile-picture"></div>
@@ -9,9 +12,6 @@
             <p v-if="isWinner('driver1')" class="advance-text">
               {{ advanceText }}
             </p>
-          </div>
-          <div class="heat-wrapper">
-            <h3>{{ heatNumber }}</h3>
           </div>
           <div class="driver-right">
             <div class="profile-picture"></div>
@@ -145,12 +145,27 @@ export default {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    width: 450px;
+
+    .heat-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h3 {
+          margin: 0;
+          font-size: 22px;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+      }
 
     .top-section {
-      display: grid;
+      display: flex;
       justify-content: center;
+      flex-wrap: nowrap;
       gap: 24px;
-      grid-template-columns: 1fr 75px 1fr;
+      // grid-template-columns: 1fr 1fr;
 
       .driver-left,
       .driver-right {
@@ -172,17 +187,6 @@ export default {
           font-size: 12px;
           color: var(--green-1);
           margin: 0;
-        }
-      }
-      .heat-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        h3 {
-          margin: 0;
-          font-size: 24px;
-          font-weight: bold;
         }
       }
       // .driver-left {
@@ -306,6 +310,46 @@ export default {
           }
         }
       }
+    }
+  }
+
+  @media only screen and (max-width: 1090px) {
+    .content {
+      .top-section {
+        gap: 12px;
+        .driver-left,
+        .driver-right {
+          .profile-picture {
+            min-height: 80px;
+          }
+          p {
+            font-size: 20px;
+          }
+          .advance-text {
+            font-size: 10px;
+          }
+        }
+        .heat-wrapper {
+          h3 {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 550px) {
+    .content {
+      width: 350px;
+    }
+  }
+  @media only screen and (max-width: 410px) {
+    .content {
+      width: 300px;
+    }
+  }
+  @media only screen and (max-width: 350px) {
+    .content {
+      width: 270px;
     }
   }
 }

@@ -1,11 +1,11 @@
 <template>
-  <div class="component-DriftEventPage">
+  <div class="component-DriftEventPage margin-12">
     <div class="back-link-to-series">
       <NuxtLink class="blank button" to="/series">Takaisin sarjoihin</NuxtLink>
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
-      <h1>{{ serie }} {{ seasonYear }}</h1>
+      <h1 class="big-header">{{ serie }} {{ seasonYear }}</h1>
       <p class="event-details">
         {{ driftEventName }}
         <span class="city">{{ eventTrackCity }}</span>
@@ -235,7 +235,7 @@ export default {
     width: 100%;
     margin: auto;
     position: absolute;
-    top: 42px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
 

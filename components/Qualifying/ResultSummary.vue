@@ -5,9 +5,7 @@
         <div class="driver-profile-wrapper">
           <div class="profile-picure-weapper"></div>
           <div class="driver-info-wrapper">
-            <p>
-              {{ driverName }} {{ driverNumber }}
-            </p>
+            <p>{{ driverName }} {{ driverNumber }}</p>
           </div>
         </div>
         <div class="result-wrapper">
@@ -80,7 +78,7 @@ export default {
     },
     driverNumber(): string {
       const driver = this.qualifyingResultItem?.driver as IDriver;
-      if(!driver?.raceNumber) return "";
+      if (!driver?.raceNumber) return "";
       return `#${driver?.raceNumber}`;
     },
     highestPoints(): number {
@@ -183,7 +181,6 @@ export default {
               }
             }
           }
-          
 
           .sub-title {
             margin: 0;
@@ -191,6 +188,39 @@ export default {
             margin-bottom: 12px;
             color: var(--green-1);
             opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .content {
+      width: calc(100% - 48px);
+
+      .result-wrapper {
+        .final-result {
+          p {
+            font-size: 1.4rem;
+            span {
+              font-size: 2.4rem;
+            }
+          }
+        }
+        .runs-wrapper {
+          .run {
+            .point-container {
+              p {
+                font-size: 1rem;
+
+                &.point {
+                  font-size: 1rem;
+                }
+              }
+            }
+            .sub-title {
+              font-size: 1.2rem;
+            }
           }
         }
       }

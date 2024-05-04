@@ -19,7 +19,7 @@
         >
         (vastaan motivaation mukaan).
       </p>
-      <p>Kiitos käynnistäsi ja ymmärryksestäsi!</p>
+      <p>Kiitos ja anteeksi!</p>
     </section>
     <section class="drift-series">
       <DriftSeriesPage />
@@ -31,6 +31,7 @@
 .welcome-page {
   max-width: 600px;
   margin: auto;
+  padding: 0 24px;
   h1 {
     color: var(--green-1);
     font-size: 46px;
@@ -56,6 +57,18 @@
       font-weight: 700;
       text-align: center;
       margin-bottom: 24px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: 0 12px;
+
+    h1 {
+      font-size: 36px;
+    }
+
+    p {
+      font-size: 14px;
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="component-Modal" v-if="value">
     <div class="overlay" @click="close()"></div>
-    <div class="slot">
+    <div class="slot margin-12">
       <button type="button" class="blank close-icon" @click="close()"></button>
       <slot />
     </div>
@@ -71,8 +71,8 @@ export default {
 
   .slot {
     position: fixed;
-    left: 50%;
-    top: 50%;
+    left: calc(50% - 12px);
+    top: calc(50% - 12px);
     transform: translate(-50%, -50%);
     z-index: 1001;
 

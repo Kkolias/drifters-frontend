@@ -77,6 +77,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0;
     gap: 16px;
 
     .event-item {
@@ -141,6 +142,62 @@ export default {
           }
           box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
           transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .event-list {
+      padding: 0 12px;
+      .event-item {
+        width: 100%;
+        position: relative;
+        padding: 0;
+        .to-event {
+          width: calc(100% - 20px - 50px);
+
+          &:before {
+            right: 6px;
+          }
+
+          .top-row {
+            .event-name {
+              font-size: 20px;
+            }
+          }
+
+          .bottom-row {
+            .date {
+              font-size: 16px;
+            }
+            .country {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    .event-list {
+      .top-row {
+        .event-name {
+          font-size: 18px;
+          margin: 6px !important;
+        }
+      }
+
+      .bottom-row {
+        flex-wrap: wrap;
+        .date {
+          font-size: 14px;
+          margin: 0 6px 6px 6px !important;
+        }
+        .country {
+          font-size: 12px;
+          margin: 0 6px 6px 6px !important;
         }
       }
     }

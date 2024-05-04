@@ -45,6 +45,7 @@
               class="season"
               v-for="(season, key) in serie.seasonList"
               :key="key"
+              :title="`${getSeasonName(season, serie)} ${season.year}`"
             >
               <NuxtLink class="button blank link" :to="getSeasonPath(season)">
                 <div class="season-overview">
@@ -157,11 +158,15 @@ export default {
 .component-DriftSeriesList {
   h3 {
     text-align: center;
+    margin-left: 6px;
+    margin-right: 6px;
   }
   .subtitle {
     text-align: center;
     margin-top: 0;
     margin-bottom: 48px;
+    margin-left: 6px;
+    margin-right: 6px;
   }
 
   .no-seasons {
@@ -169,12 +174,11 @@ export default {
       text-align: center;
       font-size: 18px;
       font-weight: 700;
-    
     }
   }
   .serie-list {
     list-style: none;
-    margin: 0;
+    margin: 0 6px;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -182,7 +186,7 @@ export default {
     gap: 24px;
 
     .serie {
-      max-width: 550px;
+      max-width: 520px;
       width: 100%;
       .serie-overview {
         border: 1px solid var(--white-1);
@@ -237,7 +241,7 @@ export default {
     }
   }
   .only-seasons-list {
-    max-width: 550px;
+    max-width: 520px;
     width: 100%;
     margin: auto;
 
@@ -287,6 +291,11 @@ export default {
         font-size: 20px;
         font-weight: 700;
         color: var(--green-1);
+        text-align: left;
+        margin-right: 24px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
 
       &:hover {
@@ -303,6 +312,80 @@ export default {
 
         h3 {
           color: var(--black-1);
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 630px) {
+    .serie-list {
+      .serie {
+        .serie-overview {
+          h2 {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    .season-list {
+      .season {
+        .link {
+          h3 {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 540px) {
+    // h1 {
+    //   font-size: 20px;
+    // }
+    .serie-list {
+      .serie {
+        max-width: 100%;
+        width: 95%;
+        .serie-overview {
+          h2 {
+            font-size: 18px;
+          }
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .season-list {
+      .season {
+        .link {
+          h3 {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 420px) {
+    .serie-list {
+      .serie {
+        .serie-overview {
+          h2 {
+            font-size: 16px;
+          }
+          p {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .season-list {
+      padding: 6px;
+      .season {
+        .link {
+          h3 {
+            font-size: 12px;
+          }
         }
       }
     }

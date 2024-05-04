@@ -92,7 +92,7 @@ export default {
   .menuToggle {
     display: block;
     position: relative;
-    top: 50px;
+    top: 30px;
     z-index: 1;
     -webkit-user-select: none;
     user-select: none;
@@ -194,11 +194,11 @@ export default {
       right: 0;
 
       input {
-        right: 50px;
+        right: 30px;
       }
 
       span {
-        right: 50px;
+        right: 30px;
       }
     }
 

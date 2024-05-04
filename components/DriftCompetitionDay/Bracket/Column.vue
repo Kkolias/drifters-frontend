@@ -120,7 +120,7 @@ export default {
 
 <style lang="less" scoped>
 .component-BracketColumn {
-  height: 100%;
+  height: calc(100% - 40px); // vittu en tiä miks mutta ei kyllä kiinnostakkaan
 
   h3 {
     text-align: center;
