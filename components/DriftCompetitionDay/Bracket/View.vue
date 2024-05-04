@@ -1,5 +1,8 @@
 <template>
   <div class="component-BracketView">
+    <p class="subtitle">
+      Kilpailun tulokset bracket muodossa.
+    </p>
     <!-- <pre>
           {{ heatListTop16Left }}
       </pre> -->

@@ -43,6 +43,7 @@
           v-if="season"
           :loading="loading.drivers || loading.season"
           :scoreboard="scoreboard"
+          :seasonYear="seasonYear"
           :allDriversList="allDriversList"
         />
       </section>

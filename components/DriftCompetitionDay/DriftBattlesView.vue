@@ -4,6 +4,20 @@
     <h3>{{ battlesDate }}</h3>
     <div class="buttons-wrapper" v-if="!!scoreboard?.length">
       <button
+        class="bracket-icon"
+        :class="[showBracket ? 'primary' : 'secondary']"
+        @click="setShowBracket(true)"
+      >
+        Bracket
+      </button>
+      <button
+        class="list-icon"
+        :class="[!showBracket ? 'primary' : 'secondary']"
+        @click="setShowBracket(false)"
+      >
+        Lista
+      </button>
+      <!-- <button
         class="blank bracket-icon"
         :class="{ selected: showBracket }"
         @click="setShowBracket(true)"
@@ -12,7 +26,7 @@
         class="blank list-icon"
         :class="{ selected: !showBracket }"
         @click="setShowBracket(false)"
-      ></button>
+      ></button> -->
     </div>
 
     <DriftCompetitionDayBracketView
@@ -117,33 +131,36 @@ export default {
     margin-bottom: 20px;
     max-width: 1400px;
 
-    .blank {
-      width: 44px;
-      height: 24px;
-      transition: all 0.25s ease-in-out;
+    // .blank {
+    // width: 48px;
+    // height: 28px;
+    // transition: all 0.25s ease-in-out;
 
-      &.bracket-icon {
-        background: url("~/assets/svg/bracket-icon-unselected.svg") no-repeat
-          center;
-        background-size: 44px 24px;
+    // &.bracket-icon {
+    //   background: url("~/assets/svg/bracket-icon-unselected.svg") no-repeat
+    //     center;
+    //   background-size: 44px 24px;
 
-        &.selected {
-          background: url("~/assets/svg/bracket-icon.svg") no-repeat center;
-        }
-      }
-      &:hover {
-        transform: scale(1.1);
-      }
+    //   &.selected {
+    //     background: url("~/assets/svg/bracket-icon.svg") no-repeat center;
+    //   }
+    // }
+    // &:hover {
+    //  &.bracket-icon {
+    //   background-size: 46px 26px;
+    //  }
+    //   // transform: scale(1.1);
+    // }
 
-      &.list-icon {
-        background: url("~/assets/svg/list-icon-unselected.svg") no-repeat
-          center;
-        background-size: 44px 24px;
-        &.selected {
-          background: url("~/assets/svg/list-icon.svg") no-repeat center;
-        }
-      }
-    }
+    // &.list-icon {
+    //   background: url("~/assets/svg/list-icon-unselected.svg") no-repeat
+    //     center;
+    //   background-size: 44px 24px;
+    //   &.selected {
+    //     background: url("~/assets/svg/list-icon.svg") no-repeat center;
+    //   }
+    // }
+    // }
   }
   margin-bottom: 100px;
 }

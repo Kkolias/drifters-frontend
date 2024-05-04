@@ -2,6 +2,7 @@
   <div class="component-QualifyingView">
     <LoadingIndicator v-if="isLoading" />
     <h3>{{ qualifyingDate }}</h3>
+    <p class="subtitle">Lajittelun tulokset, parhaan vedon pisteet ja tuloksesta saatavat mestaruuspisteet.</p>
 
     <QualifyingResultList
       v-if="qualifying"
@@ -118,6 +119,13 @@ export default {
       font-weight: 400;
       color: var(--grey-1);
     }
+  }
+
+  .subtitle {
+    margin-top: 0px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 16px;
   }
 }
 </style>

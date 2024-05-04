@@ -1,26 +1,31 @@
 <template>
   <div class="component-ScoreboardView">
     <LoadingIndicator v-if="loading" />
-    <table v-else-if="scoreboard.length" class="scoreboard-table">
-      <thead>
-        <tr>
-          <th>Sija</th>
-          <th>Kuljettaja</th>
-          <th>Pisteet</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(result, index) in sortedScoreboard" :key="result._id">
-          <td>{{ index + 1 }}.</td>
-          <td>
-            {{ getDriverName(result) }}
-          </td>
-          <td>
-            {{ getPoints(result) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-else-if="scoreboard.length">
+      <p class="subtitle">
+        Kauden {{ seasonYear }} pistetaulukko.
+      </p>
+      <table class="scoreboard-table">
+        <thead>
+          <tr>
+            <th>Sija</th>
+            <th>Kuljettaja</th>
+            <th>Pisteet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(result, index) in sortedScoreboard" :key="result._id">
+            <td>{{ index + 1 }}.</td>
+            <td>
+              {{ getDriverName(result) }}
+            </td>
+            <td>
+              {{ getPoints(result) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -43,6 +48,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    seasonYear: {
+      type: String,
+      required: true,
+    }
   },
   computed: {
     sortedScoreboard(): ScoreboardItem[] {
