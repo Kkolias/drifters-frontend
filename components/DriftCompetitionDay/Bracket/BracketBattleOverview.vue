@@ -24,7 +24,7 @@
         <div class="battle-section">
           <ul class="run-list">
             <li v-for="(run, index) in runList" :key="index" class="run">
-              <p class="run-number">Run 88</p>
+              <p class="run-number">Run {{ index + 1 }}</p>
               <div class="judge-result">
                 <div
                   class="judget-wrapper"
@@ -161,11 +161,11 @@ export default {
       }
 
     .top-section {
-      display: flex;
+      display: grid;
       justify-content: center;
-      flex-wrap: nowrap;
+      // flex-wrap: nowrap;
       gap: 24px;
-      // grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
 
       .driver-left,
       .driver-right {

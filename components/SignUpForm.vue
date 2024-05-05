@@ -115,8 +115,8 @@ export default {
       if (this.loading) return;
       this.setLoading(true);
       e.preventDefault();
-
-      await this.signUp();
+      this.setOverViewErrorMessage('Rekisteröityminen ei juuri nyt käytössä.')
+      // await this.signUp();
       this.setLoading(false);
     },
     async signUp() {

@@ -1,8 +1,9 @@
 
 
 import axios from "axios"
+import { isProduction } from "./isProduction";
 
-const API_URL = 'http://localhost:8000'
+const API_URL = isProduction() ? 'http://localhost:8000' : 'https://drifters-api-v2.fly.dev'
 
 const headers = {
     'Content-Type': 'application/json'

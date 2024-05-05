@@ -199,7 +199,7 @@ export default {
         h2 {
           margin: 0;
           margin-bottom: 12px;
-          font-size: 24px;
+          font-size: 22px;
           font-weight: 700;
           color: var(--green-1);
         }
