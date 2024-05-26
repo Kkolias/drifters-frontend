@@ -36,8 +36,8 @@ jobs:
           password: ${{ secrets.GCR_SERVICE_ACCOUNT }}
       - name: Docker build & push
         run: |
-          docker build -t $IMAGE_NAME -f Dockerfile .
-          docker tag $IMAGE_NAME $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest
+          docker build -t $IMAGE_NAME -f $DOCKERFILE .
+          docker tag $IMAGE_NAME $HOST/$PROJECT_ID/$IMAGE_NAME:latest
           docker push $HOST/$PROJECT_ID/$IMAGE_NAME:latest
 
   google-cloud-run:
