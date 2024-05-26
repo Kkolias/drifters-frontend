@@ -4,10 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "start": "nuxt start",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "docker:build": "docker build -t drifters-frontend .",
+    "docker:run": "docker run -p 3000:3000 drifters-frontend",
+    "docker:dev": "docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules --rm drifters-frontend"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.2.0",

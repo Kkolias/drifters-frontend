@@ -1,0 +1,77 @@
+name: Build and Deploy to Cloud Run
+
+env:
+  PROJECT_ID: '${{ secrets.GCR_PROJECT_ID}}' # TODO: update Google Cloud project id
+  GCP_HOST: eu.gcr.io
+  IMAGE_NAME: driftdataan-prod
+  SERVICE_NAME: driftdataan-prod # TODO: update Cloud Run service name
+  REGION: europe-north1 # TODO: update Cloud Run service region
+  DOCKERFILE: Dockerfile
+
+on:
+  push:
+    branches:
+      - production
+# tutki mikä tää on
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push-to-gcr:
+    # Add 'id-token' with the intended permissions for workload identity federation
+    # permissions:
+    #   contents: 'read'
+    #   id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Docker login action
+        uses: docker/login-actions@v3
+        with:
+          registry: eu-gcr.io
+          username: _json_key
+          password: ${{ secrets.GCR_SERVICE_ACCOUNT }}
+      - name: Docker build & push
+        run: |
+          docker build -t $IMAGE_NAME -f ${{env.DOCKERFILE}} .
+          docker tag $IMAGE_NAME $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest
+          docker push $HOST/$PROJECT_ID/$IMAGE_NAME:latest
+
+  google-cloud-run:
+    needs:
+      - build-and-push-to-gcr
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCR_SERVICE_ACCOUNT }}
+      - name: Setup Cloud sdk
+        uses: google-github-actions/setup-gcloud@v2
+      - name: Use gcloud CLI
+        run: gcloud info
+
+      - name: Google Cloud run deploy & update-traffic
+        run: |
+          export RAW_VERSION=$(cat package.json | jq -r .version)
+          export VERSION=${RAW_VERSION//./-}
+          export RANDOM_STRING=$(openssl rand -hex 3)
+          gcloud run deploy $SERVICE_NAME \
+            --image $HOST/$PROJECT_ID/$IMAGE_NAME:latest \
+            --platform managed \
+            --region $REGION
+            --revision-suffix=$RANDOM_STRING-v$VERSION
+          gcloud run services update-traffic $SERVICE_NAME \
+            --to-latest \
+            --platform managed \
+            --region $REGION \

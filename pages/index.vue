@@ -3,7 +3,7 @@
     <section class="welcome">
       <h1>Tervetuloa DriftDataan!</h1>
       <p>
-        Tämä sivusto on intohimoisen drifting-fanin vapaa-ajan projekti, ja minä
+        Tämä sivusto on drifting-fanin vapaa-ajan projekti, ja minä
         olen ainoa ylläpitäjä. Pyrin päivittämään sivustoa niin usein kuin
         mahdollista, mutta huomioithan, että kaiken tiedon päivittäminen voi
         viedä aikaa. Pistetilastot, taulukot ja muu esitetty data saattavat
