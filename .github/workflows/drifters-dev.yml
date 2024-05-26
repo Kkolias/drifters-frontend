@@ -1,7 +1,8 @@
 name: Build and Deploy to Cloud Run
 
 env:
-  PROJECT_ID: '${{ secrets.GCR_PROJECT_ID}}' # TODO: update Google Cloud project id
+  PROJECT_ID: cosmic-strategy-424512-v2
+  # PROJECT_ID: '${{ secrets.GCR_PROJECT_ID}}' # TODO: update Google Cloud project id
   GCP_HOST: eu.gcr.io
   IMAGE_NAME: driftdataan-dev
   SERVICE_NAME: driftdataan-dev # TODO: update Cloud Run service name
