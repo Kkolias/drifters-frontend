@@ -2,28 +2,23 @@ name: Build and Deploy to Cloud Run
 
 env:
   PROJECT_ID: cosmic-strategy-424512-v2
-  # PROJECT_ID: '${{ secrets.GCR_PROJECT_ID}}' # TODO: update Google Cloud project id
   GCP_HOST: eu.gcr.io
   IMAGE_NAME: driftdataan-dev
-  SERVICE_NAME: driftdataan-dev # TODO: update Cloud Run service name
-  REGION: europe-north1 # TODO: update Cloud Run service region
+  SERVICE_NAME: driftdataan-dev
+  REGION: europe-north1
   DOCKERFILE: Dockerfile
 
 on:
   push:
     branches:
       - master
-# tutki mikä tää on
+
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build-and-push-to-gcr:
-    # Add 'id-token' with the intended permissions for workload identity federation
-    # permissions:
-    #   contents: 'read'
-    #   id-token: 'write'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,11 +49,10 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCR_SERVICE_ACCOUNT }}
-      - name: Setup Cloud sdk
+      - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
       - name: Use gcloud CLI
         run: gcloud info
-
       - name: Google Cloud run deploy & update-traffic
         run: |
           export RAW_VERSION=$(cat package.json | jq -r .version)
@@ -67,9 +61,9 @@ jobs:
           gcloud run deploy $SERVICE_NAME \
             --image $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest \
             --platform managed \
-            --region $REGION
+            --region $REGION \
             --revision-suffix=$RANDOM_STRING-v$VERSION
           gcloud run services update-traffic $SERVICE_NAME \
             --to-latest \
             --platform managed \
-            --region $REGION \
+            --region $REGION
