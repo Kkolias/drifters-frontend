@@ -3,15 +3,15 @@ name: Build and Deploy to Cloud Run
 env:
   PROJECT_ID: '${{ secrets.GCR_PROJECT_ID}}' # TODO: update Google Cloud project id
   GCP_HOST: eu.gcr.io
-  IMAGE_NAME: driftdataan-prod
-  SERVICE_NAME: driftdataan-prod # TODO: update Cloud Run service name
+  IMAGE_NAME: driftdataan-dev
+  SERVICE_NAME: driftdataan-dev # TODO: update Cloud Run service name
   REGION: europe-north1 # TODO: update Cloud Run service region
   DOCKERFILE: Dockerfile
 
 on:
   push:
     branches:
-      - production
+      - master
 # tutki mikä tää on
 concurrency:
   group: ${{ github.ref }}
@@ -70,5 +70,8 @@ jobs:
             --image $HOST/$PROJECT_ID/$IMAGE_NAME:latest \
             --platform managed \
             --region $REGION
-            --revision-suffix=$RANDOM_STRING-v$VERSION \
-            --no-traffic
+            --revision-suffix=$RANDOM_STRING-v$VERSION
+          gcloud run services update-traffic $SERVICE_NAME \
+            --to-latest \
+            --platform managed \
+            --region $REGION \
