@@ -37,8 +37,8 @@ jobs:
       - name: Docker build & push
         run: |
           docker build -t $IMAGE_NAME -f $DOCKERFILE .
-          docker tag $IMAGE_NAME $HOST/$PROJECT_ID/$IMAGE_NAME:latest
-          docker push $HOST/$PROJECT_ID/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest
+          docker push $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest
 
   google-cloud-run:
     needs:
@@ -64,7 +64,7 @@ jobs:
           export VERSION=${RAW_VERSION//./-}
           export RANDOM_STRING=$(openssl rand -hex 3)
           gcloud run deploy $SERVICE_NAME \
-            --image $HOST/$PROJECT_ID/$IMAGE_NAME:latest \
+            --image $GCP_HOST/$PROJECT_ID/$IMAGE_NAME:latest \
             --platform managed \
             --region $REGION
             --revision-suffix=$RANDOM_STRING-v$VERSION
