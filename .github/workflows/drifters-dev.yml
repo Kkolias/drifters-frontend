@@ -31,7 +31,7 @@ jobs:
           node-version: 20
       - uses: docker/login-action@v3
         with:
-          registry: eu-gcr.io
+          registry: eu.gcr.io
           username: _json_key
           password: ${{ secrets.GCR_SERVICE_ACCOUNT }}
       - name: Docker build & push
