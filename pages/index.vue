@@ -12,14 +12,8 @@
         virheet ja tarjotakseni tarkkaa ja luotettavaa tietoa
         drifting-maailmasta.
       </p>
-      <p>
-        Jos huomaat virheitä voit ottaa yhteyttä sähköpostitse osoitteeseen
-        <a href="mailto:dev.elias.koivuporras@gmail.com"
-          >dev.elias.koivuporras@gmail.com</a
-        >
-        (vastaan motivaation mukaan).
-      </p>
-      <p>Kiitos ja anteeksi!</p>
+    
+      <!-- <p>Kiitos ja anteeksi!</p> -->
     </section>
     <section class="drift-series">
       <DriftSeriesPage />
