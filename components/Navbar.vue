@@ -1,5 +1,6 @@
 <template>
   <div class="component-Navbar">
+    <NuxtLink to="/?close-nav=true" title="Etusivulle" class="to-home-btn"></NuxtLink>
     <nav class="menu--right" role="navigation">
       <div class="menuToggle">
         <input type="checkbox" v-model="navOpen" />
@@ -30,8 +31,8 @@ export default {
       },
       {
         label: "Sarjat",
-        path: "/series"
-      }
+        path: "/series",
+      },
       // {
       //   label: "Kuskit",
       //   path: "/drivers",
@@ -62,10 +63,20 @@ export default {
     path(): string {
       return this.$route?.path || "";
     },
+    queryParams(): any {
+      return this.$route?.query || {};
+    },
+    closeNav(): boolean {
+      return this.queryParams?.["close-nav"] === "true";
+    }
   },
   watch: {
     path() {
       this.navOpen = false;
+    },
+    closeNav() {
+      this.navOpen = false;
+      this.$router.push({ query: {} });
     },
   },
   mounted() {
@@ -89,6 +100,16 @@ export default {
 
 <style lang="less" scoped>
 .component-Navbar {
+  .to-home-btn {
+    position: fixed;
+    top: 10px;
+    left: 30px;
+    width: 180px;
+    height: 50px;
+    background: url("~/driftdataan.svg") no-repeat center;
+    background-size: cover;
+    z-index: 2;
+  }
   .menuToggle {
     display: block;
     position: relative;
@@ -181,6 +202,10 @@ export default {
     -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+
+    @media only screen and (max-width: 402px) {
+      width: calc(100vw - 100px);
+    }
 
     li {
       padding: 10px 0;

@@ -4,9 +4,13 @@ export default defineNuxtConfig({
 
   modules: ["@pinia/nuxt"],
 
+  
+  // pwa: { icon: { source: "/favicon.svg?v1" } },
+  
   // default title for all pages
   app: {
     head: {
+      link: [{ rel: "icon", type: "image/svg", href: "/favicon.svg" }],
       title: "DrifDataan - Drifting tilastot ja tulokset",
       meta: [
         // default meta tags:
