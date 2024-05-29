@@ -106,7 +106,7 @@ export default {
     left: 30px;
     width: 180px;
     height: 50px;
-    background: url("~/driftdataan.svg") no-repeat center;
+    background: url("~/assets/svg/driftdataan.svg") no-repeat center;
     background-size: cover;
     z-index: 2;
   }
