@@ -1,17 +1,17 @@
 <template>
-    <div class="page-fishing-permit-card">
+    <div class="page-driver">
         <LoadingIndicator v-if="loading" />
         <div v-if="!loading">
-            <pre>
+            <!-- <pre>
                 {{ driverData }}
-            </pre>
+            </pre> -->
+            <DriversProfile :driver="(driverData as IDriver)" />
         </div>
-        <!-- <FishingPermitCard v-if="!loading" :permitData="permitData" @updatePermitData="setPermitData" /> -->
     </div>
 </template>
 
 <script lang="ts">
-import authenticatedView from '../../mixins/authenticatedView.vue'
+// import authenticatedView from '../../mixins/authenticatedView.vue'
 import apiDrivers from "../../utils/drifting/api-drivers";
 import type { IDriver } from '~/interfaces/driver.interface';
 
@@ -21,15 +21,15 @@ interface DriverByIdPageData {
     loading: boolean
 }
 export default {
-    mixins: [authenticatedView],
+    // mixins: [authenticatedView],
     data: (): DriverByIdPageData => ({
         driverData: null,
         loading: true,
     }),
     computed: {
-        id(): string {
-            const id = this.$route?.params?.id as string || ''
-            return id
+        name(): string {
+            const name = this.$route?.params?.name as string || ''
+            return name
         }
     },
     mounted() {
@@ -38,7 +38,7 @@ export default {
     methods: {
         async fetchDriver() {
             this.setLoading(true)
-            const driver = await apiDrivers.getDriverById(this.id)
+            const driver = await apiDrivers.getDriverByName(this.name)
             this.setDriverData(driver)
             this.setLoading(false)
         },

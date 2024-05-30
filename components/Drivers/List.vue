@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import apiDrivers from "../../utils/drifting/api-drivers";
+// import apiDrivers from "../../utils/drifting/api-drivers";
 import type { ICar, IDriver } from "~/interfaces/driver.interface";
 import { useDriversStore } from "~/store/drivers";
 
@@ -25,18 +25,20 @@ export default {
   computed: {
     headerList() {
       return [
-        {
-          name: "Id",
-          key: "_id",
-          isLink: true,
-        },
+        // {
+        //   name: "Id",
+        //   key: "_id",
+        //   isLink: true,
+        // },
         {
           name: "Etunimi",
           key: "firstName",
+          isLink: true,
         },
         {
           name: "Sukunimi",
           key: "lastName",
+          isLink: true,
         },
         {
           name: "Syntymäpäivä",
@@ -61,8 +63,9 @@ export default {
     parsedDriverList(): IDriver[] {
       return (
         this.driverList?.map((driver) => {
-          const id = driver?._id || "";
-          const link = `/driver/${id}`;
+          // const id = driver?._id || "";
+          const nameAsLink = `${driver?.firstName} ${driver?.lastName}`?.replaceAll(' ', '-')?.toLowerCase();
+          const link = `/drivers/${nameAsLink}`;
 
           const carNames = driver?.cars
             ?.map((car: ICar) => `${car.model} ${car.engine}`)

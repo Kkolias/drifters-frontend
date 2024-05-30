@@ -18,5 +18,6 @@ export interface ICar {
     createdAt: string;
     raceNumber: number | null;
     cars: ICar[]
+    nationality: string
   }
   
