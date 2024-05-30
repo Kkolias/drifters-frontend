@@ -33,10 +33,10 @@ export default {
         label: "Sarjat",
         path: "/series",
       },
-      // {
-      //   label: "Kuskit",
-      //   path: "/drivers",
-      // },
+      {
+        label: "Kaikki kuskit",
+        path: "/drivers",
+      },
       // {
       //   label: "Kaudet",
       //   path: "/drift-season",
