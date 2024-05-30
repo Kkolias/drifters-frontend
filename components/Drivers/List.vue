@@ -43,6 +43,10 @@ export default {
           key: "birthday",
         },
         {
+          name: "Maa",
+          key: "nationality",
+        },
+        {
           name: "Autot",
           key: "carNames",
         },
