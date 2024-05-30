@@ -52,6 +52,17 @@
           />
           <ErrorHover :errorMessage="errorTexts.raceNumber" />
         </div>
+        <div class="input-wrapper">
+          <label for="nationality">Maa:</label>
+          <input
+            v-model="driver.nationality"
+            type="text"
+            :class="{ error: errorTexts.nationality.length }"
+            id="nationality"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.nationality" />
+        </div>
 
         <ul class="car-list">
           <li v-for="car in driver.cars">
@@ -94,6 +105,7 @@ interface ErrorTexts {
   lastName: string;
   birthday: string;
   raceNumber: string;
+  nationality: string
 }
 
 interface DriverEditFormData {
@@ -104,6 +116,7 @@ interface DriverEditFormData {
     birthday: string;
     cars: ICar[];
     raceNumber: number;
+    nationality: string
   };
 
   errorTexts: ErrorTexts;
@@ -126,6 +139,7 @@ export default {
       lastName: "",
       birthday: "",
       raceNumber: "",
+      nationality: ''
     },
     driver: {
       id: "",
@@ -134,6 +148,7 @@ export default {
       birthday: "",
       raceNumber: 0,
       cars: [],
+      nationality: ''
     },
     newCarModalOpen: false,
   }),
@@ -166,12 +181,14 @@ export default {
         birthday,
         cars,
         raceNumber,
+        nationality
       }: {
         firstName: string;
         lastName: string;
         birthday: string;
         cars: ICar[];
         raceNumber: number;
+        nationality: string
       } = this.driver;
 
       const newDriver = await apiDrivers.createDriver({
@@ -180,6 +197,7 @@ export default {
         birthday,
         raceNumber,
         cars,
+        nationality
       });
 
       if (newDriver) {
@@ -198,16 +216,17 @@ export default {
         isError = true;
         this.setErrorTextByKey("lastName", "Sukunimi vaaditaan");
       }
-      // if (!this.driver?.birthday?.length) {
-      //   isError = true;
-      //   this.setErrorTextByKey("birthday", "Syntymä virheellinen");
-      // }
+      if (!this.driver?.nationality?.length) {
+        isError = true;
+        this.setErrorTextByKey("nationality", "Maa vaaditaan");
+      }
       return isError;
     },
     setErrorTextsDefault(): void {
       this.setErrorTextByKey("firstName", "");
       this.setErrorTextByKey("lastName", "");
       this.setErrorTextByKey("birthday", "");
+      this.setErrorTextByKey("nationality", "");
       this.setOverViewErrorMessage("");
     },
     setOverViewErrorMessage(message: string): void {
