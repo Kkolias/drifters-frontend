@@ -251,7 +251,7 @@ export default {
     width: 100%;
     margin: auto;
     position: absolute;
-    top: 80px;
+    top: 70px;
     left: 50%;
     transform: translateX(-50%);
 
