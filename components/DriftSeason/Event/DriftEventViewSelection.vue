@@ -16,6 +16,21 @@
         <span>Lajittelu</span>
       </NuxtLink>
       <NuxtLink
+        v-if="hasShowdown"
+        :disabled="!isSelectedEvent"
+        class="select-view qualifying-showdown"
+        :class="[
+          {
+            selected: isViewSelected('qualifying-showdown'),
+            disabled: !isSelectedEvent,
+          },
+          isSelectedEvent ? 'not-disabled' : 'disabled',
+        ]"
+        :to="getQueryPath('qualifying-showdown')"
+      >
+        <span>Showdown</span>
+      </NuxtLink>
+      <NuxtLink
         :disabled="!isSelectedEvent"
         class="select-view battles"
         :class="[
@@ -74,6 +89,10 @@ export default {
     season: {
       type: Object as PropType<IDriftSeason>,
       required: true,
+    },
+    hasShowdown: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

@@ -2,8 +2,9 @@ import type {
   IHeat,
   IRunPairItem,
 } from "~/interfaces/competition-day.interface";
+import type { IShowdownHeat } from "~/interfaces/qualifying-showdown.interface";
 
-export function getWinnerIdOfHeat(heat: IHeat): string | null {
+export function getWinnerIdOfHeat(heat: IHeat | IShowdownHeat): string | null {
   if (!heat) return null;
   const runList = heat?.runList || [];
   if(runList.length === 0) return null;

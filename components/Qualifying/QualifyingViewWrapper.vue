@@ -3,6 +3,7 @@
     <LoadingIndicator v-if="isLoading" />
     <h3>{{ qualifyingDate }}</h3>
     <p class="subtitle">Lajittelun tulokset, parhaan vedon pisteet ja tuloksesta saatavat mestaruuspisteet.</p>
+    <p class="subtitle small">Näe tarkemmat pisteet valitsemalla kuljettaja</p>
 
     <QualifyingResultList
       v-if="qualifying"
@@ -126,6 +127,10 @@ export default {
     font-size: 1.1rem;
     text-align: center;
     margin-bottom: 16px;
+
+    &.small {
+      font-size: 1rem;
+    }
   }
 }
 </style>

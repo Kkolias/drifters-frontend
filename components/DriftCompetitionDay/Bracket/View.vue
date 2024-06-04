@@ -1,6 +1,7 @@
 <template>
   <div class="component-BracketView">
     <p class="subtitle">Kilpailun tulokset bracket muodossa.</p>
+    <p class="subtitle small">Näet parien tarkemmat tulokset valitsemalla haluamasi heatin.</p>
     <!-- <pre>
           {{ heatListTop16Left }}
       </pre> -->
@@ -224,6 +225,16 @@ export default {
 
 <style lang="less" scoped>
 .component-BracketView {
+  .subtitle {
+    max-width: 700px;
+    margin: auto;
+    margin-bottom: 24px;
+
+    &.small {
+      margin-bottom: 18px;
+      font-size: 16px;
+    }
+  }
   .bracket-container {
     display: grid;
     grid-template-columns: repeat(9, 1fr);

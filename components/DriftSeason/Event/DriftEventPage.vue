@@ -14,6 +14,7 @@
         <DriftSeasonEventDriftEventViewSelection
           v-if="!!season"
           :season="season"
+          :hasShowdown="hasShowdown"
         />
       </section>
       <section class="view-section" v-if="isViewSelected('events')">
@@ -26,6 +27,16 @@
           :loadingQualifying="loading.qualifying"
           :loadingDrivers="loading.drivers"
           :allDriversList="allDriversList"
+        />
+        <p v-else class="no-data">Tietoja puuttuu</p>
+      </section>
+      <section class="view-section" v-if="isViewSelected('qualifying-showdown')">
+        <QualifyingShowdownView
+          v-if="qualifyingShowdown"
+          :qualifyingShowdown="qualifyingShowdown"
+          :loadingDrivers="loading.drivers"
+          :allDriversList="allDriversList"
+          :loadingCompetitionDay="loading.competitionDay"
         />
         <p v-else class="no-data">Tietoja puuttuu</p>
       </section>
@@ -75,7 +86,6 @@ interface IData {
 
   competitionDay: ICompetitionDay | null;
   qualifying: IQualifying | null;
-
 
   loading: {
     driftEvent: boolean;
@@ -127,6 +137,9 @@ export default {
     competitionDayId(): string {
       return this.driftEvent?.competitionDay?._id || "";
     },
+    qualifyingShowdown() {
+      return this.driftEvent?.qualifyingShowdown || null;
+    },
     seasonYear(): string {
       return `${this.season?.year}` || "";
     },
@@ -151,6 +164,9 @@ export default {
     eventTrackCity(): string {
       if (!this.eventCity || !this.eventTrack) return "";
       return ` - ${this.eventTrack}, ${this.eventCity}`;
+    },
+    hasShowdown(): boolean {
+      return !!this.driftEvent?.qualifyingShowdown;
     },
   },
   mounted() {
@@ -235,7 +251,7 @@ export default {
     width: 100%;
     margin: auto;
     position: absolute;
-    top: 30px;
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
 

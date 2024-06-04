@@ -69,11 +69,12 @@ import type {
   IRunPairItem,
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import type { IShowdownHeat } from "~/interfaces/qualifying-showdown.interface";
 
 export default {
   props: {
     heatItem: {
-      type: Object as PropType<IHeat>,
+      type: Object as PropType<IHeat | IShowdownHeat>,
       required: true,
     },
   },

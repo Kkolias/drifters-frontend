@@ -26,6 +26,7 @@ export interface IRunPairItem {
 }
 
 export interface IShowdownHeat {
+  _id: string;
   driver1: string | IDriver;
   driver2: string | IDriver;
   heatType: ShowDownHeatType;
