@@ -1,5 +1,8 @@
 <template>
   <div class="component-DriverProfile">
+    <NuxtLink to="/drivers" class="back-to-drivers"
+      >Takaisin kuljettajiin</NuxtLink
+    >
     <div class="profile-wrapper">
       <h1 class="driver-name">
         {{ fullName }}
@@ -77,6 +80,38 @@ export default {
 <style scoped lang="less">
 .component-DriverProfile {
   padding: 12px;
+
+  .back-to-drivers {
+    position: absolute;
+    top: 70px;
+    left: 30px;
+    padding-left: 20px;
+    font-size: 16px;
+    transition: 0.25s ease-in-out;
+
+    &:before {
+      content: "";
+      position: absolute;
+      background: url("~/assets/svg/arrow-grey.svg") no-repeat;
+      background-size: contain;
+      background-position: center;
+      width: 20px;
+      height: 20px;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) rotate(180deg);
+      transition: 0.25s ease-in-out;
+    }
+
+    &:hover {
+      color: var(--green-1);
+
+      &:before {
+        background-image: url("~/assets/svg/arrow-green.svg");
+        transform: translateY(-50%) rotate(180deg) scale(1.05);
+      }
+    }
+  }
   h1,
   p {
     display: inline-block;
