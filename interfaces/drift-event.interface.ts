@@ -6,6 +6,7 @@ import type { IQualifying } from "./qualifying.interface";
 export interface IDriftEvent {
     _id: string;
     name: string;
+    slug: string
     country: string;
     city: string;
     track: string

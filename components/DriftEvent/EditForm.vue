@@ -27,6 +27,7 @@
             type="text"
             :class="{ error: errorTexts.country.length }"
             id="country"
+            @keyup="generateSlug()"
             @click="setErrorTextsDefault()"
           />
           <ErrorHover :errorMessage="errorTexts.country" />
@@ -60,9 +61,21 @@
             type="text"
             id="name"
             :class="{ error: errorTexts.name.length }"
+            @keyup="generateSlug()"
             @click="setErrorTextsDefault()"
           />
           <ErrorHover :errorMessage="errorTexts.name" />
+        </div>
+        <div class="input-wrapper">
+          <label for="slug">Slug:</label>
+          <input
+            v-model="driftEvent.slug"
+            type="text"
+            id="slug"
+            :class="{ error: errorTexts.slug.length }"
+            @click="setErrorTextsDefault()"
+          />
+          <ErrorHover :errorMessage="errorTexts.slug" />
         </div>
 
         <div class="input-wrapper">
@@ -118,6 +131,7 @@ interface ErrorTexts {
   startsAt: string;
   endsAt: string;
   seasonId: string
+  slug: string
 }
 
 interface DriftEventEditFormData {
@@ -130,6 +144,7 @@ interface DriftEventEditFormData {
     startsAt: string;
     endsAt: string;
     seasonId: string;
+    slug: string
   };
 
   seasonList: IDriftSeason[];
@@ -156,6 +171,7 @@ export default {
       startsAt: "",
       endsAt: "",
       seasonId: "",
+      slug: ""
     },
     driftEvent: {
       id: "",
@@ -166,6 +182,7 @@ export default {
       startsAt: "",
       endsAt: "",
       seasonId: "",
+      slug: ""
     },
 
     seasonList: [],
@@ -185,6 +202,11 @@ export default {
     this.fetchSeasonList();
   },
   methods: {
+    generateSlug() {
+      const countryParsed = this.driftEvent.country.toLowerCase().replace(/ /g, "-");
+      const nameParsed = this.driftEvent.name.toLowerCase().replace(/ /g, "-");
+      this.driftEvent.slug = `${nameParsed}-${countryParsed}`;
+    },
     async fetchSeasonList() {
       const r = await driftSeasonApi.getAllDriftSeasons();
       this.seasonList = r;
@@ -216,6 +238,7 @@ export default {
         startsAt,
         endsAt,
         seasonId,
+        slug
       }: {
         country: string;
         city: string;
@@ -224,6 +247,7 @@ export default {
         startsAt: string;
         endsAt: string;
         seasonId: string;
+        slug: string
       } = this.driftEvent;
 
       const newEvent = await driftEventApi.createDriftEvent({
@@ -234,6 +258,7 @@ export default {
         startsAt,
         endsAt,
         seasonId,
+        slug
       });
 
       if (newEvent) {
@@ -247,6 +272,10 @@ export default {
       if (!this.driftEvent?.name?.length) {
         isError = true;
         this.setErrorTextByKey("name", "Nimi vaaditaan");
+      }
+      if (!this.driftEvent?.slug?.length) {
+        isError = true;
+        this.setErrorTextByKey("slug", "Slug vaaditaan");
       }
       if (!this.driftEvent?.country?.length) {
         isError = true;
@@ -270,6 +299,7 @@ export default {
       this.setErrorTextByKey("startsAt", "");
       this.setErrorTextByKey("endsAt", "");
       this.setErrorTextByKey("seasonId", "");
+      this.setErrorTextByKey("slug", "");
       this.setOverViewErrorMessage("");
     },
     setOverViewErrorMessage(message: string): void {

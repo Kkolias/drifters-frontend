@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     pathToEvent(event: IDriftEvent) {
-      return `/drift-season/${this.season._id}/event/${event._id}?view=qualifying`;
+      return `/drift-season/${this.season.slug}/event/${event.slug}?view=qualifying`;
     },
     eventName(event: IDriftEvent) {
       return event?.name;

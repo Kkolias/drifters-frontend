@@ -98,11 +98,11 @@ interface IData {
 
 export default {
   props: {
-    seasonId: {
+    seasonSlug: {
       type: String,
       required: true,
     },
-    eventId: {
+    eventSlug: {
       type: String,
       required: true,
     },
@@ -122,6 +122,9 @@ export default {
     },
   }),
   computed: {
+    seasonId(): string {
+      return this.season?._id || "";
+    },
     isLoading(): boolean {
       return this.loading.season;
     },
@@ -172,7 +175,7 @@ export default {
   mounted() {
     this.fetchDriftSeason();
     this.fetchDrivers();
-    if (this.eventId) {
+    if (this.eventSlug) {
       this.fetchDriftEvent();
     }
     if (this.qualifyingId) {
@@ -183,7 +186,7 @@ export default {
     }
   },
   watch: {
-    eventId() {
+    eventSlug() {
       this.fetchDriftEvent();
     },
     qualifyingId() {
@@ -196,13 +199,13 @@ export default {
   methods: {
     async fetchDriftEvent(): Promise<void> {
       this.setLoading("driftEvent", true);
-      const r = await apiDriftEvent.getDriftEventById(this.eventId);
+      const r = await apiDriftEvent.getDriftEventBySlug(this.eventSlug);
       this.driftEvent = r;
       this.setLoading("driftEvent", false);
     },
     async fetchDriftSeason(): Promise<void> {
       this.setLoading("season", true);
-      const r = await apiDriftSeason.getDriftSeasonById(this.seasonId);
+      const r = await apiDriftSeason.getDriftSeasonBySlug(this.seasonSlug);
       this.season = r;
       this.setLoading("season", false);
     },
