@@ -1,13 +1,13 @@
 <template>
     <div class="page-drift-event">
-      <DriftSeasonPage :seasonId="seasonId" />
+      <DriftSeasonPage :seasonSlug="seasonSlug" />
     </div>
   </template>
   
   <script lang="ts">
   export default {
     computed: {
-        seasonId(): string {
+        seasonSlug(): string {
         return (this.$route?.params?.id as string) || "";
       },
     },

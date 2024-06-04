@@ -81,7 +81,7 @@ interface IData {
 
 export default {
   props: {
-    seasonId: {
+    seasonSlug: {
       type: String,
       required: true,
     },
@@ -109,6 +109,9 @@ export default {
     },
     allDriversList(): IDriver[] {
       return useDriversStore().getDrivers;
+    },
+    seasonId(): string {
+      return this.season?._id || "";
     },
     // eventId() {
     //   return (this.$route?.query?.["event-id"] as string) || "";
@@ -178,7 +181,7 @@ export default {
     // },
     async fetchDriftSeason(): Promise<void> {
       this.setLoading("season", true);
-      const r = await apiDriftSeason.getDriftSeasonById(this.seasonId);
+      const r = await apiDriftSeason.getDriftSeasonBySlug(this.seasonSlug);
       this.season = r;
       this.setLoading("season", false);
     },

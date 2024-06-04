@@ -29,6 +29,15 @@
           />
         </div>
         <div class="input-wrapper">
+          <label for="slug">Kauden slug (pakollinen):</label>
+          <input
+            v-model="driftSeason.slug"
+            type="text"
+            id="slug"
+            @click="setErrorTextsDefault()"
+          />
+        </div>
+        <div class="input-wrapper">
           <label for="year">Vuosi:</label>
           <input
             v-model.number="driftSeason.year"
@@ -61,6 +70,7 @@ import { DriftSerie } from "~/enums/drift-serie.enum";
 interface ErrorTexts {
   serie: string;
   year: string;
+  slug: string
 }
 
 interface DriftSeasonEditFormData {
@@ -68,6 +78,7 @@ interface DriftSeasonEditFormData {
     serie: DriftSerie | "";
     name: string;
     year: number;
+    slug: string
   };
 
   errorTexts: ErrorTexts;
@@ -87,10 +98,12 @@ export default {
     errorTexts: {
       serie: "",
       year: "",
+      slug: ""
     },
     driftSeason: {
       serie: "",
       name: "",
+      slug: "",
       year: new Date().getFullYear(),
     },
   }),
@@ -121,13 +134,14 @@ export default {
       this.setLoading(false);
     },
     async createDriver() {
-      const { serie, name, year } = this.driftSeason;
+      const { serie, name, year, slug } = this.driftSeason;
       const givenSerie = serie as DriftSerie;
 
       const newEvent = await driftSeasonApi.createDriftSeason({
         serie: givenSerie,
         name,
         year,
+        slug
       });
 
       if (newEvent) {
@@ -142,6 +156,10 @@ export default {
         isError = true;
         this.setErrorTextByKey("serie", "Sarja vaaditaan");
       }
+      if (!this.driftSeason?.slug?.length) {
+        isError = true;
+        this.setErrorTextByKey("slug", "Slug vaaditaan");
+      }
       if (!this.driftSeason?.year) {
         isError = true;
         this.setErrorTextByKey("year", "Vuosi vaaditaan");
@@ -151,6 +169,7 @@ export default {
     setErrorTextsDefault(): void {
       this.setErrorTextByKey("serie", "");
       this.setErrorTextByKey("year", "");
+      this.setErrorTextByKey("slug", "");
       this.setOverViewErrorMessage("");
     },
     setOverViewErrorMessage(message: string): void {

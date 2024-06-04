@@ -132,7 +132,7 @@ export default {
       return season?.name ? season.name : serie.name;
     },
     getSeasonPath(season: IDriftSeason): string {
-      return `/drift-season/${season._id}?view=events`;
+      return `/drift-season/${season.slug}?view=events`;
     },
     handleOpenList(index: number): void {
       if (this.isListOpen(index)) {

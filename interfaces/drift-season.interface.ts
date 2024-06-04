@@ -8,6 +8,7 @@ export interface IDriftSeason {
   serie: DriftSerie;
   year: number;
   name: string;
+  slug: string;
   driftEvents: IDriftEvent[];
   driversOfSeason: IDriver[];
   leaderboard: ILeaderboard;
