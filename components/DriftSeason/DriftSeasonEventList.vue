@@ -59,7 +59,9 @@ export default {
       return eventDates(event);
     },
     eventCountry(event: IDriftEvent) {
-      return event?.country;
+      const country = event?.country;
+      const parsedCountry = getCountryName(country)
+      return parsedCountry === "N/A" ? country : parsedCountry;
     },
   },
 };
