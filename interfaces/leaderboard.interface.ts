@@ -1,4 +1,3 @@
-import type { IDriver } from "./driver.interface";
 
 
 export interface ScoreboardItem {

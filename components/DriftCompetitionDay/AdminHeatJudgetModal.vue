@@ -20,6 +20,7 @@
         <DriftCompetitionDayHeatJudgetForm
           v-if="!showEditForm"
           :competitionDayId="competitionDayId"
+          :qualifyingShowdownId="qualifyingShowdownId"
           :heat="heat"
           :allDriversList="allDriversList"
           @reload="reloadAndClose()"
@@ -49,7 +50,11 @@ export default {
   props: {
     competitionDayId: {
       type: String,
-      required: true,
+      default: "",
+    },
+    qualifyingShowdownId: {
+      type: String,
+      default: "",
     },
     heat: {
       type: Object as PropType<IHeat>,

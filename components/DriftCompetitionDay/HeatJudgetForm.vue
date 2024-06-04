@@ -16,9 +16,23 @@
         <p class="error-message">{{ overViewErrorMessage }}</p>
       </div>
 
-      <div class="input-wrapper">
-        <label for="serie">Kisapäivä:</label>
-        <input :value="competitionDayId" type="text" disabled id="country" />
+      <div v-if="competitionDayId" class="input-wrapper">
+        <label for="competition-day">Kisapäivä:</label>
+        <input
+          :value="competitionDayId"
+          type="text"
+          disabled
+          id="competition-day"
+        />
+      </div>
+      <div v-if="qualifyingShowdownId" class="input-wrapper">
+        <label for="showdown-id">Showdown:</label>
+        <input
+          :value="qualifyingShowdownId"
+          type="text"
+          disabled
+          id="showdown-id"
+        />
       </div>
 
       <div class="input-wrapper">
@@ -84,6 +98,7 @@ import type {
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
+import apiQualifyingShowdown from "~/utils/drifting/api-qualifying-showdown";
 
 interface JudgePointsNotNull {
   judgePoint1: JudgePoint;
@@ -107,7 +122,11 @@ export default {
   props: {
     competitionDayId: {
       type: String,
-      required: true,
+      default: "",
+    },
+    qualifyingShowdownId: {
+      type: String,
+      default: "",
     },
     heat: {
       type: Object as PropType<IHeat>,
@@ -229,12 +248,22 @@ export default {
         return;
       }
 
-      await apiCompetitionDay.giveRunJudgePoints(
-        this.competitionDayId,
-        this.heatId,
-        this.selectedRunId,
-        this.judgePoints as JudgePointsNotNull
-      );
+      if (this.competitionDayId) {
+        await apiCompetitionDay.giveRunJudgePoints(
+          this.competitionDayId,
+          this.heatId,
+          this.selectedRunId,
+          this.judgePoints as JudgePointsNotNull
+        );
+      }
+      if (this.qualifyingShowdownId) {
+        await apiQualifyingShowdown.giveJudgePointsToShowdownRun(
+          this.qualifyingShowdownId,
+          this.heatId,
+          this.selectedRunId,
+          this.judgePoints as JudgePointsNotNull
+        );
+      }
       this.setLoading(false);
       this.$emit("reload");
     },

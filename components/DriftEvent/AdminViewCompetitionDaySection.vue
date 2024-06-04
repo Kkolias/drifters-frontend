@@ -41,11 +41,9 @@ import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
 import apiDriftEvent from "~/utils/drifting/api-drift-event";
-import apiDrivers from "~/utils/drifting/api-drivers";
 
 interface IData {
   editFormOpen: boolean;
-  allDriversList: IDriver[];
 }
 
 export default {
@@ -58,24 +56,20 @@ export default {
       type: String,
       default: "",
     },
+    allDriversList: {
+      type: Array as PropType<IDriver[]>,
+      default: () => [],
+    },
   },
   data: (): IData => ({
     editFormOpen: false,
-    allDriversList: [],
   }),
   computed: {
     competitionDayId(): string {
       return this.competitionDayItem?._id || "";
     },
   },
-  mounted() {
-    this.fetchDrivers();
-  },
   methods: {
-    async fetchDrivers(): Promise<void> {
-      const drivers = await apiDrivers.getAllDrivers();
-      this.allDriversList = drivers;
-    },
     reloadData(): void {
       this.$emit("reload");
     },
