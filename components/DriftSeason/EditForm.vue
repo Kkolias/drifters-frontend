@@ -20,11 +20,12 @@
           <ErrorHover :errorMessage="errorTexts.serie" />
         </div>
         <div class="input-wrapper">
-          <label for="name">Kauden nimi (vapaaehtoinen):</label>
+          <label for="name">Kauden nimi (pakollinen):</label>
           <input
             v-model="driftSeason.name"
             type="text"
             id="name"
+            @keyup="generateSlug()"
             @click="setErrorTextsDefault()"
           />
         </div>
@@ -44,6 +45,7 @@
             type="number"
             id="year"
             :class="{ error: errorTexts.year.length }"
+            @keyup="generateSlug()"
             @click="setErrorTextsDefault()"
           />
           <ErrorHover :errorMessage="errorTexts.year" />
@@ -70,7 +72,7 @@ import { DriftSerie } from "~/enums/drift-serie.enum";
 interface ErrorTexts {
   serie: string;
   year: string;
-  slug: string
+  slug: string;
 }
 
 interface DriftSeasonEditFormData {
@@ -78,7 +80,7 @@ interface DriftSeasonEditFormData {
     serie: DriftSerie | "";
     name: string;
     year: number;
-    slug: string
+    slug: string;
   };
 
   errorTexts: ErrorTexts;
@@ -98,7 +100,7 @@ export default {
     errorTexts: {
       serie: "",
       year: "",
-      slug: ""
+      slug: "",
     },
     driftSeason: {
       serie: "",
@@ -115,6 +117,16 @@ export default {
     },
   },
   methods: {
+    generateSlug(): void {
+      const parsedName =
+        this.driftSeason.name
+          ?.toLowerCase()
+          ?.replace(/ /g, "-")
+          ?.replace(/[^a-z0-9-]/g, "") || "";
+      const parsedYear = this.driftSeason.year || "";
+
+      this.driftSeason.slug = `${parsedName}-${parsedYear}`;
+    },
     selectSerie(serie: DriftSerie) {
       this.driftSeason.serie = serie;
       this.setErrorTextByKey("serie", "");
@@ -141,7 +153,7 @@ export default {
         serie: givenSerie,
         name,
         year,
-        slug
+        slug,
       });
 
       if (newEvent) {
