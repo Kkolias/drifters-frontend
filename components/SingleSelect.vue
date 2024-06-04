@@ -150,6 +150,8 @@ export default {
         margin: 0;
         bottom: 0;
         transform: translateY(100%);
+        overflow-y:auto;
+        max-height: 250px;
 
         li {
           padding: 8px;
