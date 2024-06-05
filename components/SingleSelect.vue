@@ -71,7 +71,6 @@ export default {
     },
 
     toggleListOpen(value: boolean): void {
-      console.log(value);
       this.isListOpen = value;
     },
     selectOption(option: any): void {

@@ -90,7 +90,6 @@ export default {
       return parsedDriverList(this.allDrivers);
     },
     qualifyingResultList(): IQualifyingResultItem[] {
-      console.log(this.qualifyingItem);
       return this.qualifyingItem?.resultList || [];
     },
     dataList(): IParsedQualifyingResultItem[] {
@@ -117,7 +116,6 @@ export default {
       const selectedResultItem = this.qualifyingResultList.find(
         (item) => item._id === selectedResultId
       );
-      console.log(selectedResultItem)
       this.setSelectedResultItem(selectedResultItem as IQualifyingResultItem);
 
       const selectedRunNumber = payload?.key === "run1Points" ? 1 : 2;

@@ -1,24 +1,25 @@
 <template>
   <div class="component-DriftEventAdminView">
     <LoadingIndicator v-if="loading" />
-
-    <DriftEventAdminViewQualifyingSection
-      :qualifyingItem="driftEvent?.qualifying"
-      :eventId="id"
-      @reload="fetchData"
-    />
-    <DriftEventAdminViewQualifyingShowdownSection
-      :qualifyingShowdownItem="driftEvent?.qualifyingShowdown"
-      :eventId="id"
-      :allDriversList="allDriversList"
-      @reload="fetchData"
-    />
-    <DriftEventAdminViewCompetitionDaySection
-      :competitionDayItem="driftEvent?.competitionDay"
-      :eventId="id"
-      :allDriversList="allDriversList"
-      @reload="fetchData"
-    />
+    <div v-if="!loading">
+      <DriftEventAdminViewQualifyingSection
+        :qualifyingItem="driftEvent?.qualifying"
+        :eventId="id"
+        @reload="fetchData"
+      />
+      <DriftEventAdminViewQualifyingShowdownSection
+        :qualifyingShowdownItem="driftEvent?.qualifyingShowdown"
+        :eventId="id"
+        :allDriversList="allDriversList"
+        @reload="fetchData"
+      />
+      <DriftEventAdminViewCompetitionDaySection
+        :competitionDayItem="driftEvent?.competitionDay"
+        :eventId="id"
+        :allDriversList="allDriversList"
+        @reload="fetchData"
+      />
+    </div>
   </div>
 </template>
 
@@ -40,7 +41,7 @@ export default {
     id: { type: String, default: "" },
   },
   data: (): IData => ({
-    loading: false,
+    loading: true,
 
     driftEvent: null,
 

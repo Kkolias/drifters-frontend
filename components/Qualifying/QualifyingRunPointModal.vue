@@ -15,7 +15,7 @@
                 v-model.number="run.line"
                 type="number"
                 id="line"
-                @click="setErrorTextsDefault()"
+               
               />
               <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
             </div>
@@ -25,7 +25,7 @@
                 v-model.number="run.angle"
                 type="number"
                 id="angle"
-                @click="setErrorTextsDefault()"
+                
               />
               <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
             </div>
@@ -35,7 +35,7 @@
                 v-model.number="run.style"
                 type="number"
                 id="style"
-                @click="setErrorTextsDefault()"
+                
               />
               <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
             </div>
@@ -133,10 +133,6 @@ export default {
       );
       this.setLoading(false);
       this.$emit("success", updatedQualifying);
-    },
-
-    setErrorTextsDefault() {
-      console.log("setting error texts default");
     },
 
     setLoading(val: boolean) {

@@ -99,7 +99,6 @@
         );
       },
       getDriver(driverId: string): string {
-        console.log(driverId, this.allDriversList)
         const driver =
           this.allDriversList.find((d) => d._id === driverId) || null;
         return driver ? `${driver.firstName} ${driver.lastName}` : "N/A";

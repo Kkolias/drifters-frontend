@@ -72,7 +72,6 @@ export default {
           (r) => r?._id === this.selectedResultId
         ) || null;
 
-      console.log(item);
       if (!item) return null;
 
       const driver = this.allDriversList?.find(

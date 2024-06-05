@@ -77,8 +77,6 @@ export default {
         const valueA = a?.[sortByKey]
         const valueB = b?.[sortByKey]
 
-        console.log("TYPE: ", typeof valueA)
-
         return valueA.localeCompare(valueB)
       }) || []
 
@@ -103,7 +101,6 @@ export default {
       return header?.key === this.sortByHeader?.key
     },
     isSelected(data: any): boolean {
-      console.log(data)
       return data.selected
     },
     handleSetSortHeader(header: HeaderItem): void {

@@ -139,7 +139,6 @@ export default {
 
       const match =
         this.heatList?.find((heat) => heat?._id === selectedHeatId) || null;
-      console.log(match);
       return match;
     },
     competitionDayId(): string {

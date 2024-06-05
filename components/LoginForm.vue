@@ -77,7 +77,6 @@ export default {
       const error = await apiUser.login(this.email, this.password);
 
       if (error?.length) {
-        console.log(error === ERROR.WRONG_PASSWORD);
         if (error === ERROR.WRONG_PASSWORD) {
           this.setErrorMessage("Antamasi salasana on väärä.");
         } else if (error === ERROR.NO_USER_FOUND) {

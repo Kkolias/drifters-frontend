@@ -112,7 +112,6 @@ export default {
   computed: {
     serieOptionList(): string[] {
       const r = Object.values(DriftSerie);
-      console.log(r);
       return r;
     },
   },

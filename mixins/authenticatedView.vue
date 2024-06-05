@@ -3,7 +3,6 @@ import userApi from '../utils/api-user'
 export default {
   async mounted() {
     const logged = await this.isLogged()
-    console.log({ logged })
     if (!logged) this.$router.push("/login")
 
   },

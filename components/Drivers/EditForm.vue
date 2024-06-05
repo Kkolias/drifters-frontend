@@ -30,7 +30,6 @@
           <ErrorHover :errorMessage="errorTexts.lastName" />
         </div>
         <div class="input-wrapper">
-          täs: {{ driver.birthday }}
           <label for="birthday">Syntymäpäivä:</label>
           <input
             v-model="driver.birthday"
