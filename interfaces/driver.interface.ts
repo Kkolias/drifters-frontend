@@ -14,6 +14,7 @@ export interface ICar {
     _id: string;
     firstName: string;
     lastName: string;
+    slug: string
     birthday: string | null;
     createdAt: string;
     raceNumber: number | null;

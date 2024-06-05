@@ -64,7 +64,7 @@ export default {
       return (
         this.driverList?.map((driver) => {
           // const id = driver?._id || "";
-          const nameAsLink = `${driver?.firstName} ${driver?.lastName}`?.replaceAll(' ', '-')?.toLowerCase();
+          const nameAsLink = driver?.slug || "";
           const link = `/drivers/${nameAsLink}`;
 
           const carNames = driver?.cars
