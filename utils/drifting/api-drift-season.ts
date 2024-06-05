@@ -4,6 +4,7 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 const DRIFT_SEASON_ENDPOINTS = {
   GET_ALL: "/drift-season/get-all",
   GET_ALL_LIGHT: "/drift-season/find-all-light",
+  GET_ALL_BY_DRIVER_ID: "/drift-season/find-all-by-driver-id",
   GET_BY_ID: "/drift-season/get-by-id",
   GET_BY_SLUG: "/drift-season/get-by-slug",
   CREATE: "/drift-season/create-drift-season",
@@ -11,6 +12,7 @@ const DRIFT_SEASON_ENDPOINTS = {
   ADD_MANY_DRIVERS_TO_SEASON: "/drift-season/add-many-drivers-to-season",
   ADD_LEADERBOARD_TO_SEASON: "/drift-season/add-leaderboard-to-season",
   ADD_EVENT_TO_SEASON: "/drift-season/add-event-to-season",
+
 };
 
 export class DriftSeasonApi extends ApiUtil {
@@ -29,6 +31,20 @@ export class DriftSeasonApi extends ApiUtil {
     try {
       const seasons = await this.get({
         url: DRIFT_SEASON_ENDPOINTS.GET_ALL_LIGHT,
+      });
+
+      return seasons;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+  
+  async getAllByDriverId(id: string): Promise<IDriftSeason[]> {
+    try {
+      const seasons = await this.get({
+        url: DRIFT_SEASON_ENDPOINTS.GET_ALL_BY_DRIVER_ID,
+        query: { id },
       });
 
       return seasons;

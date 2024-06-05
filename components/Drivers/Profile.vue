@@ -24,6 +24,7 @@
         </li>
       </ul>
     </div>
+    <DriversDriverSeasonsSection v-if="!!driver" :driver="driver" />
   </div>
 </template>
 
