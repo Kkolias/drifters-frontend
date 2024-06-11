@@ -60,6 +60,7 @@
           :loading="loading.drivers || loading.season"
           :scoreboard="scoreboard"
           :seasonYear="seasonYear"
+          :seasonName="seasonName"
           :allDriversList="allDriversList"
         />
       </section>
@@ -154,6 +155,10 @@ export default {
     },
     seasonYear(): string {
       return `${this.season?.year}` || "";
+    },
+    seasonName(): string {
+      const serie = this.season?.serie || "";
+      return DRIFT_SERIES_LABEL[serie as keyof typeof DRIFT_SERIES_LABEL] || "";
     },
     scoreboard(): ScoreboardItem[] {
       return this.season?.leaderboard?.scoreboard || [];

@@ -3,7 +3,7 @@
     <LoadingIndicator v-if="loading" />
     <div v-else-if="scoreboard.length">
       <p class="subtitle">
-        Kauden {{ seasonYear }} pistetaulukko.
+        {{ seasonName }} Kauden {{ seasonYear }} pistetaulukko.
       </p>
       <table class="scoreboard-table">
         <thead>
@@ -51,7 +51,11 @@ export default {
     seasonYear: {
       type: String,
       required: true,
-    }
+    },
+    seasonName: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     sortedScoreboard(): ScoreboardItem[] {
