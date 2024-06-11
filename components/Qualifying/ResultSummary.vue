@@ -14,7 +14,7 @@
               Lajittelun pisteet <span>{{ highestPoints }}</span>
             </p>
           </div>
-          <div class="runs-wrapper">
+          <div v-if="showRunStats" class="runs-wrapper">
             <div class="first run">
               <p class="sub-title">1. kierros</p>
               <div class="point-container">
@@ -70,6 +70,10 @@ export default {
       type: Object as PropType<IQualifyingResultItem>,
       required: true,
     },
+    showRunStats: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     driverName(): string {

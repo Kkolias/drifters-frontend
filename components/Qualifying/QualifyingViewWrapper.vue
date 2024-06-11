@@ -15,6 +15,7 @@
     <QualifyingResultSummary
       v-if="!!selectedResultItem"
       :qualifyingResultItem="(selectedResultItem as IQualifyingResultItem)"
+      :showRunStats="showRunStats"
       @close="setResultId('')"
     />
   </div>
@@ -22,7 +23,7 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
-import type { DriftSerie } from "~/enums/drift-serie.enum";
+import { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type {
   IQualifying,
@@ -59,6 +60,9 @@ export default {
     },
   },
   computed: {
+    showRunStats(): boolean {
+      return this.driftSerie !== DriftSerie.driftsmpro
+    },
     isLoading(): boolean {
       return this.loadingQualifying || this.loadingDrivers;
     },
