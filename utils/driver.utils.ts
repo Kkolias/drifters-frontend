@@ -21,3 +21,12 @@ export function parsedDriverList(
     }) || []
   );
 }
+
+export function parsedDriverListWithEmptySelection(
+  drivers: IDriver[],
+  selectedDriverIdList?: string[]
+): IParsedDriver[] {
+  const emptyDriver = { _id: null, firstName: "-", lastName: ""} as unknown as IDriver
+  const listWithEmpty = [emptyDriver, ...drivers]
+  return parsedDriverList(listWithEmpty, selectedDriverIdList)
+}

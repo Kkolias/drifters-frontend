@@ -77,7 +77,7 @@ import { HeatType } from "~/enums/heat-type.enum";
 import type { IHeat } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
-import { parsedDriverList, type IParsedDriver } from "~/utils/driver.utils";
+import { parsedDriverListWithEmptySelection, type IParsedDriver } from "~/utils/driver.utils";
 
 interface IData {
   loading: boolean;
@@ -115,7 +115,7 @@ export default {
   }),
   computed: {
     parsedDriverList(): IParsedDriver[] {
-      return parsedDriverList(this.allDriversList);
+      return parsedDriverListWithEmptySelection(this.allDriversList);
     },
     selectedDriver1Name(): string {
       return (
@@ -176,7 +176,7 @@ export default {
         driver2Id,
       } = this;
       const heatId = heat._id;
-      if (!driver1Id || !driver2Id || !heatId) {
+      if (!heatId) {
         this.setOverViewErrorMessage("Täytä kaikki kentät.");
         return;
       }

@@ -102,8 +102,8 @@ export default {
     isWinnerOfHeat(heat: IHeat, driverType: string): boolean {
       const driver1 = heat?.driver1;
       const driver2 = heat?.driver2;
-      if (!driver1 || !driver2) return false;
       const driverId = driverType === "driver1" ? driver1 : driver2;
+      if (!driverId) return false;
 
       const winnerId = getWinnerIdOfHeat(heat);
       return winnerId === driverId;

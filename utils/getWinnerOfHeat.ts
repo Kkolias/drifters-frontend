@@ -12,9 +12,9 @@ export function getWinnerIdOfHeat(heat: IHeat | IShowdownHeat): string | null {
   const driver2 = heat?.driver2 as string;
 
   for (const run of runList) {
-    if (!driver1 || !driver2) {
-      return null;
-    }
+    // if (!driver1 || !driver2) {
+    //   return null;
+    // }
     const winner = getWinnerIdOfRun(run, driver1, driver2);
 
     if (winner) {
