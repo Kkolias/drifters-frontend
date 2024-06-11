@@ -28,20 +28,30 @@ export default {
           isLink: true,
         },
         {
-          name: "Lajittelut",
-          key: "qualifying",
+          name: "Nimi",
+          key: "name",
         },
         {
-          name: "Kilpailut",
-          key: "competitionDay",
+          name: "Maa",
+          key: "country",
         },
+        {
+          name: "Kaupunki",
+          key: "city",
+        },
+        {
+          name: "Kausi ID",
+          key: "seasonId",
+        }
       ];
     },
     parsedDataList(): any[] {
       return this.driftEventList.map((event) => ({
         _id: event._id,
-        qualifying: event.qualifying || "-",
-        competitionDay: event.competitionDay || "-",
+        name: event?.name,
+        city: event?.city,
+        country: event?.country,
+        seasonId: event?.seasonId,
       }));
     },
   },

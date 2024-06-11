@@ -42,7 +42,7 @@
         ]"
         :to="getQueryPath('battles')"
       >
-        <span>Kilpailu</span>
+        <span>Kaavio</span>
       </NuxtLink>
       <NuxtLink
         class="select-view season always-visible"

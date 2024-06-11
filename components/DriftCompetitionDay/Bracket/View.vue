@@ -1,6 +1,6 @@
 <template>
   <div class="component-BracketView">
-    <p class="subtitle">Kilpailun tulokset bracket muodossa.</p>
+    <p class="subtitle">Kaavion tulokset bracket muodossa.</p>
     <p class="subtitle small">Näet parien tarkemmat tulokset valitsemalla haluamasi heatin.</p>
     <!-- <pre>
           {{ heatListTop16Left }}

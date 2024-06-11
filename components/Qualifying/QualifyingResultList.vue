@@ -1,5 +1,9 @@
 <template>
   <div class="component-QualifyingResultList">
+    <div class="input-wrapper">
+      <input id="show-points" type="checkbox" name="show-points" v-model="showPoints">
+      <label for="show-points">Näytä sijoituksesta saatavat pisteet</label>
+    </div>
     <table class="scoreboard-table">
       <thead>
         <tr>
@@ -7,7 +11,7 @@
           <th>Kuljettaja</th>
           <th>Pisteet</th>
           <th class="scores">(Linja | Kulma |Tyyli)</th>
-          <th title="Sijoituksesta saatavat mestaruuspisteet">Sij. pisteet</th>
+          <th v-if="showPoints" title="Sijoituksesta saatavat mestaruuspisteet">Sij. pisteet</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +32,7 @@
             </button>
           </td>
           <td>{{ getPoints(result) }}</td>
-          <td>{{ getChampionShipPoints(index) }}</td>
+          <td v-if="showPoints">{{ getChampionShipPoints(index) }}</td>
         </tr>
       </tbody>
     </table>
@@ -56,6 +60,9 @@ export default {
       default: null,
     },
   },
+  data: () => ({
+    showPoints: false,
+  }),
   methods: {
     getDriverName(resultItem: IQualifyingResultItem): string {
       const driverId = resultItem?.driver;
@@ -93,43 +100,9 @@ export default {
 
 <style lang="less" scoped>
 .component-QualifyingResultList {
-  // table {
-  //   max-width: 700px;
-  //   width: 100%;
-  //   border-collapse: separate;
-  //   border-spacing: 0 4px;
-  //   margin: 0 auto;
-  //   margin-bottom: 100px;
-
-  //   thead {
-  //     th {
-  //       padding: 10px;
-  //       font-size: 1.2rem;
-
-  //       &.scores {
-  //         font-size: 1rem;
-  //       }
-  //     }
-  //   }
-
-  //   tbody {
-  //     tr {
-  //       td {
-  //         background: var(--black-2);
-  //         padding: 6px;
-  //         font-size: 1.2rem;
-  //         line-height: 1.4rem;
-  //         text-align: center;
-
-  //         &:first-child {
-  //           border-radius: 10px 0 0 10px;
-  //         }
-  //         &:last-child {
-  //           border-radius: 0 10px 10px 0;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  .input-wrapper {
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
 }
 </style>

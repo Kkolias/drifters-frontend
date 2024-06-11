@@ -1,7 +1,7 @@
 <template>
   <div class="component-CompetitionDayScoreboard">
     <p class="subtitle">
-      Kilpailun tulokset ja sijoituksesta saatavat mestaruuspisteet.
+      Kaavion tulokset ja sijoituksesta saatavat mestaruuspisteet.
     </p>
     <table class="scoreboard-table">
       <thead>
