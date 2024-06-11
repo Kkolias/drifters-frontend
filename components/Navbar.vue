@@ -1,5 +1,6 @@
 <template>
   <div class="component-Navbar">
+    <div class="background-area"></div>
     <NuxtLink to="/?close-nav=true" title="Etusivulle" class="to-home-btn"></NuxtLink>
     <nav class="menu--right" role="navigation">
       <div class="menuToggle">
@@ -100,6 +101,17 @@ export default {
 
 <style lang="less" scoped>
 .component-Navbar {
+  .background-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: var(--black-1);
+    z-index: 1;
+    opacity: 0.9;
+    box-shadow: 0px 8px 5px 0px var(--black-1);
+  }
   .to-home-btn {
     position: fixed;
     top: 10px;
@@ -113,7 +125,7 @@ export default {
   .menuToggle {
     display: block;
     position: relative;
-    top: 30px;
+    top: 25px;
     z-index: 1;
     -webkit-user-select: none;
     user-select: none;
