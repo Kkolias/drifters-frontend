@@ -141,6 +141,7 @@ export default {
       return this.heatListTop32Sorted.slice(0, 8);
     },
     heatListTop32Right(): IHeat[] {
+      console.log(this.heatListTop32Sorted)
       // returns last 8 of heatListTop32Sorted
       return this.heatListTop32Sorted.slice(8, 16);
     },

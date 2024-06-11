@@ -104,7 +104,7 @@ export class CompetitionDayApi extends ApiUtil {
     driver2Id,
   }: {
     competitionDayId: string;
-    heatId: string;
+    heatId: string | null;
     bracketNumber: number;
     heatType: HeatType;
     driver1Id: string;

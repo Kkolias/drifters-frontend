@@ -10,7 +10,7 @@
           <th>Sija</th>
           <th>Kuljettaja</th>
           <th>Pisteet</th>
-          <th class="scores">(Linja | Kulma |Tyyli)</th>
+          <th v-if="showRunStats" class="scores">(Linja | Kulma |Tyyli)</th>
           <th v-if="showPoints" title="Sijoituksesta saatavat mestaruuspisteet">Sij. pisteet</th>
         </tr>
       </thead>
@@ -31,7 +31,7 @@
               {{ getHighestPoints(result) }}
             </button>
           </td>
-          <td>{{ getPoints(result) }}</td>
+          <td v-if="showRunStats">{{ getPoints(result) }}</td>
           <td v-if="showPoints">{{ getChampionShipPoints(index) }}</td>
         </tr>
       </tbody>
@@ -59,6 +59,10 @@ export default {
       type: String as PropType<DriftSerie | null>,
       default: null,
     },
+    showRunStats: {
+      type: Boolean,
+      default: true,
+    }
   },
   data: () => ({
     showPoints: false,

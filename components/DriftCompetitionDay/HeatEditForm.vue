@@ -175,11 +175,11 @@ export default {
         driver1Id,
         driver2Id,
       } = this;
-      const heatId = heat._id;
-      if (!heatId) {
-        this.setOverViewErrorMessage("Täytä kaikki kentät.");
-        return;
-      }
+      const heatId = heat?._id || null;
+      // if (!heatId) {
+      //   this.setOverViewErrorMessage("Täytä kaikki kentät.");
+      //   return;
+      // }
 
       await apiCompetitionDay.updateHeat({
         competitionDayId,

@@ -10,6 +10,7 @@
       :qualifyingResults="qualifying.resultList"
       :allDriversList="allDriversList"
       :driftSerie="driftSerie"
+      :showRunStats="showRunStats"
       @select="setResultId"
     />
     <QualifyingResultSummary
