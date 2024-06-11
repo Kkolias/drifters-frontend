@@ -103,6 +103,8 @@ export default {
   .input-wrapper {
     margin-top: 24px;
     margin-bottom: 8px;
+    max-width: 700px;
+    margin: auto;
   }
 }
 </style>
