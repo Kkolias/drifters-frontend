@@ -1,65 +1,70 @@
 <template>
   <div class="component-DriftSeriesList">
-    <div class="only-seasons-list" v-if="selectedSeriesSeasonList.length">
-      <h2>Muut sarjan kaudet</h2>
-      <ul class="season-list">
+    <LoadingIndicator v-if="loading" />
+    <div v-else>
+      <div class="only-seasons-list" v-if="selectedSeriesSeasonList.length">
+        <h2>Muut sarjan kaudet</h2>
+        <ul class="season-list">
+          <li
+            class="season"
+            :class="{ selected: isSelectedSeason(season) }"
+            v-for="(season, key) in selectedSeriesSeasonList"
+            :key="key"
+          >
+            <NuxtLink class="button blank link" :to="getSeasonPath(season)">
+              <div class="season-overview">
+                <h3>
+                  {{ getSeasonName(season, getSerieForSeason(season)) }}
+                  {{ season.year }}
+                </h3>
+              </div>
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
+      <h3 v-if="notSelectedSeries.length && selectedSeriesSeasonList.length">
+        Muut sarjat
+      </h3>
+      <ul class="serie-list" v-if="notSelectedSeries.length">
         <li
-          class="season"
-          :class="{ selected: isSelectedSeason(season) }"
-          v-for="(season, key) in selectedSeriesSeasonList"
-          :key="key"
+          class="serie"
+          v-for="(serie, index) in notSelectedSeries"
+          :key="index"
         >
-          <NuxtLink class="button blank link" :to="getSeasonPath(season)">
-            <div class="season-overview">
-              <h3>
-                {{ getSeasonName(season, getSerieForSeason(season)) }}
-                {{ season.year }}
-              </h3>
+          <button
+            class="blank serie-overview"
+            :class="{ selected: isListOpen(index) }"
+            @click="handleOpenList(index)"
+          >
+            <h2>{{ serie.name }}</h2>
+            <p>
+              {{ serie.subText }}
+            </p>
+          </button>
+          <div v-if="isListOpen(index)" class="season-list-wrapper">
+            <ul class="season-list" v-if="serie?.seasonList?.length">
+              <li
+                class="season"
+                v-for="(season, key) in serie.seasonList"
+                :key="key"
+                :title="`${getSeasonName(season, serie)} ${season.year}`"
+              >
+                <NuxtLink class="button blank link" :to="getSeasonPath(season)">
+                  <div class="season-overview">
+                    <h3>
+                      {{ getSeasonName(season, serie) }} {{ season.year }}
+                    </h3>
+                  </div>
+                </NuxtLink>
+              </li>
+            </ul>
+            <div class="no-seasons" v-else>
+              <p>Ei kausia</p>
             </div>
-          </NuxtLink>
+          </div>
         </li>
       </ul>
     </div>
-    <h3 v-if="notSelectedSeries.length && selectedSeriesSeasonList.length">
-      Muut sarjat
-    </h3>
-    <ul class="serie-list" v-if="notSelectedSeries.length">
-      <li
-        class="serie"
-        v-for="(serie, index) in notSelectedSeries"
-        :key="index"
-      >
-        <button
-          class="blank serie-overview"
-          :class="{ selected: isListOpen(index) }"
-          @click="handleOpenList(index)"
-        >
-          <h2>{{ serie.name }}</h2>
-          <p>
-            {{ serie.subText }}
-          </p>
-        </button>
-        <div v-if="isListOpen(index)" class="season-list-wrapper">
-          <ul class="season-list" v-if="serie?.seasonList?.length">
-            <li
-              class="season"
-              v-for="(season, key) in serie.seasonList"
-              :key="key"
-              :title="`${getSeasonName(season, serie)} ${season.year}`"
-            >
-              <NuxtLink class="button blank link" :to="getSeasonPath(season)">
-                <div class="season-overview">
-                  <h3>{{ getSeasonName(season, serie) }} {{ season.year }}</h3>
-                </div>
-              </NuxtLink>
-            </li>
-          </ul>
-          <div class="no-seasons" v-else>
-            <p>Ei kausia</p>
-          </div>
-        </div>
-      </li>
-    </ul>
   </div>
 </template>
 
