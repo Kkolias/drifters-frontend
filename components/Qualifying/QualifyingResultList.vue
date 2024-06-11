@@ -36,8 +36,10 @@
 </template>
 
 <script lang="ts">
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IQualifyingResultItem } from "~/interfaces/qualifying.interface";
+import { getQualifyingPositionPointBySerie } from "~/utils/getQualifyingPointsForSerie";
 
 export default {
   props: {
@@ -48,6 +50,10 @@ export default {
     allDriversList: {
       type: Array as PropType<IDriver[]>,
       required: true,
+    },
+    driftSerie: {
+      type: String as PropType<DriftSerie | null>,
+      default: null,
     },
   },
   methods: {
@@ -71,10 +77,12 @@ export default {
     },
     getChampionShipPoints(index: number): string {
       // 1st-8th get points, 1st gets 8 and 8th gets 1
-      const pointsForPlace = [8, 7, 6, 5, 4, 3, 2, 1];
+      // const pointsForPlace = [8, 7, 6, 5, 4, 3, 2, 1];
 
-      if (index >= pointsForPlace.length) return "0";
-      return `+${pointsForPlace[index]}`;
+      // if (index >= pointsForPlace.length) return "0";
+      const position = index + 1;
+      const pointsForPlace = getQualifyingPositionPointBySerie(this.driftSerie, position);
+      return `+${pointsForPlace}`;
     },
     handleClick(resultItem: IQualifyingResultItem): void {
       this.$emit("select", resultItem?._id || "");

@@ -27,13 +27,19 @@
 </template>
 
 <script lang="ts">
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IScoreBoardItem } from "~/interfaces/competition-day.interface";
+import { getBattlesPositionPointBySerie } from "~/utils/getBattlePointsForSerie";
 
 export default {
   props: {
     scoreboard: {
       type: Array as PropType<IScoreBoardItem[]>,
       default: () => [],
+    },
+    driftSerie: {
+      type: String as PropType<DriftSerie | null>,
+      default: null,
     },
   },
   methods: {
@@ -49,14 +55,8 @@ export default {
     getPointsForBattlePlacement(index: number): number {
       // 1st +100, 2nd +88, 3rd 76, 4th 64, 5th-8th 48, 9th-16th 32, 17th-32nd 16
       const place = index + 1;
-      if (place === 1) return 100;
-      if (place === 2) return 88;
-      if (place === 3) return 76;
-      if (place === 4) return 64;
-      if (place >= 5 && place <= 8) return 48;
-      if (place >= 9 && place <= 16) return 32;
-      if (place >= 17 && place <= 32) return 16;
-      return 0;
+      const points = getBattlesPositionPointBySerie(this.driftSerie, place)
+      return points;
     },
   },
 };

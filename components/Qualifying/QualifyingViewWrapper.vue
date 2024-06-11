@@ -9,6 +9,7 @@
       v-if="qualifying"
       :qualifyingResults="qualifying.resultList"
       :allDriversList="allDriversList"
+      :driftSerie="driftSerie"
       @select="setResultId"
     />
     <QualifyingResultSummary
@@ -21,6 +22,7 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type {
   IQualifying,
@@ -50,6 +52,10 @@ export default {
     loadingQualifying: {
       type: Boolean,
       default: false,
+    },
+    driftSerie: {
+      type: String as PropType<DriftSerie | null>,
+      default: null,
     },
   },
   computed: {

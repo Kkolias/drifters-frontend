@@ -28,11 +28,13 @@
     <DriftCompetitionDayScoreBoard
       v-if="!!scoreboard?.length && !showBracket"
       :scoreboard="scoreboard"
+      :driftSerie="driftSerie"
     />
   </div>
 </template>
 
 <script lang="ts">
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type {
   ICompetitionDay,
   IScoreBoardItem,
@@ -59,6 +61,10 @@ export default {
     loadingDrivers: {
       type: Boolean,
       default: false,
+    },
+    driftSerie: {
+      type: String as PropType<DriftSerie | null>,
+      default: null,
     },
   },
   data: (): IData => ({

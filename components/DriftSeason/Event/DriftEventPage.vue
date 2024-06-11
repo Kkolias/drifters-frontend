@@ -26,11 +26,15 @@
           :qualifying="qualifying"
           :loadingQualifying="loading.qualifying"
           :loadingDrivers="loading.drivers"
+          :driftSerie="driftSerie"
           :allDriversList="allDriversList"
         />
         <p v-else class="no-data">Tietoja puuttuu</p>
       </section>
-      <section class="view-section" v-if="isViewSelected('qualifying-showdown')">
+      <section
+        class="view-section"
+        v-if="isViewSelected('qualifying-showdown')"
+      >
         <QualifyingShowdownView
           v-if="qualifyingShowdown"
           :qualifyingShowdown="qualifyingShowdown"
@@ -46,6 +50,7 @@
           :competitionDay="competitionDay"
           :loadingDrivers="loading.drivers"
           :loadingCompetitionDay="loading.competitionDay"
+          :driftSerie="driftSerie"
         />
         <p v-else class="no-data">Tietoja puuttuu</p>
       </section>
@@ -67,6 +72,7 @@
 
 <script lang="ts">
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
@@ -122,6 +128,9 @@ export default {
     },
   }),
   computed: {
+    driftSerie(): DriftSerie | null {
+      return this.season?.serie || null;
+    },
     seasonId(): string {
       return this.season?._id || "";
     },
