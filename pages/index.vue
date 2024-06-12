@@ -3,20 +3,31 @@
     <section class="welcome">
       <h1>Tervetuloa DriftDataan!</h1>
       <p>
-        Tämä sivusto on drifting-fanin vapaa-ajan projekti, ja minä
-        olen ainoa ylläpitäjä. Pyrin päivittämään sivustoa niin usein kuin
-        mahdollista, mutta huomioithan, että kaiken tiedon päivittäminen voi
-        viedä aikaa. Pistetilastot, taulukot ja muu esitetty data saattavat
-        sisältää virheitä tai olla epätarkkoja, koska tiedon kerääminen ja
-        päivittäminen on käsityötä. Teen parhaani korjatakseni mahdolliset
-        virheet ja tarjotakseni tarkkaa ja luotettavaa tietoa
-        drifting-maailmasta.
+        Tämä sivusto on drifting-fanin vapaa-ajan projekti, ja minä olen ainoa
+        ylläpitäjä. Pyrin päivittämään sivustoa niin usein kuin mahdollista,
+        mutta huomioithan, että kaiken tiedon päivittäminen voi viedä aikaa.
+        Pistetilastot, taulukot ja muu esitetty data saattavat sisältää virheitä
+        tai olla epätarkkoja, koska tiedon kerääminen ja päivittäminen on
+        käsityötä. Teen parhaani korjatakseni mahdolliset virheet ja
+        tarjotakseni tarkkaa ja luotettavaa tietoa drifting-maailmasta.
       </p>
-    
+
       <!-- <p>Kiitos ja anteeksi!</p> -->
     </section>
     <section class="drift-series">
       <DriftSeriesPage />
+    </section>
+
+    <section class="drift-sm-section">
+      <h2>Seuraa Suomen Parasta Driftingiä!</h2>
+      <p>
+        Drift SM on Suomen arvostetuin drifting-sarja, jossa kilpaillaan
+        mestaruudesta huipputason kuljettajien kesken. Tule mukaan seuraamaan
+        jännittäviä kilpailuja ja tutustu tarkemmin sarjaan ja sen eri luokkiin.
+      </p>
+      <a href="/drift-sm-esittely"
+        >Lue lisää Drift SM -sarjasta ja Pro-luokasta</a
+      >
     </section>
   </div>
 </template>
@@ -51,6 +62,24 @@
       font-weight: 700;
       text-align: center;
       margin-bottom: 24px;
+    }
+  }
+
+  .drift-sm-section {
+    margin-top: 48px;
+    margin-bottom: 10vh;
+    h2 {
+      text-align: center;
+      color: var(--green-1);
+    }
+    p {
+      text-align: left;
+      margin-left: 12px;
+    }
+    a {
+      color: var(--green-1);
+      text-decoration: underline;
+      margin-left: 12px;
     }
   }
 

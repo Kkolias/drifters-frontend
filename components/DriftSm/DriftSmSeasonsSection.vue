@@ -1,9 +1,9 @@
 <template>
   <div class="component-DriftSmSeasonsSection">
     <h2>Drift SM Pro Kausien tulokset</h2>
-    <LoadingIndicator v-if="loading" />
-    <div class="content" v-else>
-      <ul class="season-list" v-if="smDriftSeasons?.length">
+    <div class="content">
+      <LoadingIndicator class="loading" v-if="loading" />
+      <ul class="season-list" v-if="!loading && smDriftSeasons?.length">
         <li
           class="season"
           v-for="(season, key) in smDriftSeasons"
@@ -34,7 +34,7 @@ interface IData {
 
 export default {
   data: (): IData => ({
-    loading: false,
+    loading: true,
     seasons: [],
     openedLists: [],
   }),
@@ -86,6 +86,11 @@ export default {
     width: 100%;
     margin: auto;
     padding-bottom: 24px;
+    min-height: 40px;
+
+    .loading {
+      margin-top: 24px;
+    }
 
     &:after {
       max-width: 700px;
