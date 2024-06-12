@@ -52,5 +52,19 @@
       font-size: 18px;
     }
   }
+
+  @media only screen and (max-width: 500px) {
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    p, a, li {
+      font-size: 16px;
+    }
+  }
 }
 </style>

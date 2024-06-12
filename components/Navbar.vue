@@ -31,6 +31,10 @@ export default {
         path: "/",
       },
       {
+        label: "Drift SM",
+        path: "/drift-sm-esittely",
+      },
+      {
         label: "Sarjat",
         path: "/series",
       },
