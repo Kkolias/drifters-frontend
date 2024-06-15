@@ -26,6 +26,7 @@
       <DriftCompetitionDayBracketBattleOverview
         v-if="selectedHeatItem"
         :heatItem="selectedHeatItem"
+        :isShowdown="true"
         @close="closeHeatModal()"
       />
     </div>
@@ -105,7 +106,7 @@ export default {
     }
   }
   .bracket-container {
-    max-width: 200px;
+    max-width: 400px;
     width: 100%;
     margin: auto;
   }

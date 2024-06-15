@@ -3,7 +3,7 @@
       <ul class="heat-list">
         <li class="heat" @click="setSelectedHeat(getHeatForNumber(1))">
           <h3>Top 1 vs Top 4</h3>
-          <div class="heat-wrapper final">
+          <div class="heat-wrapper bronze">
             <div class="lead driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(1), 'driver1')}">
               <p>
                 {{ getDriver(getHeatForNumber(1).driver1) }}
@@ -33,6 +33,24 @@
             <div class="chase driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(2), 'driver2')}">
               <p>
                 {{ getDriver(getHeatForNumber(2).driver2) }}
+              </p>
+            </div>
+          </div>
+        </li>
+        <li class="heat" @click="setSelectedHeat(getHeatForNumber(3))">
+          <h3>Finaali</h3>
+          <div class="heat-wrapper final">
+            <div class="lead driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(3), 'driver1')}">
+              <p>
+                {{ getDriver(getHeatForNumber(3).driver1) }}
+              </p>
+            </div>
+            <div class="heat-number">
+              <p>Heat 3</p>
+            </div>
+            <div class="chase driver" :class="{ winner: isWinnerOfHeat(getHeatForNumber(3), 'driver2')}">
+              <p>
+                {{ getDriver(getHeatForNumber(3).driver2) }}
               </p>
             </div>
           </div>

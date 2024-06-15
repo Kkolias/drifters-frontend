@@ -77,6 +77,10 @@ export default {
       type: Object as PropType<IHeat | IShowdownHeat>,
       required: true,
     },
+    isShowdown: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     driver1Name(): string {
@@ -98,6 +102,9 @@ export default {
       return `Heat ${this.heatItem?.bracketNumber}`;
     },
     advanceText() {
+      if(this.isShowdown && this.heatItem?.bracketNumber === 3) {
+        return "Voittaja";
+      }
       if (this.heatItem?.bracketNumber === 32) {
         return "Voittaja";
       }
