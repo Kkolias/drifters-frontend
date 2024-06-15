@@ -5,11 +5,18 @@
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
-      <h1 class="big-header">{{ serie }} {{ seasonYear }}</h1>
-      <p class="event-details">
-        {{ driftEventName }}
-        <span class="city">{{ eventTrackCity }}</span>
-      </p>
+      <h1 class="big-header">
+        {{ serie }} {{ seasonYear }} {{ eventTrackCity }} Tulokset
+      </h1>
+      <h2 class="event-details">
+        Tapahtuma: {{ driftEventName }}
+      </h2>
+      <h2 class="event-details">
+        Rata: {{ eventTrackCityShort }}
+      </h2>
+      <h2 class="event-details">
+        Päivämäärät: {{ eventDates }}
+      </h2>
       <section class="select-view-section">
         <DriftSeasonEventDriftEventViewSelection
           v-if="!!season"
@@ -179,8 +186,21 @@ export default {
       return this.driftEvent?.city || "";
     },
     eventTrackCity(): string {
-      if (!this.eventCity || !this.eventTrack) return "";
-      return ` - ${this.eventTrack}, ${this.eventCity}`;
+      if (!this.eventCity || !this.eventTrack) return " - ";
+      return ` - ${this.eventTrackCityShort} - `;
+    },
+    eventTrackCityShort(): string {
+      if (!this.eventCity || !this.eventTrack) return " - ";
+      return `${this.eventTrack}, ${this.eventCity}`;
+    },
+    eventDates(): string {
+      const start = this.driftEvent?.startsAt || "";
+      const end = this.driftEvent?.endsAt || "";
+
+      const startDate = formatISODateToStringShort(start);
+      const endDate = formatISODateToStringShort(end);
+
+      return `${startDate} - ${endDate}`;
     },
     hasShowdown(): boolean {
       return !!this.driftEvent?.qualifyingShowdown;
@@ -317,13 +337,7 @@ export default {
   }
 
   .event-details {
-    .track {
-      font-size: 1.2rem;
-      font-weight: 400;
-    }
-    .city {
-      font-size: 1.2rem;
-    }
+    margin-top: 4px;
   }
 
   .select-view-section {

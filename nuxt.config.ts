@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [{ rel: "icon", type: "image/svg", href: "/favicon.svg" }],
-      title: "DrifDataan - Drifting tilastot ja tulokset",
+      title: "DriftDataan - Drifting tulokset ja tilastot",
       meta: [
         // default meta tags:
         { charset: "utf-8" },
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "DriftDataan tarjoaa kattavat tilastot ja tulokset Drift Masters Europe sarjasta. Seuraa driftaustapahtumien kuumimpia hetkiä ja tutustu huippuluokan driftaajiin!",
+            "DriftDataan tarjoaa kattavat tulokset ja tilastot Drift Masters Europe sekä Suomen Drift SM sarjasta. Seuraa driftaustapahtumien kuumimpia hetkiä ja tutustu huippuluokan driftaajiin!",
         },
       ],
     },
