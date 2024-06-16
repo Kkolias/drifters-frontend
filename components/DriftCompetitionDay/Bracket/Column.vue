@@ -8,7 +8,7 @@
           class="lead driver"
           :class="{
             winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1'),
-            clown: isPelimies(getHeatForNumber(number).driver2),
+            clown: isPelimies(getHeatForNumber(number).driver1),
           }"
         >
           <p>
