@@ -8,6 +8,7 @@
           class="lead driver"
           :class="{
             winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1'),
+            clown: isPelimies(getHeatForNumber(number).driver2),
           }"
         >
           <p>
@@ -21,6 +22,7 @@
           class="chase driver"
           :class="{
             winner: isWinnerOfHeat(getHeatForNumber(number), 'driver2'),
+            clown: isPelimies(getHeatForNumber(number).driver2),
           }"
         >
           <p>
@@ -110,8 +112,15 @@ export default {
         }
         const firstName = driverProp?.firstName ?? '';
         const lastName = driverProp?.lastName ?? '';
+
+        if(this.isPelimies(driverProp)) return  `${firstName} ${lastName}`
         const name = `${firstName} ${lastName}`;
         return name ?? 'N/A';
+    },
+    isPelimies(driverProp: any): boolean {
+      const isMondelloPark = this.competitionDayId === "666e179f3cb6e6f25a78fe08";
+      const isPelimies = driverProp?._id === "665898af0b7030b5088af8f7";
+      return isMondelloPark && isPelimies && this.firstHeatNumber > 9;
     },
     getBracketNumber(heat: IHeat): string {
       return `Heat ${heat?.bracketNumber ?? 0 + this.firstHeatNumber}`;
@@ -164,11 +173,21 @@ export default {
       .driver {
         border: 1px solid var(--white-1);
         border-radius: 10px;
+        position: relative;
 
         &.winner {
           border: 1px solid var(--green-1);
           background: var(--green-1-50);
           color: var(--black-dark);
+        }
+
+        &.clown {
+          &:before {
+            content: "🤡";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+          }
         }
       }
     }
