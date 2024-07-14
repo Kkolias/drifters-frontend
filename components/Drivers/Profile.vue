@@ -24,14 +24,28 @@
         </li>
       </ul>
     </div>
-    <!-- <DriversDriverSeasonsSection v-if="!!driver" :driver="driver" /> -->
+    <!-- <DriversDriverSeasonsSection
+      v-if="!!driverStats"
+      :driverName="fullName"
+      :driverId="driverId"
+      :driverStats="driverStats"
+      :loading="statsLoading"
+    /> -->
   </div>
 </template>
 
 <script lang="ts">
+import type { IDriverSeasonStats } from "~/interfaces/drift-season.interface";
 import type { ICar, IDriver } from "~/interfaces/driver.interface";
+import apiDrivers from "~/utils/drifting/api-drivers";
 import { getAgeFromDate } from "~/utils/getAgeFromDate";
 import { getCountryName } from "~/utils/getCountryName";
+
+interface IData {
+  driverStats: IDriverSeasonStats | null;
+  statsLoading: boolean;
+}
+
 export default {
   props: {
     driver: {
@@ -39,6 +53,10 @@ export default {
       required: true,
     },
   },
+  data: (): IData => ({
+    driverStats: null,
+    statsLoading: true,
+  }),
   computed: {
     country(): string {
       const nationality = this.driver?.nationality;
@@ -55,10 +73,21 @@ export default {
     },
     raceNumber(): string {
       const number = this.driver?.raceNumber;
-      if (!number) return "#69";
+      if (!number) return "";
       return `#${number}`;
     },
+    driverId(): string {
+      return this.driver?._id || "";
+    },
   },
+  // watch: {
+  //   driverId: {
+  //     immediate: true,
+  //     handler() {
+  //       this.fetchDriverStats();
+  //     },
+  //   },
+  // },
   methods: {
     carModel(car: ICar): string {
       return car.model;
@@ -73,6 +102,17 @@ export default {
     carHorsePower(car: ICar): string {
       const horsePower = car.hp;
       return `${horsePower} hv`;
+    },
+
+    async fetchDriverStats() {
+      if (!this.driverId) {
+        this.statsLoading = false;
+        return;
+      }
+      this.statsLoading = true;
+      const r = await apiDrivers.getDriverStats(this.driverId);
+      this.driverStats = r;
+      this.statsLoading = false;
     },
   },
 };

@@ -14,3 +14,20 @@ export interface IDriftSeason {
   leaderboard: ILeaderboard;
   createdAt: string;
 }
+
+export interface IDriverSeasonStats {
+  driverId: string;
+  leaderboards: ILeaderboardWithSeasonInfo[];
+}
+
+interface IDriftSeasonInfo {
+  _id: string;
+  name: string;
+  serie: DriftSerie;
+  slug: string;
+  year: number;
+}
+
+export interface ILeaderboardWithSeasonInfo extends ILeaderboard {
+  seasonInfo: IDriftSeasonInfo | null;
+}

@@ -2,59 +2,90 @@
   <div class="component-DriverSeasonsSection">
     <LoadingIndicator v-if="loading" />
     <div class="content" v-if="!loading">
-      <pre>
-      {{ seasons }}
-    </pre
-      >
+      <h2>Sarjat, joissa {{ driverName }} on mukana</h2>
+      <div class="serie-list-container">
+        <ul>
+          <li
+            v-for="(serieWithSeasonStats, index) in driftSerieSeasonList"
+            :key="index"
+          >
+            <DriversDriverSerieSeasons :serieWithSeasonStats="serieWithSeasonStats" />
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import type { IDriver } from "~/interfaces/driver.interface";
 import type { PropType } from "vue";
-import { type IDriftSeason } from "~/interfaces/drift-season.interface";
-import apiDriftSeason from "~/utils/drifting/api-drift-season";
+import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
+import { DriftSerie } from "~/enums/drift-serie.enum";
+import {
+  type IDriverSeasonStats,
+  type ILeaderboardWithSeasonInfo,
+} from "~/interfaces/drift-season.interface";
 
-interface IData {
-  seasons: IDriftSeason[];
-  loading: boolean;
+export interface IDriftSerieSeasonList {
+  serieName: string;
+  leaderboards: ILeaderboardWithSeasonInfo[];
 }
 
 export default {
   props: {
-    driver: {
-      type: Object as PropType<IDriver>,
+    driverName: {
+      type: String,
       required: true,
     },
+    driverId: {
+      type: String,
+      required: true,
+    },
+    driverStats: {
+      type: Object as PropType<IDriverSeasonStats>,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
-  data: (): IData => ({
-    seasons: [],
-    loading: true,
-  }),
   computed: {
-    driverId(): string {
-      return this.driver?._id || "";
-    },
-  },
-  mounted() {
-    this.fetchSeasonsByDriverId();
-  },
-  methods: {
-    async fetchSeasonsByDriverId(): Promise<void> {
-      this.setLoading(true);
-      const seasons = await apiDriftSeason.getAllByDriverId(this.driverId);
-      this.seasons = seasons;
-      this.setLoading(false);
-    },
-    setLoading(value: boolean) {
-      this.loading = value;
+    driftSerieSeasonList(): IDriftSerieSeasonList[] {
+      const serieList = Object.values(DriftSerie);
+
+      const seasonStatsBySerie = serieList.map((serie) => {
+        const leaderboards =
+          this.driverStats?.leaderboards?.filter(
+            (leaderboard) => leaderboard?.seasonInfo?.serie === serie
+          ) || [];
+        return {
+          serieName: DRIFT_SERIES_LABEL[serie],
+          leaderboards,
+        };
+      });
+
+      return seasonStatsBySerie;
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.compoent-DriverSeasonsSection {
+.component-DriverSeasonsSection {
+  max-width: 500px;
+  margin: auto;
+  margin-top: 12px;
+
+  border: 2px solid var(--black-2);
+  padding: 12px;
+  border-radius: 10px;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  h2 {
+    text-align: center;
+    font-size: 30px;
+  }
 }
 </style>
