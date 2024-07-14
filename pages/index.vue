@@ -12,6 +12,11 @@
         tarjotakseni tarkkaa ja luotettavaa tietoa drifting-maailmasta.
       </p>
 
+      <p>
+        Onko sinulla kehitysidea tai havaitsitko virheen?
+        <a href="mailto:driftdataan@gmail.com">driftdataan@gmail.com</a>
+      </p>
+
       <!-- <p>Kiitos ja anteeksi!</p> -->
     </section>
     <section class="drift-series">

@@ -1,5 +1,5 @@
 <template>
-    <div class="page-drift-event">
+    <div class="page-drift-event full-height-page">
       <DriftSeasonPage :seasonSlug="seasonSlug" />
     </div>
   </template>
