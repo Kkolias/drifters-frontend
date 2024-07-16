@@ -1,12 +1,14 @@
+import type { IDriver } from "./driver.interface";
 
 
 export interface ScoreboardItem {
     _id: string;
-    driver: string;
+    driver: IDriver | string;
     score: number;
     numOfWins: number;
     numOfSeconds: number;
     numOfThirds: number;
+    placement?: number
   }
   
   export interface ILeaderboard {

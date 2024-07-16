@@ -24,13 +24,14 @@
         </li>
       </ul>
     </div>
-    <!-- <DriversDriverSeasonsSection
+    <DriversDriverSeasonsSection
       v-if="!!driverStats"
+      class="seasons-wrapper"
       :driverName="fullName"
       :driverId="driverId"
       :driverStats="driverStats"
       :loading="statsLoading"
-    /> -->
+    />
   </div>
 </template>
 
@@ -80,14 +81,14 @@ export default {
       return this.driver?._id || "";
     },
   },
-  // watch: {
-  //   driverId: {
-  //     immediate: true,
-  //     handler() {
-  //       this.fetchDriverStats();
-  //     },
-  //   },
-  // },
+  watch: {
+    driverId: {
+      immediate: true,
+      handler() {
+        this.fetchDriverStats();
+      },
+    },
+  },
   methods: {
     carModel(car: ICar): string {
       return car.model;
@@ -217,6 +218,18 @@ export default {
   .profile-wrapper {
     display: flex;
     flex-direction: column;
+  }
+
+  .seasons-wrapper {
+    margin-top: 48px;
+    &:before {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: var(--green-1);
+      
+    }
   }
 }
 </style>

@@ -2,14 +2,19 @@
   <div class="component-DriverSeasonsSection">
     <LoadingIndicator v-if="loading" />
     <div class="content" v-if="!loading">
-      <h2>Sarjat, joissa {{ driverName }} on mukana</h2>
+      <h2>Sarjat ja kaudet, joissa {{ driverName }} on mukana</h2>
       <div class="serie-list-container">
         <ul>
           <li
-            v-for="(serieWithSeasonStats, index) in driftSerieSeasonList"
+            v-for="(serieWithSeasonStats, index) in seriesWithSeasons"
             :key="index"
           >
-            <DriversDriverSerieSeasons :serieWithSeasonStats="serieWithSeasonStats" />
+            <DriversDriverSerieSeasons
+              :serieWithSeasonStats="serieWithSeasonStats"
+              :isOpen="isListOpen(serieWithSeasonStats.serie)"
+              :driverId="driverId"
+              @toggleListOpen="toggleListOpen"
+            />
           </li>
         </ul>
       </div>
@@ -19,16 +24,20 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
-import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
-import { DriftSerie } from "~/enums/drift-serie.enum";
 import {
   type IDriverSeasonStats,
   type ILeaderboardWithSeasonInfo,
 } from "~/interfaces/drift-season.interface";
+import service, { type ISeasonsOfSerie } from "./DriverSeasonSection.service";
+import type { DriftSerie } from "~/enums/drift-serie.enum";
 
 export interface IDriftSerieSeasonList {
   serieName: string;
   leaderboards: ILeaderboardWithSeasonInfo[];
+}
+
+interface IData {
+  openedLists: DriftSerie[];
 }
 
 export default {
@@ -50,22 +59,26 @@ export default {
       default: false,
     },
   },
+  data: (): IData => ({
+    openedLists: [],
+  }),
   computed: {
-    driftSerieSeasonList(): IDriftSerieSeasonList[] {
-      const serieList = Object.values(DriftSerie);
-
-      const seasonStatsBySerie = serieList.map((serie) => {
-        const leaderboards =
-          this.driverStats?.leaderboards?.filter(
-            (leaderboard) => leaderboard?.seasonInfo?.serie === serie
-          ) || [];
-        return {
-          serieName: DRIFT_SERIES_LABEL[serie],
-          leaderboards,
-        };
-      });
-
-      return seasonStatsBySerie;
+    seriesWithSeasons(): ISeasonsOfSerie[] {
+      const r = service.parseSeriesWithSeasons(this.driverStats, this.driverId);
+      // console.log(r)
+      return r;
+    },
+  },
+  methods: {
+    isListOpen(serie: DriftSerie): boolean {
+      return this.openedLists.includes(serie);
+    },
+    toggleListOpen(index: DriftSerie): void {
+      if (this.isListOpen(index)) {
+        this.openedLists = this.openedLists.filter((i) => i !== index);
+      } else {
+        this.openedLists.push(index);
+      }
     },
   },
 };
@@ -73,15 +86,22 @@ export default {
 
 <style lang="less" scoped>
 .component-DriverSeasonsSection {
-  max-width: 500px;
+  max-width: 548px;
   margin: auto;
   margin-top: 12px;
 
-  border: 2px solid var(--black-2);
-  padding: 12px;
-  border-radius: 10px;
-  padding-left: 24px;
-  padding-right: 24px;
+  .serie-list-container {
+    ul,
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-top: 12px;
+    }
+  }
 
   h2 {
     text-align: center;
