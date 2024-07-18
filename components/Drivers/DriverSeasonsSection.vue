@@ -65,8 +65,18 @@ export default {
   computed: {
     seriesWithSeasons(): ISeasonsOfSerie[] {
       const r = service.parseSeriesWithSeasons(this.driverStats, this.driverId);
-      // console.log(r)
       return r;
+    },
+  },
+  watch: {
+    seriesWithSeasons: {
+      immediate: true,
+      handler() {
+        const firstSerie = this.seriesWithSeasons[0]?.serie;
+        if (firstSerie) {
+          this.openedLists = [firstSerie];
+        }
+      },
     },
   },
   methods: {

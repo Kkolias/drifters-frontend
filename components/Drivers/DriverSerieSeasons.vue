@@ -39,17 +39,17 @@
                 :class="{ selected: isSelectedDriver(result) }"
               >
                 <td>
-                  <button class="blank">{{ index + 1 }}.</button>
+                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">{{ result.placement }}.</NuxtLink>
                 </td>
                 <td>
-                  <button class="blank">
+                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">
                     {{ getDriverName(result) }}
-                  </button>
+                  </NuxtLink>
                 </td>
                 <td>
-                  <button class="blank">
+                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">
                     {{ result.score }}
-                  </button>
+                  </NuxtLink>
                 </td>
               </tr>
             </tbody>
@@ -117,6 +117,12 @@ export default {
     },
   },
   methods: {
+    // TODO: kuljettajien sijoitukset pitää saada oikeaksi!!
+    getDriverPageLink(resultItem: ScoreboardItem): string {
+      const driver = resultItem?.driver as IDriver;
+
+      return `/drivers/${driver.slug}`;
+    },
     toggleListOpen() {
       this.$emit("toggleListOpen", this.serie);
     },
