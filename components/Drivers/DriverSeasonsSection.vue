@@ -116,6 +116,11 @@ export default {
   h2 {
     text-align: center;
     font-size: 30px;
+
+    @media only screen and (max-width: 1090px) {
+      margin-top: 20px;
+      font-size: 20px;
+    }
   }
 }
 </style>

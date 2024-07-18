@@ -280,6 +280,13 @@ export default {
             color: var(--black-1);
             font-weight: 700;
             font-size: 20px;
+
+            @media only screen and (max-width: 1090px)  {
+              font-size: 16px;
+            }
+            @media only screen and (max-width: 520px)  {
+              font-size: 12px;
+            }
           }
         }
       }
