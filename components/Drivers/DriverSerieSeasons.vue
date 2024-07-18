@@ -9,60 +9,70 @@
       ></button>
     </label>
     <!-- <Transition name="slide-fade"> -->
-      <div class="open-container-section" v-if="isOpen">
-        <div class="selectable-year-container">
-          <button
-            :class="[isYearSelected(year) ? 'primary' : 'secondary v2']"
-            v-for="year in yearList"
-            :key="year"
-            @click="selectYear(year)"
-          >
-            <span>
-              {{ year }}
-            </span>
-          </button>
-        </div>
-        <div class="scoreboard-section">
-          <div class="shadow"></div>
-          <table class="scoreboard-table">
-            <thead>
-              <tr>
-                <th>Sija</th>
-                <th>Kuljettaja</th>
-                <th>Pisteet</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(result, index) in selectedScoreboard"
-                :key="result._id"
-                :class="{ selected: isSelectedDriver(result) }"
-              >
-                <td>
-                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">{{ result.placement }}.</NuxtLink>
-                </td>
-                <td>
-                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">
-                    {{ getDriverName(result) }}
-                  </NuxtLink>
-                </td>
-                <td>
-                  <NuxtLink :to="getDriverPageLink(result)" class="button blank">
-                    {{ result.score }}
-                  </NuxtLink>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="open-container-section" v-if="isOpen">
+      <div class="selectable-year-container">
+        <button
+          :class="[isYearSelected(year) ? 'primary' : 'secondary v2']"
+          v-for="year in yearList"
+          :key="year"
+          @click="selectYear(year)"
+        >
+          <span>
+            {{ year }}
+          </span>
+        </button>
       </div>
+      <div class="go-to-year-section">
+        <NuxtLink :to="selectedSeasonLink" class="to-season button blank">
+          <span> Katso koko {{ selectedYear }} kausi tästä. </span>
+        </NuxtLink>
+      </div>
+      <div class="scoreboard-section">
+        <div class="shadow"></div>
+        <table class="scoreboard-table">
+          <thead>
+            <tr>
+              <th>Sija</th>
+              <th>Kuljettaja</th>
+              <th>Pisteet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(result, index) in selectedScoreboard"
+              :key="result._id"
+              :class="{ selected: isSelectedDriver(result) }"
+            >
+              <td>
+                <NuxtLink :to="getDriverPageLink(result)" class="button blank"
+                  >{{ result.placement }}.</NuxtLink
+                >
+              </td>
+              <td>
+                <NuxtLink :to="getDriverPageLink(result)" class="button blank">
+                  {{ getDriverName(result) }}
+                </NuxtLink>
+              </td>
+              <td>
+                <NuxtLink :to="getDriverPageLink(result)" class="button blank">
+                  {{ result.score }}
+                </NuxtLink>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <!-- </Transition> -->
   </div>
 </template>
 
 <script lang="ts">
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
-import type { ISeasonsOfSerie } from "./DriverSeasonSection.service";
+import type {
+  ISeasonsOfSerie,
+  ISerieSeasonWithLeaderboard,
+} from "./DriverSeasonSection.service";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
 
@@ -86,9 +96,8 @@ export default {
   }),
   computed: {
     yearList(): number[] {
-      const yearList = (
-        this.serieWithSeasonStats?.seasons.map((season) => season.year) || []
-      );
+      const yearList =
+        this.serieWithSeasonStats?.seasons.map((season) => season.year) || [];
       return yearList?.sort((a, b) => a - b) || [];
     },
     serieName(): string {
@@ -98,11 +107,19 @@ export default {
       return this.serieWithSeasonStats.serie;
     },
     selectedScoreboard(): ScoreboardItem[] {
+      return this.selectedSeason?.scoreboard || [];
+    },
+    selectedSeason(): ISerieSeasonWithLeaderboard | null {
       return (
         this.serieWithSeasonStats?.seasons.find(
           (season) => season.year === this.selectedYear
-        )?.scoreboard || []
+        ) || null
       );
+    },
+    selectedSeasonLink(): string {
+      const slug = this.selectedSeason?.slug || "";
+
+      return `/drift-season/${slug}?view=events`;
     },
     // leaderboards(): ILeaderboardWithSeasonInfo[] {
     //   return this.serieWithSeasonStats?.leaderboards || [];
@@ -112,12 +129,11 @@ export default {
     yearList: {
       immediate: true,
       handler() {
-        this.selectYear(this.yearList[0]);
+        this.selectYear(this.yearList[this.yearList?.length - 1]);
       },
     },
   },
   methods: {
-    // TODO: kuljettajien sijoitukset pitää saada oikeaksi!!
     getDriverPageLink(resultItem: ScoreboardItem): string {
       const driver = resultItem?.driver as IDriver;
 
@@ -172,7 +188,6 @@ export default {
   //   transform-origin: top;
   //   transition: transform 0.3s ease-in-out;
 
-    
   // }
 
   // .slide-fade-enter-to,
@@ -243,6 +258,15 @@ export default {
           font-size: 18px;
           font-weight: 700;
         }
+      }
+    }
+
+    .to-season {
+      margin-top: 12px;
+      display: block;
+      span {
+        color: var(--green-1);
+        text-decoration: underline;
       }
     }
   }
