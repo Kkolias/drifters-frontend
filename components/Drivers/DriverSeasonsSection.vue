@@ -3,6 +3,13 @@
     <LoadingIndicator v-if="loading" />
     <div class="content" v-if="!loading">
       <h2>Sarjat ja kaudet, joissa {{ driverName }} on mukana</h2>
+      <p class="subtext">
+        Tästä osiosta näet kuljettajan {{ driverName }} sijoitukset eri sarjojen
+        ja kausien aikana. Listassa näkyvät kuljettajan saavutukset Drift Masters European Championship tai
+        Drift SM Pro -sarjoissa, mukaan lukien sijoitukset ja kerätyt pisteet.
+        Klikkaamalla kunkin sarjan kautta voit tarkastella yksityiskohtaisesti,
+        miten kuljettaja on pärjännyt kyseisenä vuotena.
+      </p>
       <div class="serie-list-container">
         <ul>
           <li
@@ -99,6 +106,16 @@ export default {
   max-width: 548px;
   margin: auto;
   margin-top: 12px;
+
+  .subtext {
+    text-align: center;
+    margin-left: 12px;
+    margin-right: 12px;
+
+    @media only screen and (max-width: 1090px) {
+      font-size: 14px;
+    }
+  }
 
   .serie-list-container {
     ul,
