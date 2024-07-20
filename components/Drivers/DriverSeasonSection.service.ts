@@ -27,7 +27,7 @@ export class DriverSeasonSectionService {
   ): ISeasonsOfSerie[] {
     const serieList = Object.values(DriftSerie);
 
-    return serieList?.map((serie) => {
+    const output = serieList?.map((serie) => {
       const seasons = this.parseSeasonListOfSerie(
         serie,
         driverSeasonStats.leaderboards,
@@ -36,6 +36,11 @@ export class DriverSeasonSectionService {
       const serieName = DRIFT_SERIES_LABEL?.[serie] || "";
       return { serie, serieName, seasons };
     });
+    return this.filterSeries(output);
+  }
+
+  private filterSeries(serieList: ISeasonsOfSerie[]): ISeasonsOfSerie[] {
+    return serieList?.filter(serie => serie?.seasons?.length > 0);
   }
 
   private parseSeasonListOfSerie(
