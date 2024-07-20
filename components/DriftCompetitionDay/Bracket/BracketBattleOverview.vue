@@ -8,17 +8,21 @@
         <div class="top-section">
           <div class="driver-left">
             <div class="profile-picture"></div>
-            <p :class="{ winner: isWinner('driver1') }">{{ driver1Name }}</p>
-            <p v-if="isWinner('driver1')" class="advance-text">
-              {{ advanceText }}
-            </p>
+            <NuxtLink :title="`${driver1Name} kuljettajaprofiili`" class="button blank" :to="driver1ProfileLink">
+              <p :class="{ winner: isWinner('driver1') }">{{ driver1Name }}</p>
+              <p v-if="isWinner('driver1')" class="advance-text">
+                {{ advanceText }}
+              </p>
+            </NuxtLink>
           </div>
           <div class="driver-right">
             <div class="profile-picture"></div>
-            <p :class="{ winner: isWinner('driver2') }">{{ driver2Name }}</p>
-            <p v-if="isWinner('driver2')" class="advance-text">
-              {{ advanceText }}
-            </p>
+            <NuxtLink :title="`${driver2Name} kuljettajaprofiili`" class="button blank" :to="driver2ProfileLink">
+              <p :class="{ winner: isWinner('driver2') }">{{ driver2Name }}</p>
+              <p v-if="isWinner('driver2')" class="advance-text">
+                {{ advanceText }}
+              </p>
+            </NuxtLink>
           </div>
         </div>
         <div class="battle-section">
@@ -95,6 +99,16 @@ export default {
       const lastName = driver2?.lastName || "";
       return `${firstName} ${lastName}`;
     },
+    driver1ProfileLink(): string {
+      const driver = this.heatItem?.driver1 as IDriver;
+      const slug = driver?.slug || "";
+      return `/drivers/${slug}`;
+    },
+    driver2ProfileLink(): string {
+      const driver = this.heatItem?.driver2 as IDriver;
+      const slug = driver?.slug || "";
+      return `/drivers/${slug}`;
+    },
     runList(): IRunPairItem[] {
       return this.heatItem?.runList || [];
     },
@@ -102,7 +116,7 @@ export default {
       return `Heat ${this.heatItem?.bracketNumber}`;
     },
     advanceText() {
-      if(this.isShowdown && this.heatItem?.bracketNumber === 3) {
+      if (this.isShowdown && this.heatItem?.bracketNumber === 3) {
         return "Voittaja";
       }
       if (this.heatItem?.bracketNumber === 32) {
@@ -156,17 +170,17 @@ export default {
     width: 450px;
 
     .heat-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        h3 {
-          margin: 0;
-          font-size: 22px;
-          font-weight: bold;
-          white-space: nowrap;
-        }
+      h3 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: bold;
+        white-space: nowrap;
       }
+    }
 
     .top-section {
       display: grid;

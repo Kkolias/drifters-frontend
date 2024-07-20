@@ -15,12 +15,20 @@
         </thead>
         <tbody>
           <tr v-for="(result, index) in sortedScoreboard" :key="result._id">
-            <td>{{ index + 1 }}.</td>
             <td>
-              {{ getDriverName(result) }}
+              <NuxtLink :to="driverProfileLink(result)" class="button blank">
+                <span> {{ index + 1 }}. </span>
+              </NuxtLink>
             </td>
             <td>
-              {{ getPoints(result) }}
+              <NuxtLink :to="driverProfileLink(result)" class="button blank">
+                <span>{{ getDriverName(result) }}</span>
+              </NuxtLink>
+            </td>
+            <td>
+              <NuxtLink :to="driverProfileLink(result)" class="button blank">
+                <span>{{ getPoints(result) }}</span>
+              </NuxtLink>
             </td>
           </tr>
         </tbody>
@@ -63,6 +71,15 @@ export default {
     },
   },
   methods: {
+    driverProfileLink(resultItem: ScoreboardItem): string {
+      console.log(resultItem)
+      const slug = this.getDriver(resultItem)?.slug || "";
+      return `/drivers/${slug}`;
+    },
+    getDriver(resultItem: ScoreboardItem): IDriver {
+      const driverId = resultItem?.driver;
+      return this.allDriversList.find((d) => d?._id === driverId) as IDriver;
+    },
     getDriverName(scoreItem: ScoreboardItem): string {
       const driverId = scoreItem?.driver;
       const driver = this.allDriversList.find((d) => d?._id === driverId);

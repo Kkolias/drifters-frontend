@@ -55,6 +55,11 @@
             </div>
           </div>
         </div>
+        <div class="to-driver-profile">
+          <NuxtLink :to="driverProfileLink" class="button blank">
+            <span> Kuljettajan profiiliin </span>
+          </NuxtLink>
+        </div>
       </div>
     </Modal>
   </div>
@@ -72,10 +77,17 @@ export default {
     },
     showRunStats: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
+    driverProfileLink(): string {
+      const slug = this.driver?.slug || "";
+      return `/drivers/${slug}`;
+    },
+    driver(): IDriver {
+      return this.qualifyingResultItem?.driver as IDriver;
+    },
     driverName(): string {
       const driver = this.qualifyingResultItem?.driver as IDriver;
       return `${driver?.firstName || ""} ${driver?.lastName || ""}`;
@@ -194,6 +206,17 @@ export default {
             opacity: 0.8;
           }
         }
+      }
+    }
+    .to-driver-profile {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+
+      .button {
+        color: var(--green-1);
+        font-size: 16px;
+        text-decoration: underline;
       }
     }
   }
