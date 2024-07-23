@@ -327,7 +327,7 @@ export default {
     font-size: 2.6rem;
     text-align: center;
     color: var(--green-1);
-    margin: 0;
+    margin: 0 auto;
   }
   .event-details,
   .no-data {
