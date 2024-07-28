@@ -18,7 +18,7 @@
     <div class="policy-section third-party">
       <h2>{{ textContent.thirdPartyTitle }}</h2>
       <p>{{ textContent.thirdPartyText }}</p>
-      <a to="https://business.safety.google/privacy/">{{ textContent.googlePolicy }}</a>
+      <a href="https://business.safety.google/privacy/" target="_blank">{{ textContent.googlePolicy }}</a>
     </div>
     <div class="policy-section data-protection">
       <h2>{{ textContent.dataProtectionTitle }}</h2>
