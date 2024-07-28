@@ -14,6 +14,11 @@
               {{ nav.label }}
             </NuxtLink>
           </li>
+          <li class="bottom">
+            <NuxtLink to="/tietosuojakaytantomme">
+              Tietosuojakäytäntömme
+            </NuxtLink>
+          </li>
         </ul>
       </div>
     </nav>
@@ -226,6 +231,18 @@ export default {
     li {
       padding: 10px 0;
       font-size: 22px;
+
+      &.bottom {
+        position: absolute;
+        bottom: 20px;
+        padding: 50px;
+        padding-bottom: 125px;
+        
+        a {
+          color: var(--green-1);
+          font-size: 14px;
+        }
+      }
     }
   }
 
