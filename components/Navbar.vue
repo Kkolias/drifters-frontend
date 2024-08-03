@@ -1,7 +1,14 @@
 <template>
   <div class="component-Navbar">
     <div class="background-area"></div>
-    <NuxtLink to="/?close-nav=true" title="Etusivulle" class="to-home-btn"></NuxtLink>
+    <NuxtLink
+      to="/?close-nav=true"
+      title="Etusivulle"
+      class="to-home-btn"
+    ></NuxtLink>
+    <NuxtLink to="/miksi-mainoksia" class="why-ads-btn"
+      >Miksi mainoksia?</NuxtLink
+    >
     <nav class="menu--right" role="navigation">
       <div class="menuToggle">
         <input type="checkbox" v-model="navOpen" />
@@ -15,6 +22,9 @@
             </NuxtLink>
           </li>
           <li class="bottom">
+            <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom"
+              >Miksi mainoksia?</NuxtLink
+            >
             <NuxtLink to="/tietosuojakaytantomme">
               Tietosuojakäytäntömme
             </NuxtLink>
@@ -78,7 +88,7 @@ export default {
     },
     closeNav(): boolean {
       return this.queryParams?.["close-nav"] === "true";
-    }
+    },
   },
   watch: {
     path() {
@@ -130,6 +140,24 @@ export default {
     background: url("~/assets/svg/driftdataan.svg") no-repeat center;
     background-size: cover;
     z-index: 2;
+  }
+
+  .why-ads-btn {
+    position: fixed;
+    top: 28px;
+    right: 90px;
+    color: var(--green-1);
+    z-index: 2;
+    text-decoration: none;
+    font-size: 0.9rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    @media only screen and (max-width: 450px) {
+      display: none;
+    }
   }
   .menuToggle {
     display: block;
@@ -235,12 +263,33 @@ export default {
       &.bottom {
         position: absolute;
         bottom: 20px;
-        padding: 50px;
+        padding: 0px;
         padding-bottom: 125px;
-        
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+
         a {
           color: var(--green-1);
           font-size: 14px;
+        }
+
+        .why-ads-btn-bottom {
+          text-align: center;
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 0px;
+            width: 1px;
+            height: 16px;
+            background: var(--green-1);
+
+            @media only screen and (max-width: 315px) {
+              display: none;
+            }
+          }
         }
       }
     }
@@ -267,11 +316,13 @@ export default {
       transform: translate(105%, 0);
 
       li {
-        &:hover {
-          transform: scale(1.1);
+        &:not(.bottom) {
+          &:hover {
+            transform: scale(1.1);
 
-          a {
-            padding-left: 15px;
+            a {
+              padding-left: 15px;
+            }
           }
         }
       }
