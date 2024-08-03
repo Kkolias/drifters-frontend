@@ -262,7 +262,7 @@ export default {
 
       &.bottom {
         position: absolute;
-        bottom: 20px;
+        bottom: 80px;
         padding: 0px;
         padding-bottom: 125px;
         display: flex;
