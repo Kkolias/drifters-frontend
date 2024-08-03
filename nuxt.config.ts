@@ -4,9 +4,8 @@ export default defineNuxtConfig({
 
   modules: ["@pinia/nuxt"],
 
-  
   // pwa: { icon: { source: "/favicon.svg?v1" } },
-  
+
   // default title for all pages
   app: {
     head: {
@@ -24,9 +23,15 @@ export default defineNuxtConfig({
       ],
       script: [
         {
-          src: 'https://fundingchoicesmessages.google.com/i/pub-9719911928704123?ers=1',
-          async: true
-        }
+          src: "https://fundingchoicesmessages.google.com/i/pub-9719911928704123?ers=1",
+          async: true,
+        },
+        {
+          hid: "adsense",
+          async: true,
+          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9719911928704123",
+          crossorigin: "anonymous",
+        },
       ],
       // __dangerouslyDisableSanitizers: ['script']
     },
