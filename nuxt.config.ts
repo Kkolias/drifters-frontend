@@ -22,6 +22,13 @@ export default defineNuxtConfig({
             "DriftDataan tarjoaa kattavat tulokset ja tilastot Drift Masters Europe sekä Suomen Drift SM sarjasta. Seuraa driftaustapahtumien kuumimpia hetkiä ja tutustu huippuluokan driftaajiin!",
         },
       ],
+      script: [
+        {
+          src: 'https://fundingchoicesmessages.google.com/i/pub-9719911928704123?ers=1',
+          async: true
+        }
+      ],
+      // __dangerouslyDisableSanitizers: ['script']
     },
   },
   css: ["~/assets/less/main.less"],
