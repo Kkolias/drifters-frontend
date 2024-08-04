@@ -72,7 +72,6 @@ export default {
   },
   methods: {
     driverProfileLink(resultItem: ScoreboardItem): string {
-      console.log(resultItem)
       const slug = this.getDriver(resultItem)?.slug || "";
       return `/drivers/${slug}`;
     },

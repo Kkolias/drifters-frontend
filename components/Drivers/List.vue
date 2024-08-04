@@ -120,8 +120,6 @@ export default {
           const link = `/drivers/${nameAsLink}`;
           const name = this.getDriverName(driver);
 
-          console.log(driver);
-
           return {
             ...driver,
             link,
