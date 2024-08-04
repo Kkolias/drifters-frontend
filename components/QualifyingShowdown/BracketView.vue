@@ -114,7 +114,6 @@ export default {
   computed: {
     hasHeat3(): boolean {
       const heat3 = this.getHeatForNumber(3);
-      console.log(heat3);
       return !!heat3?._id;
     },
   },
