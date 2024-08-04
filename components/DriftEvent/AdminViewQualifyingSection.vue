@@ -43,6 +43,7 @@
     </Modal>
     <QualifyingAddDriversToResulList
       v-if="qualifyingItem && showAddDriversToResultList"
+      :scoreboardDriverIdListWorstToBest="scoreboardDriverIdListWorstToBest"
       :qualifyingItem="qualifyingItem"
       @reload="reloadData()"
       @closeModal="setShowAddDriversToResultList(false)"
@@ -69,6 +70,10 @@ export default {
       type: String,
       default: "",
     },
+    scoreboardDriverIdListWorstToBest: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    }
   },
   data: (): IData => ({
     editFormOpen: false,

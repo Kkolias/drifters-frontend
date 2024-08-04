@@ -39,6 +39,10 @@ export default {
     qualifyingItem: {
       type: Object as PropType<IQualifying | null>,
     },
+    scoreboardDriverIdListWorstToBest: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    }
   },
   data: (): IData => ({
     allDrivers: [],
@@ -56,8 +60,19 @@ export default {
         },
       ];
     },
+    orderedAllDriversList(): IDriver[] {
+      const foundOrderedDrivers = this.scoreboardDriverIdListWorstToBest?.map(
+        (id) => this.allDrivers?.find((d) => d?._id === id) 
+      )?.filter(i => i) as IDriver[];
+
+      const notFoundDrivers = this.allDrivers.filter(
+        (d) => !this.scoreboardDriverIdListWorstToBest.includes(d._id)
+      );
+
+      return [...foundOrderedDrivers, ...notFoundDrivers];
+    },
     dataList() {
-      return parsedDriverList(this.allDrivers, this.selectedDriverIdList);
+      return parsedDriverList(this.orderedAllDriversList, this.selectedDriverIdList);
     },
     qualifyingId(): string {
       return this.qualifyingItem?._id || "";

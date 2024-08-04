@@ -3,6 +3,7 @@ import type { ILeaderboard } from "~/interfaces/leaderboard.interface";
 const DRFIT_LEADERBOARD_ENDPOINTS = {
   GET_ALL: "/leaderboard/get-all",
   GET_BY_ID: "/leaderboard/get-by-id",
+  GET_BY_SEASON_ID: "/leaderboard/get-by-season-id",
   CREATE: "/leaderboard/create",
   ADD_DRIVER: "/leaderboard/add-driver",
 };
@@ -25,6 +26,20 @@ export class CompetitionDayApi extends ApiUtil {
     try {
       const season = await this.get({
         url: DRFIT_LEADERBOARD_ENDPOINTS.GET_BY_ID,
+        query: { id },
+      });
+
+      return season;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async getLeaderboardBySeasonId(id: string): Promise<ILeaderboard | null> {
+    try {
+      const season = await this.get({
+        url: DRFIT_LEADERBOARD_ENDPOINTS.GET_BY_SEASON_ID,
         query: { id },
       });
 
