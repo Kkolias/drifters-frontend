@@ -5,7 +5,7 @@
       <h2>Sarjat ja kaudet, joissa {{ driverName }} on mukana</h2>
       <p class="subtext">
         Tästä osiosta näet kuljettajan {{ driverName }} sijoitukset eri sarjojen
-        ja kausien aikana. Listassa näkyvät kuljettajan saavutukset Drift Masters European Championship tai
+        ja kausien aikana. Listassa näkyvät kuljettajan saavutukset Drift Masters tai
         Drift SM Pro -sarjoissa, mukaan lukien sijoitukset ja kerätyt pisteet.
         Klikkaamalla kunkin sarjan kautta voit tarkastella yksityiskohtaisesti,
         miten kuljettaja on pärjännyt kyseisenä vuotena.

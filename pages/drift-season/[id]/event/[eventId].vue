@@ -50,7 +50,7 @@ const title = computed(() => {
   if (isDriftSm?.value) {
     return "Drift SM Pro - Lajittelu- ja kaaviotulokset | DriftDataan";
   } else if (isDmec?.value) {
-    return "Drift Masters European Championship - Lajittelu- ja kaaviotulokset | DriftDataan";
+    return "Drift Masters - Lajittelu- ja kaaviotulokset | DriftDataan";
   }
   return "DriftDataan - Drifting tulokset ja tilastot";
 });
@@ -59,7 +59,7 @@ const description = computed(() => {
   if (isDriftSm?.value) {
     return "DriftDataan - Seuraa Drift SM Pro -sarjan kilpailuja ja tuloksia. Lue lisää Drift SM Pro -sarjan kilpailuista, tuloksista ja tilastoista. Seuraa Suomen parhaita drifting-kuljettajia kaudella 2024.";
   } else if (isDmec?.value) {
-    return "DriftDataan - Seuraa Drift Masters European Championship -sarjan kilpailuja ja tuloksia. Lue lisää Drift Masters European Championship -sarjan kilpailuista, tuloksista ja tilastoista. Seuraa Euroopan parhaita drifting-kuljettajia kaudella 2024.";
+    return "DriftDataan - Seuraa Drift Masters -sarjan kilpailuja ja tuloksia. Lue lisää Drift Masters -sarjan kilpailuista, tuloksista ja tilastoista. Seuraa Euroopan parhaita drifting-kuljettajia kaudella 2024.";
   }
   return "DriftDataan - Drifting tulokset ja tilastot";
 });

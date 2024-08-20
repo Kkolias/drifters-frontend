@@ -1,7 +1,7 @@
 <template>
   <div class="component-BracketView">
     <p class="subtitle">
-      Qualifying Showdown on Drift Masters European Championship -sarjan uusi
+      Qualifying Showdown on Drift Masters -sarjan uusi
       osio, jossa lajittelun top 4 kuskit ottavat mittaa toisistaan kahtena
       parina.
     </p>

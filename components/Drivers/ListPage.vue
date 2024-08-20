@@ -9,7 +9,7 @@
         Drifting-kuljettajasivulta löytyy kattava lista huipputason
         drifting-kuljettajista ja kuljettajan profiilista helpon esikatselun
         heidän ajamistaan kilpailusarjoista. Kaikki kuljettajat ajavat joko
-        Drift Masters European Championship -sarjaa, Suomen Drift SM -sarjaa tai
+        Drift Masters -sarjaa, Suomen Drift SM -sarjaa tai
         molempia. Klikkaa kunkin kuljettajan nimeä saadaksesi lisää tietoa
         heidän sijoituksistaan kausilla.
       </p>
