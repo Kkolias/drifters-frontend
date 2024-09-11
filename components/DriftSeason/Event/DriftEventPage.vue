@@ -8,19 +8,14 @@
       <h1 class="big-header">
         {{ serie }} {{ seasonYear }} {{ eventTrackCity }} Tulokset
       </h1>
-      <h2 class="event-details">
-        Tapahtuma: {{ driftEventName }}
-      </h2>
-      <h2 class="event-details">
-        Rata: {{ eventTrackCityShort }}
-      </h2>
-      <h2 class="event-details">
-        Päivämäärät: {{ eventDates }}
-      </h2>
+      <h2 class="event-details">Tapahtuma: {{ driftEventName }}</h2>
+      <h2 class="event-details">Rata: {{ eventTrackCityShort }}</h2>
+      <h2 class="event-details">Päivämäärät: {{ eventDates }}</h2>
       <section class="select-view-section">
         <DriftSeasonEventDriftEventViewSelection
           v-if="!!season"
           :season="season"
+          :eventSlug="eventSlug"
           :hasShowdown="hasShowdown"
         />
       </section>
@@ -73,6 +68,25 @@
       </section>
       <section class="view-section" v-if="isViewSelected('seasons')">
         <DriftSeriesList :selectedSeason="seasonId" />
+      </section>
+      <section class="view-section" v-if="isViewSelected('kiitos-kaudesta')">
+        <div class="thank-you-section">
+          <h2>Kiitos kaikille kaudesta!</h2>
+          <p>
+            Alun perin sivut syntyivät pienenä omana projektina, kun huomasin,
+            että Drift Masters -sarjan lajittelu-, kaavio- ja sarjataulukon
+            tuloksia oli vaikea löytää yhdestä paikasta. Olen todella iloinen,
+            että myös sinä olet löytänyt tiesi tänne!
+          </p>
+          <p>
+            Tarkoituksenani on kehittää sivuja edelleen, ja talven aikana aion
+            keskittyä parantamaan niiden mobiilikäyttöä sekä lisätä
+            mielenkiintoisia tilastoja kausista ja kuljettajista. Toivottavasti
+            nämä tulevat uudistukset tekevät sivuista entistä hyödyllisemmän ja
+            kiinnostavamman.
+          </p>
+          <p>Kiitos vielä kerran tuestasi ja käynnistäsi! Nähdään ensi kaudella!</p>
+        </div>
       </section>
     </div>
   </div>
@@ -347,6 +361,24 @@ export default {
 
   .view-section {
     margin-top: 24px;
+  }
+
+  .thank-you-section {
+    max-width: 800px;
+    margin: auto;
+    padding: 0 12px;
+    h2 {
+      color: var(--green-1);
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+      text-align: center;
+      margin-bottom: 24px;
+    }
   }
 }
 </style>

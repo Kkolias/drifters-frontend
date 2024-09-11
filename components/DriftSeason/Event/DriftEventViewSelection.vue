@@ -52,6 +52,14 @@
         <span>Tapahtumat</span>
       </NuxtLink>
       <NuxtLink
+        v-if="showThanksTab"
+        class="select-view season always-visible"
+        :class="{ selected: isViewSelected('kiitos-kaudesta') }"
+        :to="getQueryPath('kiitos-kaudesta')"
+      >
+        <span>Kiitos!</span>
+      </NuxtLink>
+      <NuxtLink
         :disabled="!isSelectedEvent"
         class="select-view leaderboards always-visible"
         :class="[
@@ -94,6 +102,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    eventSlug: {
+      type: String,
+      default: ''
+    
+    }
   },
   computed: {
     queryParams() {
@@ -102,6 +115,10 @@ export default {
     isSelectedEvent(): boolean {
       return !!this.$route?.params?.eventId;
     },
+    showThanksTab(): boolean {
+      return this.eventSlug === 'round-6-finland' || this.eventSlug === 'round-6-poland';
+      
+    }
   },
   methods: {
     isViewSelected(view: string): boolean {
