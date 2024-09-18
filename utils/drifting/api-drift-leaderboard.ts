@@ -5,7 +5,6 @@ const DRFIT_LEADERBOARD_ENDPOINTS = {
   GET_BY_ID: "/leaderboard/get-by-id",
   GET_BY_SEASON_ID: "/leaderboard/get-by-season-id",
   CREATE: "/leaderboard/create",
-  ADD_DRIVER: "/leaderboard/add-driver",
 };
 
 export class CompetitionDayApi extends ApiUtil {
