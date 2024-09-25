@@ -74,7 +74,12 @@
           <DriftSeriesList :selectedSeason="seasonId" />
         </section>
         <section class="view-section" v-if="isViewSelected('event-info')">
-          <DriftSeasonEventInfo v-if="driftEvent" :driftEvent="driftEvent" :seasonSlug="seasonSlug" />
+          <DriftSeasonEventInfo
+            v-if="driftEvent"
+            :driftEvent="driftEvent"
+            :seasonSlug="seasonSlug"
+            :nextEvent="nextEvent"
+          />
         </section>
       </div>
     </div>
@@ -138,6 +143,20 @@ export default {
     },
   }),
   computed: {
+    nextEvent() {
+      const eventList = this.season?.driftEvents || [];
+      const sortedByStartsAt = eventList.sort(
+        (a, b) =>
+          new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime()
+      );
+
+      const indexOfCurrentEvent = sortedByStartsAt.findIndex(
+        (e) => e.slug === this.eventSlug
+      );
+
+      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null
+      return nextEvent;
+    },
     seasonOverviewLink(): string {
       return `/drift-season/${this.seasonSlug}?view=events`;
     },

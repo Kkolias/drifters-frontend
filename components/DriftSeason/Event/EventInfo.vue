@@ -14,6 +14,11 @@
         </p>
       </div>
     </div>
+    <div v-if="nextEvent" class="next-event-container">
+      <NuxtLink class="to-event" :to="nextEventPath">
+        <span class="event-name">Seuraava tapahtuma: {{ nextEventName }}</span>
+      </NuxtLink>
+    </div>
     <div class="to-season-overview">
       <NuxtLink class="to-season" :to="pathToSeasonOnverview">
         <span class="event-name">Koko kauden yhteenveto</span>
@@ -21,7 +26,11 @@
     </div>
     <div class="track-layout">
       <h2>Ratakartta</h2>
-      <img v-if="eventTrackLayoutUrl" :src="eventTrackLayoutUrl" alt="track-layout" />
+      <img
+        v-if="eventTrackLayoutUrl"
+        :src="eventTrackLayoutUrl"
+        alt="track-layout"
+      />
       <div v-else class="no-track-layout">
         <p>Ei vielä ratakarttaa</p>
       </div>
@@ -43,8 +52,18 @@ export default {
       type: String,
       required: true,
     },
+    nextEvent: {
+      type: Object as PropType<IDriftEvent>,
+      default: () => null,
+    },
   },
   computed: {
+    nextEventPath(): string {
+      return `/drift-season/${this.seasonSlug}/event/${this.nextEvent.slug}?view=event-info`;
+    },
+    nextEventName(): string {
+      return this.nextEvent?.name || "";
+    },
     pathToSeasonOnverview(): string {
       return `/drift-season/${this.seasonSlug}?view=events`;
     },
@@ -104,29 +123,32 @@ export default {
       }
     }
   }
-  .to-season-overview {
-    margin-bottom: 36px;
-    .to-season {
-      display: block;
+  .next-event-container {
+    text-align: center;
+    
+    .to-event {
+      display: inline-block;
       border: 2px solid var(--white-1);
       border-radius: 10px;
       padding-top: 10px;
       padding-bottom: 10px;
-      padding-right: 50px;
-      padding-left: 20px;
+      padding-right: 40px;
+      padding-left: 10px;
       position: relative;
-      width: 200px;
+      min-width: 200px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
       margin: auto;
-
+      font-size: 13px;
       transition: all 0.25s ease-in-out;
+      background: var(--black-2);
+
       &:before {
         content: "";
         background: url("~/assets/svg/arrow-grey.svg") no-repeat;
         background-size: 15px;
         background-position: center;
         width: 35px;
-        height: 38px;
+        height: 34px;
         position: absolute;
         right: 0px;
         top: 0;
@@ -142,6 +164,15 @@ export default {
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
         transform: scale(1.05);
       }
+    }
+  }
+  .to-season-overview {
+    margin-bottom: 36px;
+    margin-top: 26px;
+    text-align: center;
+    .to-season {
+      text-align: center;
+      text-decoration: underline;
     }
   }
   .track-layout {

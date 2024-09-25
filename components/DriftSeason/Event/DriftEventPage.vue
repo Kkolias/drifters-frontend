@@ -105,7 +105,6 @@ import { useDriversStore } from "~/store/drivers";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
 import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
-import apiDrivers from "~/utils/drifting/api-drivers";
 import apiQualifying from "~/utils/drifting/api-qualifying";
 
 interface IData {
