@@ -241,5 +241,8 @@ export default {
     max-width: 1400px;
     margin: auto;
   }
+  .scroll-container {
+    touch-action: pinch-zoom;
+  }
 }
 </style>

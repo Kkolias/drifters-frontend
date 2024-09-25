@@ -142,5 +142,14 @@ export default {
       font-size: 1rem;
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    h3 {
+      font-size: 18px;
+    }
+    .subtitle, .subtitle.small {
+      font-size: 12px;
+    }
+  }
 }
 </style>

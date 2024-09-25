@@ -120,6 +120,8 @@ export default {
 
 <style lang="less" scoped>
 .component-Navbar {
+  position: relative;
+  z-index: 100;
   .background-area {
     position: fixed;
     top: 0;
@@ -128,8 +130,8 @@ export default {
     height: 65px;
     background: var(--black-1);
     z-index: 1;
-    opacity: 0.9;
-    box-shadow: 0px 8px 5px 0px var(--black-1);
+    opacity: 1;
+    // box-shadow: 0px 8px 5px 0px var(--black-1);
   }
   .to-home-btn {
     position: fixed;

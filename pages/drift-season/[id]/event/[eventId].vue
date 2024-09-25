@@ -1,6 +1,12 @@
 <template>
   <div class="page-drift-event full-height-page">
     <DriftSeasonEventDriftEventPage
+      v-if="!isMobile"
+      :seasonSlug="seasonSlug"
+      :eventSlug="eventSlug"
+    />
+    <DriftSeasonMobileEventPage
+      v-if="isMobile"
       :seasonSlug="seasonSlug"
       :eventSlug="eventSlug"
     />
@@ -21,6 +27,26 @@ export default {
 </script> -->
 
 <script setup lang="ts">
+const isMobile = ref(false);
+
+function checkMobile() {
+  if (window.innerWidth <= 768) {
+    isMobile.value = true;
+  } else {
+    isMobile.value = false;
+  }
+}
+
+// watch for window resize
+onMounted(() => {
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", checkMobile);
+});
+
 const defaultTitle = ref(
   "Drift SM - Suomen Parasta Driftingiä | Drift SM Pro ja Pro2"
 );
@@ -73,5 +99,4 @@ useHead({
     },
   ],
 });
-
 </script>

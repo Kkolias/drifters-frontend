@@ -16,6 +16,9 @@
       <section class="view-section" v-if="isViewSelected('events')">
         <DriftSeasonEventList v-if="!!season" :season="season" />
       </section>
+      <section class="view-section" v-if="isViewSelected('stats')">
+        <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
+      </section>
       <!-- <section class="view-section" v-if="isViewSelected('qualifying')">
         <QualifyingViewWrapper
           v-if="qualifying"
@@ -113,6 +116,9 @@ export default {
     },
     seasonId(): string {
       return this.season?._id || "";
+    },
+    eventList(): IDriftEvent[] {
+      return this.season?.driftEvents || [];
     },
     // eventId() {
     //   return (this.$route?.query?.["event-id"] as string) || "";

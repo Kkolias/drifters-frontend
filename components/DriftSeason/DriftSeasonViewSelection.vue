@@ -9,6 +9,13 @@
         <span>Tapahtumat</span>
       </NuxtLink>
       <NuxtLink
+        class="select-view season always-visible"
+        :class="{ selected: isViewSelected('stats') }"
+        :to="getQueryPath('stats')"
+      >
+        <span>Tilastot</span>
+      </NuxtLink>
+      <NuxtLink
         :disabled="!isSelectedEvent"
         class="select-view leaderboards always-visible"
         :class="[

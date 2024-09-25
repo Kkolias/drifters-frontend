@@ -1,9 +1,14 @@
 <template>
   <div class="component-QualifyingResultList">
-    <div class="input-wrapper">
+    <!-- <div class="input-wrapper">
       <input id="show-points" type="checkbox" name="show-points" v-model="showPoints">
       <label for="show-points">Näytä sijoituksesta saatavat pisteet</label>
-    </div>
+    </div> -->
+    <CheckboxButton
+      label="Näytä sijoituksesta saatavat pisteet"
+      :checked="showPoints"
+      @onClick="showPoints = !showPoints"
+    />
     <table class="scoreboard-table">
       <thead>
         <tr>
@@ -11,7 +16,9 @@
           <th>Kuljettaja</th>
           <th>Pisteet</th>
           <th v-if="showRunStats" class="scores">(Linja | Kulma |Tyyli)</th>
-          <th v-if="showPoints" title="Sijoituksesta saatavat mestaruuspisteet">Sij. pisteet</th>
+          <th v-if="showPoints" title="Sijoituksesta saatavat mestaruuspisteet">
+            Sij. pisteet
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -62,7 +69,7 @@ export default {
     showRunStats: {
       type: Boolean,
       default: true,
-    }
+    },
   },
   data: () => ({
     showPoints: false,
@@ -92,7 +99,10 @@ export default {
 
       // if (index >= pointsForPlace.length) return "0";
       const position = index + 1;
-      const pointsForPlace = getQualifyingPositionPointBySerie(this.driftSerie, position);
+      const pointsForPlace = getQualifyingPositionPointBySerie(
+        this.driftSerie,
+        position
+      );
       return `+${pointsForPlace}`;
     },
     handleClick(resultItem: IQualifyingResultItem): void {
@@ -109,6 +119,10 @@ export default {
     margin-bottom: 8px;
     max-width: 700px;
     margin: auto;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 }
 </style>

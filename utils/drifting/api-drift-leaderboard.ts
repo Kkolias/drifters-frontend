@@ -1,3 +1,4 @@
+import type { IScoreBoardItem } from "~/interfaces/competition-day.interface";
 import type { ILeaderboard } from "~/interfaces/leaderboard.interface";
 
 const DRFIT_LEADERBOARD_ENDPOINTS = {
@@ -5,6 +6,7 @@ const DRFIT_LEADERBOARD_ENDPOINTS = {
   GET_BY_ID: "/leaderboard/get-by-id",
   GET_BY_SEASON_ID: "/leaderboard/get-by-season-id",
   CREATE: "/leaderboard/create",
+  GET_EVENT_SCORES: "/leaderboard/get-event-scores",
 };
 
 export class CompetitionDayApi extends ApiUtil {
@@ -46,6 +48,20 @@ export class CompetitionDayApi extends ApiUtil {
     } catch (error) {
       console.error(error);
       return null;
+    }
+  }
+
+  async getEventScores(seasonId: string): Promise<IScoreBoardItem[]> {
+    try {
+      const list = await this.get({
+        url: DRFIT_LEADERBOARD_ENDPOINTS.GET_EVENT_SCORES,
+        query: { seasonId },
+      });
+
+      return list;
+    } catch (error) {
+      console.error(error);
+      return [];
     }
   }
 

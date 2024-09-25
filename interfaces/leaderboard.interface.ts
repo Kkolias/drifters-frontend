@@ -9,6 +9,7 @@ export interface ScoreboardItem {
     numOfSeconds: number;
     numOfThirds: number;
     placement?: number
+    eventScores: IEventScoresItem[];
   }
   
   export interface ILeaderboard {
@@ -16,4 +17,13 @@ export interface ScoreboardItem {
     seasonId: string;
     scoreboard: ScoreboardItem[];
     createdAt: string;
+  }
+
+  export interface IEventScoresItem {
+    eventId: string;
+    scoreQualifying: number;
+    scoreQualifyingShowdown: number | null;
+    scoreBracket: number;
+    cumulativeScore?: number;
+    totalEventScore?: number;
   }
