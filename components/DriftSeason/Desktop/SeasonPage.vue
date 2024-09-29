@@ -291,6 +291,13 @@ export default {
     right: 200px;
     transform: translateX(100%);
     z-index: 2;
+
+    @media only screen and (min-width: 1500px) {
+      right: 300px;
+    }
+    @media only screen and (min-width: 1650px) {
+      right: 400px;
+    }
   }
 
   .view-section {

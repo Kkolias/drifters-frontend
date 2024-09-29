@@ -38,7 +38,7 @@ export default {
         this.isViewSelected(nav.key)
       );
       return {
-        top: `${selectedIndex * 26}px`,
+        top: `${selectedIndex * 28}px`,
       };
     },
   },
@@ -105,7 +105,7 @@ export default {
   }
 
   li {
-    height: 26px;
+    height: 28px;
     .nav-label {
       color: var(--green-1);
       opacity: 0.8;
@@ -116,7 +116,7 @@ export default {
     .selected {
       .nav-label {
         opacity: 1;
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 700;
       }
     }
@@ -136,7 +136,7 @@ export default {
   .selected-indicator-line {
     position: absolute;
     left: -11px;
-    height: 26px;
+    height: 28px;
     width: 4px;
     background: var(--green-1);
     opacity: 1;
