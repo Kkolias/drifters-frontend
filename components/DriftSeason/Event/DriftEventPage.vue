@@ -1,7 +1,9 @@
 <template>
   <div class="component-DriftEventPage margin-12">
     <div class="back-link-to-series">
-      <NuxtLink class="blank button" to="/series">Takaisin sarjoihin</NuxtLink>
+      <NuxtLink class="blank button" :to="seasonOverviewPath"
+        >Kauden yhteenveto</NuxtLink
+      >
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
@@ -14,6 +16,7 @@
       <section class="select-view-section">
         <DriftSeasonEventDriftEventViewSelection
           v-if="!!season"
+          :navigationList="navigationList"
           :season="season"
           :eventSlug="eventSlug"
           :hasShowdown="hasShowdown"
@@ -21,6 +24,14 @@
       </section>
       <section class="view-section" v-if="isViewSelected('events')">
         <DriftSeasonEventList v-if="!!season" :season="season" />
+      </section>
+      <section class="view-section" v-if="isViewSelected('event-info')">
+        <DriftSeasonEventInfo
+          v-if="driftEvent"
+          :driftEvent="driftEvent"
+          :seasonSlug="seasonSlug"
+          :nextEvent="nextEvent"
+        />
       </section>
       <section class="view-section" v-if="isViewSelected('qualifying')">
         <QualifyingViewWrapper
@@ -68,25 +79,6 @@
       </section>
       <section class="view-section" v-if="isViewSelected('seasons')">
         <DriftSeriesList :selectedSeason="seasonId" />
-      </section>
-      <section class="view-section" v-if="isViewSelected('kiitos-kaudesta')">
-        <div class="thank-you-section">
-          <h2>Kiitos kaikille kaudesta!</h2>
-          <p>
-            Alun perin sivut syntyivät pienenä omana projektina, kun huomasin,
-            että Drift Masters -sarjan lajittelu-, kaavio- ja sarjataulukon
-            tuloksia oli vaikea löytää yhdestä paikasta. Olen todella iloinen,
-            että myös sinä olet löytänyt tiesi tänne!
-          </p>
-          <p>
-            Tarkoituksenani on kehittää sivuja edelleen, ja talven aikana aion
-            keskittyä parantamaan niiden mobiilikäyttöä sekä lisätä
-            mielenkiintoisia tilastoja kausista ja kuljettajista. Toivottavasti
-            nämä tulevat uudistukset tekevät sivuista entistä hyödyllisemmän ja
-            kiinnostavamman.
-          </p>
-          <p>Kiitos vielä kerran tuestasi ja käynnistäsi! Nähdään ensi kaudella!</p>
-        </div>
       </section>
     </div>
   </div>
@@ -149,6 +141,33 @@ export default {
     },
   }),
   computed: {
+    navigationList() {
+      return [
+        { label: "Yhteenveto", key: "event-info" },
+        { label: "Lajittelu", key: "qualifying" },
+        { label: "Showdown", key: "qualifying-showdown" },
+        { label: "Kaavio", key: "battles" },
+        { label: "Pistetaulukko", key: "leaderboard" },
+        { label: "Muut kaudet", key: "seasons" },
+      ];
+    },
+    nextEvent() {
+      const eventList = this.season?.driftEvents || [];
+      const sortedByStartsAt = eventList.sort(
+        (a, b) =>
+          new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime()
+      );
+
+      const indexOfCurrentEvent = sortedByStartsAt.findIndex(
+        (e) => e.slug === this.eventSlug
+      );
+
+      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null
+      return nextEvent;
+    },
+    seasonOverviewPath(): string {
+      return `/drift-season/${this.seasonSlug}`;
+    },
     driftSerie(): DriftSerie | null {
       return this.season?.serie || null;
     },

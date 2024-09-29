@@ -176,8 +176,11 @@ export default {
     }
   }
   .track-layout {
+    text-align: center;
     img {
+      margin: auto;
       margin-top: 4px;
+      max-width: 500px;
       width: 100%;
       height: auto;
       border: 2px solid var(--white-1);

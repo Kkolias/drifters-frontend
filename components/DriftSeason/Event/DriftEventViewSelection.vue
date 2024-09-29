@@ -2,86 +2,20 @@
   <div class="component-DriftEventViewSelection">
     <div class="button-wrapper">
       <NuxtLink
+        v-for="item in navigationList"
+        :key="item.key"
         :disabled="!isSelectedEvent"
         class="select-view qualifying"
         :class="[
           {
-            selected: isViewSelected('qualifying'),
+            selected: isViewSelected(item.key),
             disabled: !isSelectedEvent,
           },
           isSelectedEvent ? 'not-disabled' : 'disabled',
         ]"
-        :to="getQueryPath('qualifying')"
+        :to="getQueryPath(item.key)"
       >
-        <span>Lajittelu</span>
-      </NuxtLink>
-      <NuxtLink
-        v-if="hasShowdown"
-        :disabled="!isSelectedEvent"
-        class="select-view qualifying-showdown"
-        :class="[
-          {
-            selected: isViewSelected('qualifying-showdown'),
-            disabled: !isSelectedEvent,
-          },
-          isSelectedEvent ? 'not-disabled' : 'disabled',
-        ]"
-        :to="getQueryPath('qualifying-showdown')"
-      >
-        <span>Showdown</span>
-      </NuxtLink>
-      <NuxtLink
-        :disabled="!isSelectedEvent"
-        class="select-view battles"
-        :class="[
-          {
-            selected: isViewSelected('battles'),
-            disabled: !isSelectedEvent,
-          },
-          isSelectedEvent ? 'not-disabled' : 'disabled',
-        ]"
-        :to="getQueryPath('battles')"
-      >
-        <span>Kaavio</span>
-      </NuxtLink>
-      <NuxtLink
-        class="select-view season always-visible"
-        :class="{ selected: isViewSelected('events') }"
-        :to="getQueryPath('events')"
-      >
-        <span>Tapahtumat</span>
-      </NuxtLink>
-      <NuxtLink
-        v-if="showThanksTab"
-        class="select-view season always-visible"
-        :class="{ selected: isViewSelected('kiitos-kaudesta') }"
-        :to="getQueryPath('kiitos-kaudesta')"
-      >
-        <span>Kiitos!</span>
-      </NuxtLink>
-      <NuxtLink
-        :disabled="!isSelectedEvent"
-        class="select-view leaderboards always-visible"
-        :class="[
-          {
-            selected: isViewSelected('leaderboard'),
-          },
-        ]"
-        :to="getQueryPath('leaderboard')"
-      >
-        <span>Pistetaulukko</span>
-      </NuxtLink>
-      <NuxtLink
-        :disabled="!isSelectedEvent"
-        class="select-view seasons always-visible"
-        :class="[
-          {
-            selected: isViewSelected('seasons'),
-          },
-        ]"
-        :to="getQueryPath('seasons')"
-      >
-        <span>Muut kaudet</span>
+        <span>{{ item.label }}</span>
       </NuxtLink>
     </div>
     <div class="bottom-line"></div>
@@ -106,6 +40,10 @@ export default {
       type: String,
       default: ''
     
+    },
+    navigationList: {
+      type: Array as () => { label: string; key: string }[],
+      default: () => [],
     }
   },
   computed: {
@@ -138,75 +76,6 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftEventViewSelection {
-  // margin-top: 24px;
-  // .button-wrapper {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: flex-end;
-  //   gap: 1rem;
-  //   height: 54px;
-  //   overflow-y: hidden;
-
-  //   .select-view {
-  //     width: 200px;
-  //     height: 46px;
-  //     background: var(--black-2);
-  //     border-radius: 10px 10px 0 0;
-  //     transition: all 0.25s ease-in-out;
-
-  //     span {
-  //       font-size: 1.6rem;
-  //       text-align: center;
-  //       display: block;
-  //       line-height: 46px;
-  //       transition: all 0.25s ease-in-out;
-  //     }
-
-  //     &.selected {
-  //       background: var(--green-1);
-  //       height: 52px;
-
-  //       span {
-  //         color: var(--black-1);
-  //         font-weight: 700;
-  //         line-height: 52px;
-  //       }
-  //     }
-
-  //     &.disabled {
-  //       transform: translateY(75%);
-  //       opacity: 0.5;
-  //       cursor: not-allowed;
-  //       pointer-events: none;
-  //     }
-
-  //     &.not-disabled {
-  //       // use slideIn animation on class change
-  //       animation: slideIn 0.25s ease-in-out;
-  //     }
-
-  //     &:not(.always-visible) {
-  //       // transition to make buttons appear from the bottom
-  //       // animation: slideIn 2s ease-in-out;
-
-  //       @keyframes slideIn {
-  //         0% {
-  //           transform: translateY(100%);
-  //           // opacity: 0;
-  //         }
-  //         100% {
-  //           transform: translateY(0);
-  //           // opacity: 1;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // .bottom-line {
-  //   width: 100%;
-  //   height: 2px;
-  //   background: var(--green-1);
-  // }
+ 
 }
 </style>

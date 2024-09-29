@@ -5,34 +5,34 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 1rem;
+    gap: 10px;
     height: 70px;
     overflow-y: hidden;
 
     .select-view {
-      min-width: 180px;
+      min-width: 130px;
       padding: 0 6px;
-      height: 46px;
+      height: 36px;
       background: var(--black-2);
       border-radius: 10px 10px 0 0;
       transition: all 0.25s ease-in-out;
 
       span {
-        font-size: 1.6rem;
+        font-size: 18px;
         text-align: center;
         display: block;
-        line-height: 46px;
+        line-height: 36px;
         transition: all 0.25s ease-in-out;
       }
 
       &.selected {
         background: var(--green-1);
-        height: 52px;
+        height: 42px;
 
         span {
           color: var(--black-1);
           font-weight: 700;
-          line-height: 52px;
+          line-height: 42px;
         }
       }
 
@@ -79,6 +79,7 @@
       justify-content: unset;
 
       .select-view {
+        min-width: 100px;
         &:first-child {
           margin-left: auto;
         }
@@ -91,20 +92,20 @@
       .select-view {
         width: auto;
         padding: 0 1rem;
-        height: 38px;
+        height: 32px;
         span {
-          font-size: 1.3rem;
-          line-height: 38px;
+          font-size: 14px;
+          line-height: 32px;
           white-space: nowrap;
         }
 
         &.selected {
-          height: 44px;
+          height: 38px;
 
           span {
             color: var(--black-1);
             font-weight: 700;
-            line-height: 44px;
+            line-height: 38px;
           }
         }
       }
