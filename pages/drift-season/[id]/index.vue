@@ -1,6 +1,7 @@
 <template>
   <div class="page-drift-event full-height-page">
-    <DriftSeasonPage v-if="!isMobile" :seasonSlug="seasonSlug" />
+    <DriftSeasonDesktopSeasonPage v-if="!isMobile" :seasonSlug="seasonSlug" />
+    <!-- <DriftSeasonPage v-if="!isMobile" :seasonSlug="seasonSlug" /> -->
     <DriftSeasonMobileDriftSeasonPageMobile v-else :seasonSlug="seasonSlug" />
   </div>
 </template>

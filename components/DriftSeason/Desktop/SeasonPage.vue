@@ -11,15 +11,21 @@
         <span class="city">{{ eventTrackCity }}</span>
       </p>
       <section class="select-view-section">
-        <DriftSeasonViewSelection v-if="!!season" :season="season" />
+        <DriftSeasonDesktopViewSelection
+          v-if="!!season"
+          :navigationList="navigationList"
+        />
       </section>
-      <section class="view-section" v-if="isViewSelected('events')">
+      <section class="view-section scroll-section" id="events">
+        <h2 class="section-header">Tapahtumat</h2>
         <DriftSeasonEventList v-if="!!season" :season="season" />
       </section>
-      <section class="view-section" v-if="isViewSelected('stats')">
+      <section class="view-section scroll-section" id="stats">
+        <h2 class="section-header">Kauden Tilastot</h2>
         <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
       </section>
-      <section class="view-section" v-if="isViewSelected('leaderboard')">
+      <section class="view-section scroll-section" id="leaderboard">
+        <h2 class="section-header">Kauden Pistetaulukko</h2>
         <LeaderboardScoreboardView
           v-if="season"
           :loading="loading.drivers || loading.season"
@@ -29,7 +35,8 @@
           :allDriversList="allDriversList"
         />
       </section>
-      <section class="view-section" v-if="isViewSelected('seasons')">
+      <section class="view-section scroll-section" id="seasons">
+        <h2 class="section-header">Muut kaudet</h2>
         <DriftSeriesList :selectedSeason="seasonId" />
       </section>
     </div>
@@ -46,7 +53,6 @@ import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
 import { useDriversStore } from "~/store/drivers";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
-import apiDrivers from "~/utils/drifting/api-drivers";
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -86,6 +92,26 @@ export default {
     },
   }),
   computed: {
+    navigationList(): { label: string; key: string }[] {
+      return [
+        {
+          label: "Tapahtumat",
+          key: "events",
+        },
+        {
+          label: "Tilastot",
+          key: "stats",
+        },
+        {
+          label: "Pistetaulukko",
+          key: "leaderboard",
+        },
+        {
+          label: "Muut kaudet",
+          key: "seasons",
+        },
+      ];
+    },
     isLoading(): boolean {
       return this.loading.season;
     },
@@ -101,15 +127,6 @@ export default {
     eventList(): IDriftEvent[] {
       return this.season?.driftEvents || [];
     },
-    // eventId() {
-    //   return (this.$route?.query?.["event-id"] as string) || "";
-    // },
-    // qualifyingId(): string {
-    //   return this.driftEvent?.qualifying?._id || "";
-    // },
-    // competitionDayId(): string {
-    //   return this.driftEvent?.competitionDay?._id || "";
-    // },
     seasonYear(): string {
       return `${this.season?.year}` || "";
     },
@@ -140,65 +157,26 @@ export default {
       return ` - ${this.eventTrack}, ${this.eventCity}`;
     },
   },
-  mounted() {
-    this.fetchDriftSeason();
+  async mounted() {
     this.fetchDrivers();
-    // if (this.eventId) {
-    //   this.fetchDriftEvent();
-    // }
-    // if (this.qualifyingId) {
-    //   this.fetchQualifying();
-    // }
-    // if (this.competitionDayId) {
-    //   this.fetchCompetitionDay();
-    // }
+    await this.fetchDriftSeason();
+    // scroll to selected section on mount
+    this.$nextTick(() => {
+      if (this.$route.hash) {
+        const el = document.querySelector(this.$route.hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "auto", block: "start" });
+        }
+      }
+    });
   },
-  // watch: {
-  //   eventId() {
-  //     this.fetchDriftEvent();
-  //   },
-  //   qualifyingId() {
-  //     this.fetchQualifying();
-  //   },
-  //   competitionDayId() {
-  //     this.fetchCompetitionDay();
-  //   },
-  // },
   methods: {
-    // async fetchDriftEvent(): Promise<void> {
-    //   this.setLoading("driftEvent", true);
-    //   const r = await apiDriftEvent.getDriftEventById(this.eventId);
-    //   this.driftEvent = r;
-    //   this.setLoading("driftEvent", false);
-    // },
     async fetchDriftSeason(): Promise<void> {
       this.setLoading("season", true);
       const r = await apiDriftSeason.getDriftSeasonBySlug(this.seasonSlug);
       this.season = r;
       this.setLoading("season", false);
     },
-    // async fetchQualifying(): Promise<void> {
-    //   if (!this.qualifyingId) {
-    //     this.qualifying = null;
-    //     return;
-    //   }
-    //   this.setLoading("qualifying", true);
-    //   const r = await apiQualifying.getQualifyingById(this.qualifyingId);
-    //   this.qualifying = r;
-    //   this.setLoading("qualifying", false);
-    // },
-    // async fetchCompetitionDay(): Promise<void> {
-    //   if (!this.competitionDayId) {
-    //     this.competitionDay = null;
-    //     return;
-    //   }
-    //   this.setLoading("competitionDay", true);
-    //   const r = await apiCompetitionDay.getCompetitionDayById(
-    //     this.competitionDayId
-    //   );
-    //   this.competitionDay = r;
-    //   this.setLoading("competitionDay", false);
-    // },
     async fetchDrivers(): Promise<void> {
       this.setLoading("drivers", true);
       await useDriversStore().fetchDrivers();
@@ -263,6 +241,33 @@ export default {
     color: var(--green-1);
     margin: 0 auto;
   }
+  section {
+    &.scroll-section {
+      position: relative;
+      padding-top: 80px;
+      padding-bottom: 50px;
+
+      &:after {
+        content: "";
+        max-width: 800px;
+        width: calc(100% - 24px);
+        padding: 0 12px;
+        height: 2px;
+        background: var(--green-1);
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0.5;
+      }
+    }
+    .section-header {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--green-1);
+      margin: 0;
+    }
+  }
   .event-details,
   .no-data {
     font-size: 1.5rem;
@@ -281,8 +286,11 @@ export default {
   }
 
   .select-view-section {
-    max-width: 1400px;
-    margin: auto;
+    position: fixed;
+    top: 80px;
+    right: 200px;
+    transform: translateX(100%);
+    z-index: 2;
   }
 
   .view-section {
