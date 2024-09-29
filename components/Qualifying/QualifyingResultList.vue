@@ -114,11 +114,11 @@ export default {
 
 <style lang="less" scoped>
 .component-QualifyingResultList {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  max-width: 700px;
+  margin: auto;
   .input-wrapper {
-    margin-top: 24px;
-    margin-bottom: 8px;
-    max-width: 700px;
-    margin: auto;
 
     @media only screen and (max-width: 768px) {
       font-size: 12px;
