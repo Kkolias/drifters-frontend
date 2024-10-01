@@ -1,15 +1,26 @@
 <template>
   <div class="component-DriftSeriesList">
-    <h1>Drifting-sarjat ja kaudet</h1>
+    <h1>{{ textContent.title }}</h1>
     <h3 class="subtitle">
-      Enemmän tai vähemmän kattava lista drifting-kilpailusarjoista ja niiden
-      kausista
+      {{ textContent.subText }}
     </h3>
     <DriftSeriesList />
   </div>
 </template>
 
 <script lang="ts">
+import translations from "~/lang/components/driftSeriesPage.lang";
+import Language from "~/mixins/language.vue";
+
+export default {
+  mixins: [Language],
+  computed: {
+    textContent() {
+      const r = this.getTranslation(translations);
+      return r
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

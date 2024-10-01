@@ -1,19 +1,13 @@
 <template>
   <div class="welcome-page">
     <section class="welcome">
-      <h1>Tervetuloa DriftDataan!</h1>
+      <h1>{{ textContent.welcome }}</h1>
       <p>
-        Tämä sivusto on drifting-fanin vapaa-ajan projekti, ja minä olen ainoa
-        ylläpitäjä. Pyrin päivittämään sivustoa niin usein kuin mahdollista,
-        mutta huomioithan, että kaiken tiedon päivittäminen voi viedä aikaa.
-        Pistetilastot, taulukot ja muu esitetty data saattavat sisältää virheitä
-        tai olla epätarkkoja, koska tiedon kerääminen ja päivittäminen on
-        käsityötä. Teen parhaani korjatakseni mahdolliset virheet ja
-        tarjotakseni tarkkaa ja luotettavaa tietoa drifting-maailmasta.
+        {{ textContent.welcomeSubText }}
       </p>
 
       <p>
-        Onko sinulla kehitysidea tai havaitsitko virheen?
+        {{ textContent.foundError }}
         <a href="mailto:driftdataan@gmail.com">driftdataan@gmail.com</a>
       </p>
 
@@ -24,18 +18,25 @@
     </section>
 
     <section class="drift-sm-section">
-      <h2>Seuraa Suomen Parasta Driftingiä!</h2>
+      <h2>{{ textContent.dirftSmSection.title }}</h2>
       <p>
-        Drift SM on Suomen arvostetuin drifting-sarja, jossa kilpaillaan
-        mestaruudesta huipputason kuljettajien kesken. Tule mukaan seuraamaan
-        jännittäviä kilpailuja ja tutustu tarkemmin sarjaan ja sen eri luokkiin.
+        {{ textContent.dirftSmSection.subText }}
       </p>
-      <a href="/drift-sm-esittely"
-        >Lue lisää Drift SM -sarjasta ja Pro-luokasta</a
-      >
+      <a href="/drift-sm-esittely">{{ textContent.dirftSmSection.readMore }}</a>
     </section>
   </div>
 </template>
+
+<script lang="ts">
+import translations from "~/lang/home.lang";
+export default {
+  computed: {
+    textContent() {
+      return translations.fi;
+    },
+  },
+};
+</script>
 
 <style lang="less" scoped>
 .welcome-page {

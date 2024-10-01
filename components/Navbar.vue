@@ -6,9 +6,10 @@
       title="Etusivulle"
       class="to-home-btn"
     ></NuxtLink>
-    <NuxtLink to="/miksi-mainoksia" class="why-ads-btn"
+    <LanguageToggle class="language-toggle" />
+    <!-- <NuxtLink to="/miksi-mainoksia" class="why-ads-btn"
       >Miksi mainoksia?</NuxtLink
-    >
+    > -->
     <nav class="menu--right" role="navigation">
       <div class="menuToggle">
         <input type="checkbox" v-model="navOpen" />
@@ -20,6 +21,9 @@
             <NuxtLink :to="nav.path">
               {{ nav.label }}
             </NuxtLink>
+          </li>
+          <li>
+            <LanguageToggle class="mobile-language-toggle" />
           </li>
           <li class="bottom">
             <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom"
@@ -144,9 +148,10 @@ export default {
     z-index: 2;
   }
 
-  .why-ads-btn {
+  .why-ads-btn, .language-toggle {
     position: fixed;
-    top: 28px;
+    top: 20px;
+    // top: 28px;
     right: 90px;
     color: var(--green-1);
     z-index: 2;
@@ -328,6 +333,12 @@ export default {
           }
         }
       }
+    }
+  }
+
+  @media only screen and (min-width: 450px) {
+    .mobile-language-toggle {
+      display: none;
     }
   }
 }
