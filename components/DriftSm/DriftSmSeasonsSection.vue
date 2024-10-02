@@ -1,6 +1,6 @@
 <template>
   <div class="component-DriftSmSeasonsSection">
-    <h2>Drift SM Pro Kausien tulokset</h2>
+    <h2>{{ textContent.title }}</h2>
     <div class="content">
       <LoadingIndicator class="loading" v-if="loading" />
       <ul class="season-list" v-if="!loading && smDriftSeasons?.length">
@@ -24,7 +24,9 @@
 <script lang="ts">
 import { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
+import Language from "~/mixins/language.vue";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
+import translations from "~/lang/components/DriftSmProSeasonsSection.lang";
 
 interface IData {
   loading: boolean;
@@ -33,12 +35,16 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   data: (): IData => ({
     loading: true,
     seasons: [],
     openedLists: [],
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     smDriftSeasons(): IDriftSeason[] {
       return (
         this.seasons?.filter(

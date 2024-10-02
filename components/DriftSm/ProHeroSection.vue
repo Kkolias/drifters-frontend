@@ -1,32 +1,37 @@
 <template>
   <div class="component-DriftSmHeroSection">
-    <h1>Drift SM - Suomen Parasta Driftingiä</h1>
+    <h1>{{ textContent.title }}</h1>
     <div class="overview">
       <p>
-        <b>Drift SM</b> on Suomen korkein mahdollinen drifting-sarja, jossa
-        kilpaillaan driftingin Suomen mestaruudesta. Vuonna 2011 perustetussa
-        sarjassa ajetaan kahdessa luokassa: SM Pro ja SM Pro2. Näistä SM Pro on
-        sarjan pääluokka, jossa Suomen parhaat kuljettajat ottavat mittaa
-        toisistaan useilla eri radoilla ympäri Suomen.
+        <b>{{ textContent.driftSm }}</b> {{ textContent.subText }}
       </p>
     </div>
     <div class="pro-section">
-      <h2>SM Pro - Huipputason Driftingiä</h2>
+      <h2>{{ textContent.smProTitle }}</h2>
       <p>
-        <b>SM Pro</b> on Drift SM -sarjan kuninkuusluokka. Tässä luokassa
-        kilpailevat maan parhaat drifting-kuljettajat, jotka ovat hioneet
-        taitojaan ja ajaneet itsensä kansallisen eliitin huipulle. Pro-luokan
-        kilpailut ovat intensiivisiä kaksipäiväisiä tapahtumia, joissa
-        ensimmäinen päivä sisältää lajittelut ja toinen päivä pariajokaaviot,
-        jotka ratkaisevat kilpailun voittajan.
+        <b>{{ textContent.smPro }}</b> {{ textContent.smProSubText }}
       </p>
       <p>
-        Voittajat palkitaan rahapalkinnoilla, joissa SM Pro -luokan voittaja saa
-        1000 euroa jokaisesta osakilpailusta.
+        {{ textContent.pricePool }}
       </p>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import translations from "~/lang/components/DriftSmProHeroSection.lang";
+import Language from "~/mixins/language.vue";
+
+export default {
+  mixins: [Language],
+  computed: {
+    textContent() {
+      const r = this.getTranslation(translations);
+      return r;
+    },
+  },
+};
+</script>
 
 <style lang="less" scoped>
 .component-DriftSmHeroSection {
@@ -47,7 +52,8 @@
     color: var(--green-1);
   }
 
-  p, a {
+  p,
+  a {
     font-size: 18px;
   }
 
@@ -68,7 +74,8 @@
       font-size: 20px;
     }
 
-    p, a {
+    p,
+    a {
       font-size: 16px;
     }
   }

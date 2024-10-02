@@ -1,19 +1,32 @@
 <template>
   <div class="component-DriftSmBottomSection">
-    <h2>Seuraa Drift SM -sarjaa</h2>
+    <h2>{{ textContent.title }}</h2>
     <div class="overview">
       <p>
-        Drift SM tarjoaa huikeita drifting-kilpailuja ja elämyksiä sekä
-        kuljettajille että katsojille. Seuraa sarjaa ja tule mukaan seuraamaan
-        Suomen parhaita drifting-kuljettajia!
+        {{ textContent.subText }}
       </p>
       <p>
-        Lisätietoja löydät Drift SM -sarjan <a href="https://driftsm.fi">virallisilta sivuilta</a> ja
-        somekanavista.
+        {{ textContent.moreInformation1 }}
+        <a href="https://driftsm.fi">{{ textContent.officialWebsite }}</a
+        >{{ textContent.moreInformation2 }}
       </p>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import translations from "~/lang/components/DriftSmBottomSection.lang";
+import Language from "~/mixins/language.vue";
+
+export default {
+  mixins: [Language],
+  computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
+  },
+};
+</script>
 
 <style lang="less" scoped>
 .component-DriftSmBottomSection {
@@ -53,7 +66,8 @@
       font-size: 20px;
     }
 
-    p, a {
+    p,
+    a {
       font-size: 16px;
     }
   }

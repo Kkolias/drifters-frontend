@@ -2,20 +2,29 @@
   <div class="component-DriverListPage">
     <div class="header-section">
       <h1>
-        Drifting-Kuljettajat - Tutustu Parhaisiin Kuskeihin ja Heidän
-        Kilpailusarjoihinsa
+        {{ textContent.title }}
       </h1>
       <p>
-        Drifting-kuljettajasivulta löytyy kattava lista huipputason
-        drifting-kuljettajista ja kuljettajan profiilista helpon esikatselun
-        heidän ajamistaan kilpailusarjoista. Kaikki kuljettajat ajavat joko
-        Drift Masters -sarjaa, Suomen Drift SM -sarjaa tai
-        molempia. Klikkaa kunkin kuljettajan nimeä saadaksesi lisää tietoa
-        heidän sijoituksistaan kausilla.
+        {{ textContent.subText }}
       </p>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import translations from "~/lang/components/DriverListPage.lang";
+import Language from "~/mixins/language.vue";
+
+export default {
+  mixins: [Language],
+  computed: {
+    textContent() {
+      const r = this.getTranslation(translations);
+      return r
+    },
+  },
+};
+</script>
 
 <style lang="less" scoped>
 .component-DriverListPage {
