@@ -24,7 +24,10 @@
       </div>
       <div class="go-to-year-section">
         <NuxtLink :to="selectedSeasonLink" class="to-season button blank">
-          <span> Katso koko {{ selectedYear }} kausi tästä. </span>
+          <span>
+            {{ textContent.seeWhole }} {{ selectedYear }}
+            {{ textContent.season }}
+          </span>
         </NuxtLink>
       </div>
       <div class="scoreboard-section">
@@ -32,9 +35,9 @@
         <table class="scoreboard-table">
           <thead>
             <tr>
-              <th>Sija</th>
-              <th>Kuljettaja</th>
-              <th>Pisteet</th>
+              <th>{{ textContent.placement }}</th>
+              <th class="driver">{{ textContent.driver }}</th>
+              <th>{{ textContent.points }}</th>
             </tr>
           </thead>
           <tbody>
@@ -75,8 +78,11 @@ import type {
 } from "./DriverSeasonSection.service";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/DriverSerieSeasons.lang";
 
 export default {
+  mixins: [Language],
   props: {
     serieWithSeasonStats: {
       type: Object as PropType<ISeasonsOfSerie>,
@@ -95,6 +101,9 @@ export default {
     selectedYear: 0,
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     yearList(): number[] {
       const yearList =
         this.serieWithSeasonStats?.seasons.map((season) => season.year) || [];
@@ -273,6 +282,13 @@ export default {
   .scoreboard-section {
     .scoreboard-table {
       margin-bottom: 20px;
+      thead {
+        th {
+          &.driver {
+              text-align: center;
+            }
+        }
+      }
       tbody {
         .selected {
           td {
@@ -281,10 +297,11 @@ export default {
             font-weight: 700;
             font-size: 20px;
 
-            @media only screen and (max-width: 1090px)  {
+
+            @media only screen and (max-width: 1090px) {
               font-size: 16px;
             }
-            @media only screen and (max-width: 520px)  {
+            @media only screen and (max-width: 520px) {
               font-size: 12px;
             }
           }

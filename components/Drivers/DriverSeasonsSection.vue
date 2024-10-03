@@ -2,13 +2,9 @@
   <div class="component-DriverSeasonsSection">
     <LoadingIndicator v-if="loading" />
     <div class="content" v-if="!loading">
-      <h2>Sarjat ja kaudet, joissa {{ driverName }} on mukana</h2>
+      <h2>{{ textContent.seriesAndSeasonsWhereDriver }} {{ driverName }} {{ textContent.hasDriven }}</h2>
       <p class="subtext">
-        Tästä osiosta näet kuljettajan {{ driverName }} sijoitukset eri sarjojen
-        ja kausien aikana. Listassa näkyvät kuljettajan saavutukset Drift Masters tai
-        Drift SM Pro -sarjoissa, mukaan lukien sijoitukset ja kerätyt pisteet.
-        Klikkaamalla kunkin sarjan kautta voit tarkastella yksityiskohtaisesti,
-        miten kuljettaja on pärjännyt kyseisenä vuotena.
+        {{ textContent.subText }} {{ driverName }} {{ textContent.subText2 }}
       </p>
       <div class="serie-list-container">
         <ul>
@@ -37,6 +33,8 @@ import {
 } from "~/interfaces/drift-season.interface";
 import service, { type ISeasonsOfSerie } from "./DriverSeasonSection.service";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/DriverSeasonsSection.lang";
 
 export interface IDriftSerieSeasonList {
   serieName: string;
@@ -48,6 +46,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     driverName: {
       type: String,
@@ -70,6 +69,9 @@ export default {
     openedLists: [],
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     seriesWithSeasons(): ISeasonsOfSerie[] {
       const r = service.parseSeriesWithSeasons(this.driverStats, this.driverId);
       return r;

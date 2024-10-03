@@ -1,7 +1,7 @@
 <template>
   <div class="component-DriverProfile">
     <NuxtLink to="/drivers" class="back-to-drivers"
-      >Takaisin kuljettajiin</NuxtLink
+      >{{ textContent.back }}</NuxtLink
     >
     <div class="profile-wrapper">
       <h1 class="driver-name">
@@ -9,18 +9,18 @@
         <span class="race-number" v-if="raceNumber">{{ raceNumber }}</span>
       </h1>
 
-      <p>Ikä: {{ age }}</p>
+      <p>{{ textContent.age }} {{ age }}</p>
 
-      <p>Maa: {{ country }}</p>
+      <p>{{ textContent.country }} {{ country }}</p>
     </div>
     <div class="cars-wrapper">
-      <h2>Autot</h2>
+      <h2>{{ textContent.cars }}</h2>
       <ul>
         <li v-for="car in driver.cars" :key="car._id">
-          <p>Malli: {{ carModel(car) }}</p>
-          <p>Moottori: {{ carEngine(car) }}</p>
-          <p>Vääntö: {{ carTorque(car) }}</p>
-          <p>Hevosvoimat: {{ carHorsePower(car) }}</p>
+          <p>{{ textContent.model }} {{ carModel(car) }}</p>
+          <p>{{ textContent.engine }} {{ carEngine(car) }}</p>
+          <p>{{ textContent.torque }} {{ carTorque(car) }}</p>
+          <p>{{ textContent.power }} {{ carHorsePower(car) }}</p>
         </li>
       </ul>
     </div>
@@ -38,9 +38,11 @@
 <script lang="ts">
 import type { IDriverSeasonStats } from "~/interfaces/drift-season.interface";
 import type { ICar, IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
 import apiDrivers from "~/utils/drifting/api-drivers";
 import { getAgeFromDate } from "~/utils/getAgeFromDate";
 import { getCountryName } from "~/utils/getCountryName";
+import translations from "~/lang/components/DriversProfile.lang";
 
 interface IData {
   driverStats: IDriverSeasonStats | null;
@@ -48,6 +50,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     driver: {
       type: Object as () => IDriver,
@@ -59,6 +62,9 @@ export default {
     statsLoading: true,
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     country(): string {
       const nationality = this.driver?.nationality;
       return getCountryName(nationality);
