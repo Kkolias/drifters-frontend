@@ -1,16 +1,31 @@
 <template>
   <div class="component-footer">
     <div class="contact-section">
-      <NuxtLink to="/miksi-mainoksia" class="why-ads-btn">Miksi mainoksia?</NuxtLink>
+      <NuxtLink to="/miksi-mainoksia" class="why-ads-btn">{{ textContent.whyAds }}</NuxtLink>
       <p>
-        Onko sinulla kehitysidea tai havaitsitko virheen?
+        {{ textContent.foundError }}
         <a href="mailto:driftdataan@gmail.com"> driftdataan@gmail.com </a>
       </p>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import translations from "~/lang/components/Footer.lang";
+import Language from "~/mixins/language.vue";
+
+export default {
+  mixins: [Language],
+  computed: {
+    textContent() {
+      const r = this.getTranslation(translations);
+      return r;
+    },
+  },
+};
+</script>
+
+<!-- <script lang="ts" setup>
 // head 
 useHead({
   title: "DriftDataan - Miksi mainoksia?",
@@ -25,7 +40,7 @@ useHead({
     },
   ],
 });
-</script>
+</script> -->
 
 <style lang="less" scoped>
 .component-footer {

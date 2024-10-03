@@ -27,10 +27,10 @@
           </li>
           <li class="bottom">
             <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom"
-              >Miksi mainoksia?</NuxtLink
+              >{{ textContent.whyAds }}</NuxtLink
             >
             <NuxtLink to="/tietosuojakaytantomme">
-              Tietosuojakäytäntömme
+              {{ textContent.privacyPolicy }}
             </NuxtLink>
           </li>
         </ul>
@@ -40,7 +40,11 @@
 </template>
 
 <script lang="ts">
+import Language from '~/mixins/language.vue';
+import translations from '~/lang/components/Navbar.lang';
+
 export default {
+  mixins: [Language],
   data: () => ({
     navOpen: false,
 
@@ -61,29 +65,12 @@ export default {
         label: "Kaikki kuskit",
         path: "/drivers",
       },
-      // {
-      //   label: "Kaudet",
-      //   path: "/drift-season",
-      // },
-      // {
-      //   label: "Tapahtumat",
-      //   path: "/drift-event",
-      // },
-      // {
-      //   label: "Kisapäivät",
-      //   path: "/drift-competition-day",
-      // },
-      // {
-      //   label: "Sarjataulukot",
-      //   path: "/leaderboard",
-      // },
-      // {
-      //   label: "Profiili",
-      //   path: "/profile",
-      // },
     ],
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     path(): string {
       return this.$route?.path || "";
     },
@@ -148,7 +135,8 @@ export default {
     z-index: 2;
   }
 
-  .why-ads-btn, .language-toggle {
+  .why-ads-btn,
+  .language-toggle {
     position: fixed;
     top: 20px;
     // top: 28px;
