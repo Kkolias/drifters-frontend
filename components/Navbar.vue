@@ -26,9 +26,9 @@
             <LanguageToggle class="mobile-language-toggle" />
           </li>
           <li class="bottom">
-            <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom"
-              >{{ textContent.whyAds }}</NuxtLink
-            >
+            <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom">{{
+              textContent.whyAds
+            }}</NuxtLink>
             <NuxtLink to="/tietosuojakaytantomme">
               {{ textContent.privacyPolicy }}
             </NuxtLink>
@@ -40,36 +40,37 @@
 </template>
 
 <script lang="ts">
-import Language from '~/mixins/language.vue';
-import translations from '~/lang/components/Navbar.lang';
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/Navbar.lang";
 
 export default {
   mixins: [Language],
   data: () => ({
     navOpen: false,
-
-    navList: [
-      {
-        label: "Etusivu",
-        path: "/",
-      },
-      {
-        label: "Drift SM",
-        path: "/drift-sm-esittely",
-      },
-      {
-        label: "Sarjat",
-        path: "/series",
-      },
-      {
-        label: "Kaikki kuskit",
-        path: "/drivers",
-      },
-    ],
   }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
+    },
+    navList() {
+      return [
+        {
+          label: this.textContent.nav.home,
+          path: "/",
+        },
+        {
+          label: this.textContent.nav.driftSm,
+          path: "/drift-sm-esittely",
+        },
+        {
+          label: this.textContent.nav.series,
+          path: "/series",
+        },
+        {
+          label: this.textContent.nav.drivers,
+          path: "/drivers",
+        },
+      ];
     },
     path(): string {
       return this.$route?.path || "";

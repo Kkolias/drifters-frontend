@@ -3,7 +3,7 @@
     <LoadingIndicator v-if="loading" />
     <div v-else>
       <div class="only-seasons-list" v-if="selectedSeriesSeasonList.length">
-        <h2>Muut sarjan kaudet</h2>
+        <h2>{{ textContent.otherSeasons }}</h2>
         <ul class="season-list">
           <li
             class="season"
@@ -23,7 +23,7 @@
         </ul>
       </div>
       <h3 v-if="notSelectedSeries.length && selectedSeriesSeasonList.length">
-        Muut sarjat
+        {{ textContent.otherSeries }}
       </h3>
       <ul class="serie-list" v-if="notSelectedSeries.length">
         <li
@@ -59,7 +59,7 @@
               </li>
             </ul>
             <div class="no-seasons" v-else>
-              <p>Ei kausia</p>
+              <p>{{ textContent.noSeasons }}</p>
             </div>
           </div>
         </li>
@@ -74,6 +74,7 @@ import { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import text from "~/lang/series.lang";
+import Language from "~/mixins/language.vue";
 
 interface IData {
   seasons: IDriftSeason[];
@@ -82,6 +83,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     selectedSeason: {
       type: String,
@@ -94,11 +96,14 @@ export default {
     openedLists: [],
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(text);
+    },
     series(): any[] {
       return Object.values(DriftSerie).map((serie) => {
         return {
           name: DRIFT_SERIES_LABEL[serie],
-          subText: text.fi.seriesTexts?.[serie] || "",
+          subText: this.textContent.seriesTexts?.[serie] || "",
           seasonList:
             this.seasons?.filter((season) => season?.serie === serie) || [],
         };

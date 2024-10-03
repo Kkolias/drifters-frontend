@@ -3,7 +3,7 @@
     <LoadingIndicator v-if="loading" />
     <div class="input-section-wrapper">
       <div class="input-wrapper">
-        <input type="text" placeholder="Etsi..." v-model="searchTerm" />
+        <input type="text" :placeholder="textContent.search" v-model="searchTerm" />
         <button
           class="empty-input"
           :class="{ empty: searchTerm.length }"
@@ -12,14 +12,12 @@
       </div>
     </div>
     <div class="list-wrapper">
-      <!-- <DataTable :headerList="headerList" :dataList="parsedDriverList" /> -->
       <table class="scoreboard-table">
         <thead>
           <tr>
-            <th class="race-number">Numero</th>
-            <th>Kuljettaja</th>
-            <th>Maa</th>
-            <!-- <th>Sarjat</th> -->
+            <th class="race-number">{{ textContent.number }}</th>
+            <th>{{ textContent.driver }}</th>
+            <th>{{ textContent.country }}</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +34,7 @@
             </td>
             <td>
               <NuxtLink class="button blank" :to="driver.link">
-                {{ getCountryName(driver.nationality) }}
+                {{ getCountryName(driver.nationality, countryTextContent) }}
               </NuxtLink>
             </td>
             <!-- <td>
@@ -51,7 +49,10 @@
 
 <script lang="ts">
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
 import { useDriversStore } from "~/store/drivers";
+import translations from "~/lang/components/DriversList.lang";
+import countryTranslations from "~/lang/country.lang";
 
 interface IParsedDriver extends IDriver {
   name: string;
@@ -63,40 +64,16 @@ interface AllDriversData {
 }
 
 export default {
+  mixins: [Language],
   data: (): AllDriversData => ({
     searchTerm: "",
   }),
   computed: {
-    headerList() {
-      return [
-        // {
-        //   name: "Id",
-        //   key: "_id",
-        //   isLink: true,
-        // },
-        {
-          name: "Etunimi",
-          key: "firstName",
-          isLink: true,
-        },
-        {
-          name: "Sukunimi",
-          key: "lastName",
-          isLink: true,
-        },
-        {
-          name: "Syntymäpäivä",
-          key: "birthday",
-        },
-        {
-          name: "Maa",
-          key: "nationality",
-        },
-        {
-          name: "Autot",
-          key: "carNames",
-        },
-      ];
+    textContent() {
+      return this.getTranslation(translations);
+    },
+    countryTextContent() {
+      return this.getTranslation(countryTranslations);
     },
     loading(): boolean {
       return useDriversStore().getLoading;
