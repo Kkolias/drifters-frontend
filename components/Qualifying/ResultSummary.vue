@@ -11,45 +11,45 @@
         <div class="result-wrapper">
           <div class="final-result">
             <p>
-              Lajittelun pisteet <span>{{ highestPoints }}</span>
+              {{ textContent.points }} <span>{{ highestPoints }}</span>
             </p>
           </div>
           <div v-if="showRunStats" class="runs-wrapper">
             <div class="first run">
-              <p class="sub-title">1. kierros</p>
+              <p class="sub-title">1. {{ textContent.run }}</p>
               <div class="point-container">
-                <p>Linja</p>
+                <p>{{ textContent.line }}</p>
                 <p class="point">{{ run1.line }}</p>
               </div>
               <div class="point-container">
-                <p>Kulma</p>
+                <p>{{ textContent.angle }}</p>
                 <p class="point">{{ run1.angle }}</p>
               </div>
               <div class="point-container">
-                <p>Tyyli</p>
+                <p>{{ textContent.style }}</p>
                 <p class="point">{{ run1.style }}</p>
               </div>
               <div class="point-container">
-                <p>Yhteensä</p>
+                <p>{{ textContent.total }}</p>
                 <p class="point">{{ run1Points }}</p>
               </div>
             </div>
             <div class="second run">
-              <p class="sub-title">2. kierros</p>
+              <p class="sub-title">2. {{ textContent.run }}</p>
               <div class="point-container">
-                <p>Linja</p>
+                <p>{{ textContent.line }}</p>
                 <p class="point">{{ run2.line }}</p>
               </div>
               <div class="point-container">
-                <p>Kulma</p>
+                <p>{{ textContent.angle }}</p>
                 <p class="point">{{ run2.angle }}</p>
               </div>
               <div class="point-container">
-                <p>Tyyli</p>
+                <p>{{ textContent.style }}</p>
                 <p class="point">{{ run2.style }}</p>
               </div>
               <div class="point-container">
-                <p>Yhteensä</p>
+                <p>{{ textContent.total }}</p>
                 <p class="point">{{ run2Points }}</p>
               </div>
             </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="to-driver-profile">
           <NuxtLink :to="driverProfileLink" class="button blank">
-            <span> Kuljettajan profiiliin </span>
+            <span> {{ textContent.toDriverProfile }} </span>
           </NuxtLink>
         </div>
       </div>
@@ -68,8 +68,11 @@
 <script lang="ts">
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IQualifyingResultItem } from "~/interfaces/qualifying.interface";
+import translations from "~/lang/components/QualifyingResultSummary.lang";
+import Language from "~/mixins/language.vue";
 
 export default {
+  mixins: [Language],
   props: {
     qualifyingResultItem: {
       type: Object as PropType<IQualifyingResultItem>,
@@ -81,6 +84,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     driverProfileLink(): string {
       const slug = this.driver?.slug || "";
       return `/drivers/${slug}`;

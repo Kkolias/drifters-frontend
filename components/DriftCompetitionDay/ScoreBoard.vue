@@ -1,14 +1,16 @@
 <template>
   <div class="component-CompetitionDayScoreboard">
     <p class="subtitle">
-      Kaavion tulokset ja sijoituksesta saatavat mestaruuspisteet.
+      {{ textContent.title }}
     </p>
     <table class="scoreboard-table">
       <thead>
         <tr>
-          <th>Sija</th>
-          <th>Kuljettaja</th>
-          <th title="Sijoituksesta saatavat mestaruuspisteet">Pisteet</th>
+          <th>{{ textContent.placement }}</th>
+          <th>{{ textContent.driver }}</th>
+          <th title="Sijoituksesta saatavat mestaruuspisteet">
+            {{ textContent.points }}
+          </th>
           <!-- <th>Pisteet</th>
           <th class="scores">(Linja | Kulma |Tyyli)</th> -->
         </tr>
@@ -40,9 +42,26 @@
 import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IScoreBoardItem } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
 import { getBattlesPositionPointBySerie } from "~/utils/getBattlePointsForSerie";
 
+const translations = {
+  fi: {
+    title: "Kaavion tulokset ja sijoituksesta saatavat mestaruuspisteet.",
+    placement: "Sija",
+    driver: "Kuljettaja",
+    points: "Pisteet",
+  },
+  en: {
+    title: "Scoreboard results and championship points from placement.",
+    placement: "Placement",
+    driver: "Driver",
+    points: "Points",
+  },
+};
+
 export default {
+  mixins: [Language],
   props: {
     scoreboard: {
       type: Array as PropType<IScoreBoardItem[]>,
@@ -51,6 +70,11 @@ export default {
     driftSerie: {
       type: String as PropType<DriftSerie | null>,
       default: null,
+    },
+  },
+  computed: {
+    textContent() {
+      return this.getTranslation(translations);
     },
   },
   methods: {

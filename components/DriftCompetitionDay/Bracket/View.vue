@@ -1,7 +1,9 @@
 <template>
   <div class="component-BracketView">
-    <p class="subtitle">Kaavion tulokset bracket muodossa.</p>
-    <p class="subtitle small">Näet parien tarkemmat tulokset valitsemalla haluamasi heatin.</p>
+    <p class="subtitle">{{ textContent.bracketText }}</p>
+    <p class="subtitle small">
+      {{ textContent.moreInfo }}
+    </p>
     <!-- <pre>
           {{ heatListTop16Left }}
       </pre> -->
@@ -121,8 +123,22 @@ import type {
   IHeat,
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
+
+const translations = {
+  fi: {
+    bracketText: "Tulokset kaavio muodossa.",
+    moreInfo: "Näet parien tarkemmat tulokset valitsemalla haluamasi heatin.",
+  },
+  en: {
+    bracketText: "Results in bracket format.",
+    moreInfo:
+      "You can see more detailed results by selecting the heat you want.",
+  },
+};
 
 export default {
+  mixins: [Language],
   props: {
     competitionDayItem: {
       type: Object as PropType<ICompetitionDay | null>,
@@ -134,6 +150,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     selectedHeatItem(): IHeat | null {
       const selectedHeatId = this.$route?.query?.["heat"];
 

@@ -2,7 +2,7 @@
   <div class="component-BracketColumnFinal">
     <ul class="heat-list">
       <li class="heat" @click="showHeat(getHeatForNumber(32))">
-        <h3>Finaali</h3>
+        <h3>{{ textContent.final }}</h3>
         <div class="heat-wrapper final">
           <div
             class="lead driver"
@@ -26,7 +26,7 @@
         </div>
       </li>
       <li class="heat" @click="showHeat(getHeatForNumber(31))">
-        <h3>Pronssi</h3>
+        <h3>{{ textContent.bronze }}</h3>
         <div class="heat-wrapper bronze">
           <div
             class="lead driver"
@@ -57,9 +57,22 @@
 import type { PropType } from "vue";
 import type { IHeat } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
 import { getWinnerIdOfHeat } from "~/utils/getWinnerOfHeat";
 
+const translations = {
+  fi: {
+    final: "Finaali",
+    bronze: "Pronssi",
+  },
+  en: {
+    final: "Final",
+    bronze: "Bronze",
+  },
+};
+
 export default {
+  mixins: [Language],
   props: {
     competitionDayId: {
       type: String,
@@ -75,7 +88,11 @@ export default {
     },
   },
   // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
-  computed: {},
+  computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
+  },
   methods: {
     showHeat(heat: IHeat) {
       this.$emit("showHeat", heat?._id);

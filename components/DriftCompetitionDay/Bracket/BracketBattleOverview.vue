@@ -74,8 +74,23 @@ import type {
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IShowdownHeat } from "~/interfaces/qualifying-showdown.interface";
+import Language from "~/mixins/language.vue";
+
+const translations = {
+  fi: {
+    advances: "Jatkaa seuraavaan vaiheeseen",
+    winner: "Voittaja",
+    bronze: "Pronssi",
+  },
+  en: {
+    advances: "Advances to next stage",
+    winner: "Winner",
+    bronze: "Bronze",
+  }
+}
 
 export default {
+  mixins: [Language],
   props: {
     heatItem: {
       type: Object as PropType<IHeat | IShowdownHeat>,
@@ -87,6 +102,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     driver1Name(): string {
       const driver1 = this.heatItem?.driver1 as IDriver;
       const firstName = driver1?.firstName || "";
@@ -117,15 +135,15 @@ export default {
     },
     advanceText() {
       if (this.isShowdown && this.heatItem?.bracketNumber === 3) {
-        return "Voittaja";
+        return this.textContent.winner;
       }
       if (this.heatItem?.bracketNumber === 32) {
-        return "Voittaja";
+        return this.textContent.winner;
       }
       if (this.heatItem?.bracketNumber === 31) {
-        return "Pronssi";
+        return this.textContent.bronze;
       }
-      return "Jatkaa seuraavaan vaiheeseen";
+      return this.textContent.advances;
     },
   },
   methods: {

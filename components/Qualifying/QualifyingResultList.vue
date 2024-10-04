@@ -1,23 +1,19 @@
 <template>
   <div class="component-QualifyingResultList">
-    <!-- <div class="input-wrapper">
-      <input id="show-points" type="checkbox" name="show-points" v-model="showPoints">
-      <label for="show-points">Näytä sijoituksesta saatavat pisteet</label>
-    </div> -->
     <CheckboxButton
-      label="Näytä sijoituksesta saatavat pisteet"
+      :label="textContent.showPoints"
       :checked="showPoints"
       @onClick="showPoints = !showPoints"
     />
     <table class="scoreboard-table">
       <thead>
         <tr>
-          <th>Sija</th>
-          <th>Kuljettaja</th>
-          <th>Pisteet</th>
-          <th v-if="showRunStats" class="scores">(Linja | Kulma |Tyyli)</th>
-          <th v-if="showPoints" title="Sijoituksesta saatavat mestaruuspisteet">
-            Sij. pisteet
+          <th>{{ textContent.position }}</th>
+          <th>{{ textContent.driver }}</th>
+          <th>{{ textContent.points }}</th>
+          <th v-if="showRunStats" class="scores">{{ textContent.scores }}</th>
+          <th v-if="showPoints" :title="textContent.pointsFromPosition">
+            {{ textContent.positionPoints }}
           </th>
         </tr>
       </thead>
@@ -51,8 +47,11 @@ import type { DriftSerie } from "~/enums/drift-serie.enum";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IQualifyingResultItem } from "~/interfaces/qualifying.interface";
 import { getQualifyingPositionPointBySerie } from "~/utils/getQualifyingPointsForSerie";
+import translations from "~/lang/components/QualifyingResultList.lang";
+import Language from "~/mixins/language.vue";
 
 export default {
+  mixins: [Language],
   props: {
     qualifyingResults: {
       type: Array as PropType<IQualifyingResultItem[]>,
@@ -74,6 +73,11 @@ export default {
   data: () => ({
     showPoints: false,
   }),
+  computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
+  },
   methods: {
     getDriverName(resultItem: IQualifyingResultItem): string {
       const driverId = resultItem?.driver;
@@ -119,7 +123,6 @@ export default {
   max-width: 700px;
   margin: auto;
   .input-wrapper {
-
     @media only screen and (max-width: 768px) {
       font-size: 12px;
     }

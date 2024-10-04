@@ -12,7 +12,7 @@
         <h1 class="big-header">{{ eventText }}</h1>
         <p class="subtext">{{ serie }} {{ seasonYear }}</p>
         <NuxtLink class="to-season-overview" :to="seasonOverviewLink"
-          >Kauden yhteenvetoon</NuxtLink
+          >{{textContent.seasonOverview}}</NuxtLink
         >
       </section>
       <section class="select-view-section">
@@ -100,6 +100,10 @@ import apiCompetitionDay from "~/utils/drifting/api-competition-day";
 import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiQualifying from "~/utils/drifting/api-qualifying";
+import translations from "~/lang/components/DriftSeasonEventDriftEventPage.lang";
+import Language from "~/mixins/language.vue";
+import countryTranslations from "~/lang/country.lang";
+
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -118,6 +122,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     seasonSlug: {
       type: String,
@@ -143,6 +148,12 @@ export default {
     },
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
+    countryTextContent() {
+      return this.getTranslation(countryTranslations);
+    },
     nextEvent() {
       const eventList = this.season?.driftEvents || [];
       const sortedByStartsAt = eventList.sort(
@@ -163,31 +174,31 @@ export default {
     navigationList() {
       return [
         {
-          label: "Yhteenveto",
+          label: this.textContent.eventInfo,
           key: "event-info",
         },
         {
-          label: "Lajittelu",
+          label: this.textContent.qualifying,
           key: "qualifying",
         },
         {
-          label: "Showdown",
+          label: this.textContent.showdown,
           key: "qualifying-showdown",
         },
         {
-          label: "Kaavio",
+          label: this.textContent.bracket,
           key: "battles",
         },
         {
-          label: "Tapahtumat",
+          label: this.textContent.events,
           key: "events",
         },
         {
-          label: "Pistetaulukko",
+          label: this.textContent.scoreboard,
           key: "leaderboard",
         },
         {
-          label: "Muut kaudet",
+          label: this.textContent.otherSeasons,
           key: "seasons",
         },
       ]?.filter((nav) => {
@@ -253,7 +264,7 @@ export default {
     },
     eventCountry(): string {
       const country = this.driftEvent?.country || "";
-      return getCountryName(country);
+      return getCountryName(country, this.countryTextContent);
     },
     eventTrackCity(): string {
       if (!this.eventCity || !this.eventTrack) return " - ";

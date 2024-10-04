@@ -2,8 +2,10 @@
   <div class="component-QualifyingView">
     <LoadingIndicator v-if="isLoading" />
     <h3>{{ qualifyingDate }}</h3>
-    <p class="subtitle">Lajittelun tulokset, parhaan vedon pisteet ja tuloksesta saatavat mestaruuspisteet.</p>
-    <p class="subtitle small">Näe tarkemmat pisteet valitsemalla kuljettaja</p>
+    <p class="subtitle">
+      {{ textContent.qualifyingResults }}
+    </p>
+    <p class="subtitle small">{{ textContent.moreSpecificInfo }}</p>
 
     <QualifyingResultList
       v-if="qualifying"
@@ -30,14 +32,12 @@ import type {
   IQualifying,
   IQualifyingResultItem,
 } from "~/interfaces/qualifying.interface";
+import Language from "~/mixins/language.vue";
 import { formatISODateToStringShort } from "~/utils/time";
-
-interface IData {
-  qualifying: IQualifying | null;
-  loading: boolean;
-}
+import translations from "~/lang/components/QualifyingViewWrapper.lang";
 
 export default {
+  mixins: [Language],
   props: {
     qualifying: {
       type: Object as PropType<IQualifying>,
@@ -61,18 +61,21 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     showRunStats(): boolean {
-      return this.driftSerie !== DriftSerie.driftsmpro
+      return this.driftSerie !== DriftSerie.driftsmpro;
     },
     isLoading(): boolean {
       return this.loadingQualifying || this.loadingDrivers;
     },
     qualifyingDate(): string {
-      const date = this.qualifying?.date ||''
+      const date = this.qualifying?.date || "";
       if (!date) return "";
-      return `Päivämäärä: ${formatISODateToStringShort(date)}`;
+      return `${this.textContent.date} ${formatISODateToStringShort(date)}`;
     },
-    
+
     selectedResultId(): string {
       const r = (this.$route?.query?.result as string) || "";
       return r;
@@ -147,7 +150,8 @@ export default {
     h3 {
       font-size: 18px;
     }
-    .subtitle, .subtitle.small {
+    .subtitle,
+    .subtitle.small {
       font-size: 12px;
     }
   }

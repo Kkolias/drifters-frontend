@@ -61,7 +61,7 @@
       </ul>
       <ul class="heat-list" v-if="!!hasHeat3">
         <li class="heat" @click="showHeat(getHeatForNumber(3))">
-          <h3>Showdown Finaali</h3>
+          <h3>Showdown {{ textContent.final }}</h3>
           <div class="heat-wrapper final">
             <div
               class="lead driver"
@@ -97,9 +97,20 @@
 import type { PropType } from "vue";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IShowdownHeat } from "~/interfaces/qualifying-showdown.interface";
+import Language from "~/mixins/language.vue";
 import { getWinnerIdOfHeat } from "~/utils/getWinnerOfHeat";
 
+const translations = {
+  fi: {
+    final: "Finaali",
+  },
+  en: {
+    final: "Final",
+  },
+};
+
 export default {
+  mixins: [Language],
   props: {
     heatList: {
       type: Array as PropType<IShowdownHeat[]>,
@@ -112,6 +123,9 @@ export default {
   },
   // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     hasHeat3(): boolean {
       const heat3 = this.getHeatForNumber(3);
       return !!heat3?._id;

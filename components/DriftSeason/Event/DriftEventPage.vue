@@ -1,18 +1,20 @@
 <template>
   <div class="component-DriftEventPage margin-12">
     <div class="back-link-to-series">
-      <NuxtLink class="blank button" :to="seasonOverviewPath"
-        >Kauden yhteenveto</NuxtLink
-      >
+      <NuxtLink class="blank button" :to="seasonOverviewPath">{{
+        textContent.seasonOverview
+      }}</NuxtLink>
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <h1 class="big-header">
-        {{ serie }} {{ seasonYear }} {{ eventTrackCity }} Tulokset
+        {{ serie }} {{ seasonYear }} - {{ driftEventName }}
+        {{ textContent.results }}
+        <!-- {{ serie }} {{ seasonYear }} {{ eventTrackCity }} {{ textContent.results }} -->
       </h1>
-      <h2 class="event-details">Tapahtuma: {{ driftEventName }}</h2>
-      <h2 class="event-details">Rata: {{ eventTrackCityShort }}</h2>
-      <h2 class="event-details">Päivämäärät: {{ eventDates }}</h2>
+      <!-- <h2 class="event-details">{{ textContent.event }} {{ driftEventName }}</h2>
+      <h2 class="event-details">{{ textContent.track }} {{ eventTrackCityShort }}</h2>
+      <h2 class="event-details">{{ textContent.dates }} {{ eventDates }}</h2> -->
       <section class="select-view-section">
         <DriftSeasonEventDriftEventViewSelection
           v-if="!!season"
@@ -42,7 +44,7 @@
           :driftSerie="driftSerie"
           :allDriversList="allDriversList"
         />
-        <p v-else class="no-data">Tietoja puuttuu</p>
+        <p v-else class="no-data">{{ textContent.informationMissing }}</p>
       </section>
       <section
         class="view-section"
@@ -55,7 +57,7 @@
           :allDriversList="allDriversList"
           :loadingCompetitionDay="loading.competitionDay"
         />
-        <p v-else class="no-data">Tietoja puuttuu</p>
+        <p v-else class="no-data">{{ textContent.informationMissing }}</p>
       </section>
       <section class="view-section" v-if="isViewSelected('battles')">
         <DriftCompetitionDayDriftBattlesView
@@ -65,7 +67,7 @@
           :loadingCompetitionDay="loading.competitionDay"
           :driftSerie="driftSerie"
         />
-        <p v-else class="no-data">Tietoja puuttuu</p>
+        <p v-else class="no-data">{{ textContent.informationMissing }}</p>
       </section>
       <section class="view-section" v-if="isViewSelected('leaderboard')">
         <LeaderboardScoreboardView
@@ -93,11 +95,13 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
+import Language from "~/mixins/language.vue";
 import { useDriversStore } from "~/store/drivers";
 import apiCompetitionDay from "~/utils/drifting/api-competition-day";
 import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiQualifying from "~/utils/drifting/api-qualifying";
+import translations from "~/lang/components/DriftSeasonEventDriftEventPage.lang";
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -116,6 +120,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     seasonSlug: {
       type: String,
@@ -141,14 +146,18 @@ export default {
     },
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     navigationList() {
       return [
-        { label: "Yhteenveto", key: "event-info" },
-        { label: "Lajittelu", key: "qualifying" },
-        { label: "Showdown", key: "qualifying-showdown" },
-        { label: "Kaavio", key: "battles" },
-        { label: "Pistetaulukko", key: "leaderboard" },
-        { label: "Muut kaudet", key: "seasons" },
+        { label: this.textContent.eventInfo, key: "event-info" },
+        { label: this.textContent.qualifying, key: "qualifying" },
+        { label: this.textContent.showdown, key: "qualifying-showdown" },
+        { label: this.textContent.bracket, key: "battles" },
+        { label: this.textContent.scoreboard, key: "leaderboard" },
+        { label: this.textContent.events, key: "events" },
+        { label: this.textContent.otherSeasons, key: "seasons" },
       ];
     },
     nextEvent() {
@@ -162,7 +171,7 @@ export default {
         (e) => e.slug === this.eventSlug
       );
 
-      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null
+      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null;
       return nextEvent;
     },
     seasonOverviewPath(): string {

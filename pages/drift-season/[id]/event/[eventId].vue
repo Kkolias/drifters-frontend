@@ -13,19 +13,6 @@
   </div>
 </template>
 
-<!-- <script lang="ts">
-export default {
-  computed: {
-    eventSlug(): string {
-      return (this.$route?.params?.eventId as string) || "";
-    },
-    seasonSlug(): string {
-      return (this.$route?.params?.id as string) || "";
-    },
-  },
-};
-</script> -->
-
 <script setup lang="ts">
 const isMobile = ref(false);
 

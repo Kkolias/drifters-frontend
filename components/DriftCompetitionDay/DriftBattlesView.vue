@@ -15,18 +15,8 @@
         :class="[!showBracket ? 'primary' : 'secondary']"
         @click="setShowBracket(false)"
       >
-        Lista
+        {{ textContent.list }}
       </button>
-      <!-- <button
-        class="blank bracket-icon"
-        :class="{ selected: showBracket }"
-        @click="setShowBracket(true)"
-      ></button>
-      <button
-        class="blank list-icon"
-        :class="{ selected: !showBracket }"
-        @click="setShowBracket(false)"
-      ></button> -->
     </div>
 
     <DriftCompetitionDayBracketView
@@ -50,11 +40,22 @@ import type {
   IScoreBoardItem,
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
+import Language from "~/mixins/language.vue";
+
+const translations = {
+  fi: {
+    list: "Lista",
+  },
+  en: {
+    list: "List",
+  },
+};
 
 interface IData {
   showBracket: boolean;
 }
 export default {
+  mixins: [Language],
   props: {
     competitionDay: {
       type: Object as PropType<ICompetitionDay>,
@@ -81,6 +82,9 @@ export default {
     showBracket: true,
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     scoreboard(): IScoreBoardItem[] {
       return this.competitionDay?.scoreBoard || [];
     },

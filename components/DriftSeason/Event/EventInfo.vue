@@ -1,38 +1,40 @@
 <template>
   <div class="component-EventInfo">
     <div class="summary-section">
-      <h2>Tapahtuman yhteenveto</h2>
+      <h2>{{ textContent.eventOverview }}</h2>
       <div class="event-info-container">
         <p>
-          Rata: <span>{{ eventTrack }}</span>
+          {{ textContent.track }} <span>{{ eventTrack }}</span>
         </p>
         <p>
-          Kaupunki: <span>{{ eventCityCountry }}</span>
+          {{ textContent.city }} <span>{{ eventCityCountry }}</span>
         </p>
         <p>
-          Ajankohta: <span>{{ eventDates }}</span>
+          {{ textContent.dates }} <span>{{ eventDates }}</span>
         </p>
       </div>
     </div>
     <div v-if="nextEvent" class="next-event-container">
       <NuxtLink class="to-event" :to="nextEventPath">
-        <span class="event-name">Seuraava tapahtuma: {{ nextEventName }}</span>
+        <span class="event-name"
+          >{{ textContent.nextEvent }} {{ nextEventName }}</span
+        >
       </NuxtLink>
     </div>
     <div class="to-season-overview">
       <NuxtLink class="to-season" :to="pathToSeasonOnverview">
-        <span class="event-name">Koko kauden yhteenveto</span>
+        <span class="event-name">{{ textContent.wholeSeasonOverview }}</span>
       </NuxtLink>
     </div>
     <div class="track-layout">
-      <h2>Ratakartta</h2>
+      <h2>{{ textContent.trackLayout }}</h2>
       <img
         v-if="eventTrackLayoutUrl"
         :src="eventTrackLayoutUrl"
         alt="track-layout"
       />
       <div v-else class="no-track-layout">
-        <p>Ei vielä ratakarttaa</p>
+        <p>{{ textContent.noTrackLayoutYet }}</p>
       </div>
     </div>
   </div>
@@ -41,8 +43,11 @@
 <script lang="ts">
 import { TRACK_LAYOUTS } from "~/constants/track-layouts";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/DriftSeasonEventInfo.lang";
 
 export default {
+  mixins: [Language],
   props: {
     driftEvent: {
       type: Object as PropType<IDriftEvent>,
@@ -58,6 +63,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     nextEventPath(): string {
       return `/drift-season/${this.seasonSlug}/event/${this.nextEvent.slug}?view=event-info`;
     },
@@ -125,7 +133,7 @@ export default {
   }
   .next-event-container {
     text-align: center;
-    
+
     .to-event {
       display: inline-block;
       border: 2px solid var(--white-1);
@@ -190,6 +198,9 @@ export default {
     .no-track-layout {
       margin-top: 4px;
       height: 100px;
+      max-width: 500px;
+      width: 100%;
+      margin: auto;
       border: 2px solid var(--white-1);
       border-radius: 10px;
 

@@ -1,16 +1,13 @@
 <template>
   <div class="component-BracketView">
     <p class="subtitle">
-      Qualifying Showdown on Drift Masters -sarjan uusi
-      osio, jossa lajittelun top 4 kuskit ottavat mittaa toisistaan kahtena
-      parina.
+      {{ textContent.previewText }}
     </p>
     <p class="subtitle">
-      Parhaalle jaossa on 4 mestaruuspistettä, toiselle 3, kolmannelle 2 ja
-      neljännelle 1.
+      {{ textContent.pointsText }}
     </p>
     <p class="subtitle small">
-      Näet tarkemmat tulokset valitsemalla haluamasi heatin.
+      {{ textContent.moreInfo }}
     </p>
     <!-- <pre>
             {{ heatListTop16Left }}
@@ -39,8 +36,11 @@ import type {
   IQualifyingShowdownItem,
   IShowdownHeat,
 } from "~/interfaces/qualifying-showdown.interface";
+import translations from "~/lang/components/QualifyingShowdownView.lang";
+import Language from "~/mixins/language.vue";
 
 export default {
+  mixins: [Language],
   props: {
     qualifyingShowdown: {
       type: Object as PropType<IQualifyingShowdownItem | null>,
@@ -52,6 +52,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     selectedHeatItem(): IShowdownHeat | null {
       const selectedHeatId = this.$route?.query?.["heat"];
 
