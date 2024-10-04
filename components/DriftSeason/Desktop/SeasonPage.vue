@@ -1,7 +1,9 @@
 <template>
   <div class="component-DriftEventPage margin-12">
     <div class="back-link-to-series">
-      <NuxtLink class="blank button" to="/series">Takaisin sarjoihin</NuxtLink>
+      <NuxtLink class="blank button" to="/series">{{
+        textContent.backToSeries
+      }}</NuxtLink>
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
@@ -17,15 +19,15 @@
         />
       </section>
       <section class="view-section scroll-section" id="events">
-        <h2 class="section-header">Tapahtumat</h2>
+        <h2 class="section-header">{{ textContent.events }}</h2>
         <DriftSeasonEventList v-if="!!season" :season="season" />
       </section>
       <section class="view-section scroll-section" id="stats">
-        <h2 class="section-header">Kauden Tilastot</h2>
+        <h2 class="section-header">{{ textContent.seasonStats }}</h2>
         <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
       </section>
       <section class="view-section scroll-section" id="leaderboard">
-        <h2 class="section-header">Kauden Pistetaulukko</h2>
+        <h2 class="section-header">{{ textContent.seasonScoreboard }}</h2>
         <LeaderboardScoreboardView
           v-if="season"
           :loading="loading.drivers || loading.season"
@@ -36,7 +38,7 @@
         />
       </section>
       <section class="view-section scroll-section" id="seasons">
-        <h2 class="section-header">Muut kaudet</h2>
+        <h2 class="section-header">{{ textContent.otherSeasons }}</h2>
         <DriftSeriesList :selectedSeason="seasonId" />
       </section>
     </div>
@@ -51,8 +53,10 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
+import Language from "~/mixins/language.vue";
 import { useDriversStore } from "~/store/drivers";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
+import translations from "~/lang/components/DriftSeasonDesktopSeasonPage.lang";
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -71,6 +75,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     seasonSlug: {
       type: String,
@@ -92,22 +97,25 @@ export default {
     },
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     navigationList(): { label: string; key: string }[] {
       return [
         {
-          label: "Tapahtumat",
+          label: this.textContent.events,
           key: "events",
         },
         {
-          label: "Tilastot",
+          label: this.textContent.stats,
           key: "stats",
         },
         {
-          label: "Pistetaulukko",
+          label: this.textContent.scoreboard,
           key: "leaderboard",
         },
         {
-          label: "Muut kaudet",
+          label: this.textContent.otherSeasons,
           key: "seasons",
         },
       ];
@@ -247,18 +255,20 @@ export default {
       padding-top: 80px;
       padding-bottom: 50px;
 
-      &:after {
-        content: "";
-        max-width: 800px;
-        width: calc(100% - 24px);
-        padding: 0 12px;
-        height: 2px;
-        background: var(--green-1);
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 0.5;
+      &:not(:last-child) {
+        &:after {
+          content: "";
+          max-width: 800px;
+          width: calc(100% - 24px);
+          padding: 0 12px;
+          height: 2px;
+          background: var(--green-1);
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          opacity: 0.5;
+        }
       }
     }
     .section-header {

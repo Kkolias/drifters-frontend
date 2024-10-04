@@ -4,10 +4,14 @@
     <div class="content-wrapper" v-if="!isLoading">
       <section class="hero-section">
         <h1 class="big-header">{{ serie }} {{ seasonYear }}</h1>
-        <p class="subtext">Kauden yhteenveto</p>
+        <p class="subtext">{{ textContent.overview }}</p>
       </section>
       <section class="select-view-section">
-        <DriftSeasonMobileViewSelection v-if="!!season" :season="season" :navigationList="navigationList" />
+        <DriftSeasonMobileViewSelection
+          v-if="!!season"
+          :season="season"
+          :navigationList="navigationList"
+        />
       </section>
       <div class="contents margin-12">
         <section class="view-section" v-if="isViewSelected('events')">
@@ -42,8 +46,26 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
 import type { IQualifying } from "~/interfaces/qualifying.interface";
+import Language from "~/mixins/language.vue";
 import { useDriversStore } from "~/store/drivers";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
+
+const translations = {
+  fi: {
+    overview: "Kauden yhteenveto",
+    events: "Tapahtumat",
+    stats: "Tilastot",
+    leaderboard: "Pistetaulukko",
+    seasons: "Muut kaudet",
+  },
+  en: {
+    overview: "Season overview",
+    events: "Events",
+    stats: "Stats",
+    leaderboard: "Scoreboard",
+    seasons: "Other seasons",
+  },
+};
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -62,6 +84,7 @@ interface IData {
 }
 
 export default {
+  mixins: [Language],
   props: {
     seasonSlug: {
       type: String,
@@ -83,22 +106,25 @@ export default {
     },
   }),
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     navigationList() {
       return [
         {
-          label: "Tapahtumat",
+          label: this.textContent.overview,
           key: "events",
         },
         {
-          label: "Tilastot",
+          label: this.textContent.stats,
           key: "stats",
         },
         {
-          label: "Pistetaulukko",
+          label: this.textContent.leaderboard,
           key: "leaderboard",
         },
         {
-          label: "Muut kaudet",
+          label: this.textContent.seasons,
           key: "seasons",
         },
       ];
@@ -181,10 +207,10 @@ export default {
     min-height: 80px;
 
     .subtext {
-        text-align: center;
-        color: var(--green-1);
-        margin: 0;
-        font-weight: 700;
+      text-align: center;
+      color: var(--green-1);
+      margin: 0;
+      font-weight: 700;
     }
 
     .back-link-to-series {

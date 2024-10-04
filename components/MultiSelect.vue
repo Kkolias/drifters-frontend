@@ -27,7 +27,10 @@
 </template>
 
 <script lang="ts">
+import Language from '~/mixins/language.vue';
+
 export default {
+  mixins: [Language],
   props: {
     optionList: {
       type: Array as PropType<readonly any[]>,
@@ -58,6 +61,16 @@ export default {
     isListOpen: false,
   }),
   computed: {
+    textContent() {
+      return this.getTranslation({
+        fi: {
+          selected: "valittua"
+        },
+        en: {
+          selected: "selected"
+        }
+      });
+    },
     selectedLabel(): string {
       if (this.selectedIdList.length === 0) return this.placeholderOption;
       if (this.selectedIdList.length === 1) {
@@ -65,7 +78,7 @@ export default {
         return this.optionLabel(selectedOption);
       }
 
-      return `${this.selectedIdList.length} valittua`;
+      return `${this.selectedIdList.length} ${this.textContent.selected}`;
     },
   },
   mounted() {

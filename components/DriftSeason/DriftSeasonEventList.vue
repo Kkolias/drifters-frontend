@@ -1,7 +1,7 @@
 <template>
   <div class="component-DriftSeasonEventList">
     <LoadingIndicator v-if="showLoading" />
-    <h2 v-if="showNoEventList">Ei näytettäviä tapahtumia</h2>
+    <h2 v-if="showNoEventList">{{ textContent.noEventsToShow }}</h2>
     <ul v-if="showEventList" class="event-list">
       <li v-for="(event, index) in eventList" :key="index" class="event-item">
         <NuxtLink class="to-event" :to="pathToEvent(event)">
@@ -22,8 +22,12 @@
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import { eventDates } from "~/utils/driftEvent";
+import countryLang from "~/lang/country.lang";
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/DriftSeasonEventList.lang";
 
 export default {
+  mixins: [Language],
   props: {
     season: {
       type: Object as PropType<IDriftSeason>,
@@ -35,6 +39,12 @@ export default {
     },
   },
   computed: {
+    countryTextContent() {
+      return this.getTranslation(countryLang);
+    },
+    textContent() {
+      return this.getTranslation(translations);
+    },
     showLoading(): boolean {
       return this.loading || !this.season;
     },
@@ -60,7 +70,7 @@ export default {
     },
     eventCountry(event: IDriftEvent) {
       const country = event?.country;
-      const parsedCountry = getCountryName(country)
+      const parsedCountry = getCountryName(country, this.countryTextContent)
       return parsedCountry === "N/A" ? country : parsedCountry;
     },
   },

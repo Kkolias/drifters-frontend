@@ -3,14 +3,14 @@
     <LoadingIndicator v-if="loading" />
     <div v-else-if="scoreboard.length">
       <p class="subtitle">
-        {{ seasonName }} Kauden {{ seasonYear }} pistetaulukko.
+        {{ seasonName }} {{ textContent.season }} {{ seasonYear }} {{ textContent.scoreboard }}
       </p>
       <table class="scoreboard-table">
         <thead>
           <tr>
-            <th>Sija</th>
-            <th>Kuljettaja</th>
-            <th>Pisteet</th>
+            <th>{{ textContent.placement }}</th>
+            <th>{{ textContent.driver }}</th>
+            <th>{{ textContent.points }}</th>
           </tr>
         </thead>
         <tbody>
@@ -41,8 +41,11 @@
 import type { PropType } from "vue";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { ScoreboardItem } from "~/interfaces/leaderboard.interface";
+import Language from "~/mixins/language.vue";
+import translations from "~/lang/components/LeaderboardScoreboardView.lang";
 
 export default {
+  mixins: [Language],
   props: {
     scoreboard: {
       type: Array as PropType<ScoreboardItem[]>,
@@ -66,6 +69,9 @@ export default {
     },
   },
   computed: {
+    textContent() {
+      return this.getTranslation(translations);
+    },
     sortedScoreboard(): ScoreboardItem[] {
       return this.scoreboard?.sort((a, b) => b.score - a.score) || [];
     },
