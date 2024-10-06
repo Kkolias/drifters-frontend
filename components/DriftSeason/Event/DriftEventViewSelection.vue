@@ -60,15 +60,17 @@ export default {
   },
   methods: {
     isViewSelected(view: string): boolean {
-      return this.queryParams.view === view;
+      // return this.queryParams.view === view;
+      return this.$route.hash === `#${view}`;
     },
     getQueryPath(view: string): any {
-      return {
-        query: {
-          ...this.queryParams,
-          view,
-        },
-      };
+      // return {
+      //   query: {
+      //     ...this.queryParams,
+      //     view,
+      //   },
+      // };
+      return `#${view}`;  
     },
   },
 };

@@ -187,6 +187,9 @@ export default {
     },
   },
   mounted() {
+    if(!this.$route.hash) {
+      this.$router.push({ hash: "#events" });
+    }
     this.fetchDriftSeason();
     this.fetchDrivers();
   },
@@ -207,7 +210,9 @@ export default {
     },
 
     isViewSelected(view: string): boolean {
-      return this.queryParams?.view === view;
+      // return this.queryParams?.view === view;
+      // using hash
+      return this.$route.hash === `#${view}`;
     },
   },
 };

@@ -72,7 +72,7 @@ export default {
       return event?.slug === this.eventSlug;
     },
     pathToEvent(event: IDriftEvent) {
-      return `/drift-season/${this.season.slug}/event/${event.slug}?view=event-info`;
+      return `/drift-season/${this.season.slug}/event/${event.slug}#event-info`;
     },
     eventName(event: IDriftEvent) {
       return event?.name;

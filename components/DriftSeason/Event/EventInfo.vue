@@ -67,13 +67,13 @@ export default {
       return this.getTranslation(translations);
     },
     nextEventPath(): string {
-      return `/drift-season/${this.seasonSlug}/event/${this.nextEvent.slug}?view=event-info`;
+      return `/drift-season/${this.seasonSlug}/event/${this.nextEvent.slug}#event-info`;
     },
     nextEventName(): string {
       return this.nextEvent?.name || "";
     },
     pathToSeasonOnverview(): string {
-      return `/drift-season/${this.seasonSlug}?view=events`;
+      return `/drift-season/${this.seasonSlug}`;
     },
     driftEventId(): string {
       return this.driftEvent._id;

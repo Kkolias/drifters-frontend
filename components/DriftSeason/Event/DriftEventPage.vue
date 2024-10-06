@@ -316,7 +316,9 @@ export default {
     },
 
     isViewSelected(view: string): boolean {
-      return this.queryParams?.view === view;
+      // return this.queryParams?.view === view;
+      // using hash
+      return this.$route.hash === `#${view}`;
     },
   },
 };

@@ -61,9 +61,6 @@ export default {
     queryParams() {
       return this.$route.query;
     },
-    isSelectedEvent(): boolean {
-      return !!this.queryParams?.["event-id"];
-    },
     navButtons(): HTMLElement {
       return this.$refs["nav-buttons"] as HTMLElement;
     },
@@ -90,15 +87,17 @@ export default {
         navButtons.scrollWidth - navButtons.clientWidth - 0;
     },
     isViewSelected(view: string): boolean {
-      return this.queryParams.view === view;
+      // return this.queryParams.view === view;
+      return this.$route.hash === `#${view}`;
     },
     getQueryPath(view: string): any {
-      return {
-        query: {
-          ...this.queryParams,
-          view,
-        },
-      };
+      // return {
+      //   query: {
+      //     ...this.queryParams,
+      //     view,
+      //   },
+      // };
+      return `#${view}`;
     },
     scrollToTop() {
       window.scrollTo(0, 0);
