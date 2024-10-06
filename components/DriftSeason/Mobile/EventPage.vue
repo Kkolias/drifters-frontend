@@ -2,12 +2,6 @@
   <div class="component-DriftEventPage">
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
-      <!-- <h1 class="big-header">
-        {{ serie }} {{ seasonYear }} {{ eventTrackCity }} Mobile
-      </h1>
-      <h2 class="event-details">Tapahtuma: {{ driftEventName }}</h2>
-      <h2 class="event-details">Rata: {{ eventTrackCityShort }}</h2>
-      <h2 class="event-details">Päivämäärät: {{ eventDates }}</h2> -->
       <section class="hero-section">
         <h1 class="big-header">{{ eventText }}</h1>
         <p class="subtext">{{ serie }} {{ seasonYear }}</p>
@@ -24,7 +18,7 @@
       </section>
       <div class="contents margin-12">
         <section class="view-section" v-if="isViewSelected('events')">
-          <DriftSeasonEventList v-if="!!season" :season="season" />
+          <DriftSeasonEventList v-if="!!season" :season="season" :eventSlug="eventSlug" />
         </section>
         <section class="view-section" v-if="isViewSelected('qualifying')">
           <QualifyingViewWrapper

@@ -15,6 +15,15 @@
       </section>
       <div class="contents margin-12">
         <section class="view-section" v-if="isViewSelected('events')">
+          <DriftSeasonMobileTopThree
+            v-if="isSeasonFinished"
+            :scoreboard="scoreboard"
+            :driverList="allDriversList"
+            :seasonYear="seasonYear"
+          />
+          <h2 v-if="isSeasonFinished" class="events-header">
+            {{ textContent.events }}
+          </h2>
           <DriftSeasonEventList v-if="!!season" :season="season" />
         </section>
         <section class="view-section" v-if="isViewSelected('stats')">
@@ -106,6 +115,9 @@ export default {
     },
   }),
   computed: {
+    isSeasonFinished(): boolean {
+      return this.season?.isFinished || false;
+    },
     textContent() {
       return this.getTranslation(translations);
     },
@@ -288,6 +300,25 @@ export default {
 
   .view-section {
     margin-top: 24px;
+
+    .events-header {
+      position: relative;
+      &:before {
+        content: "";
+        // width: calc(100% - 16px);
+        width: 100%;
+        height: 2px;
+        background-color: var(--green-1-50);
+        display: block;
+        position: absolute;
+        top: -12px;
+      }
+
+      margin-top: 34px;
+      color: var(--green-1);
+      font-size: 24px;
+      text-align: center;
+    }
   }
 }
 </style>

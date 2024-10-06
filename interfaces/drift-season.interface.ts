@@ -13,6 +13,7 @@ export interface IDriftSeason {
   driversOfSeason: IDriver[];
   leaderboard: ILeaderboard;
   createdAt: string;
+  isFinished: boolean;
 }
 
 export interface IDriverSeasonStats {

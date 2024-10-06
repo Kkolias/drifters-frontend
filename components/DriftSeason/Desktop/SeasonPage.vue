@@ -18,6 +18,15 @@
           :navigationList="navigationList"
         />
       </section>
+      <section class="view-section scroll-section" id="top-three">
+        <h2 class="section-header">{{ textContent.topThree }}</h2>
+        <DriftSeasonDesktopTopThree
+          v-if="isSeasonFinished"
+          :scoreboard="scoreboard"
+          :driverList="allDriversList"
+          :seasonYear="seasonYear"
+        />
+      </section>
       <section class="view-section scroll-section" id="events">
         <h2 class="section-header">{{ textContent.events }}</h2>
         <DriftSeasonEventList v-if="!!season" :season="season" />
@@ -97,11 +106,18 @@ export default {
     },
   }),
   computed: {
+    isSeasonFinished(): boolean {
+      return this.season?.isFinished || false;
+    },
     textContent() {
       return this.getTranslation(translations);
     },
     navigationList(): { label: string; key: string }[] {
       return [
+        {
+          label: this.textContent.topThree,
+          key: "top-three",
+        },
         {
           label: this.textContent.events,
           key: "events",

@@ -3,7 +3,12 @@
     <LoadingIndicator v-if="showLoading" />
     <h2 v-if="showNoEventList">{{ textContent.noEventsToShow }}</h2>
     <ul v-if="showEventList" class="event-list">
-      <li v-for="(event, index) in eventList" :key="index" class="event-item">
+      <li
+        v-for="(event, index) in eventList"
+        :key="index"
+        class="event-item"
+        :class="{ active: isEventActive(event) }"
+      >
         <NuxtLink class="to-event" :to="pathToEvent(event)">
           <div class="top-row">
             <h3 class="event-name">{{ eventName(event) }}</h3>
@@ -37,6 +42,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    eventSlug: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     countryTextContent() {
@@ -59,6 +68,9 @@ export default {
     },
   },
   methods: {
+    isEventActive(event: IDriftEvent) {
+      return event?.slug === this.eventSlug;
+    },
     pathToEvent(event: IDriftEvent) {
       return `/drift-season/${this.season.slug}/event/${event.slug}?view=event-info`;
     },
@@ -70,7 +82,7 @@ export default {
     },
     eventCountry(event: IDriftEvent) {
       const country = event?.country;
-      const parsedCountry = getCountryName(country, this.countryTextContent)
+      const parsedCountry = getCountryName(country, this.countryTextContent);
       return parsedCountry === "N/A" ? country : parsedCountry;
     },
   },
@@ -154,6 +166,12 @@ export default {
           }
           box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
           transform: scale(1.05);
+        }
+      }
+      &.active {
+        .to-event {
+          border-color: var(--green-1);
+          background-color: var(--black-2);
         }
       }
     }

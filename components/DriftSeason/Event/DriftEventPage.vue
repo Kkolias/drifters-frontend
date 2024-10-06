@@ -25,7 +25,7 @@
         />
       </section>
       <section class="view-section" v-if="isViewSelected('events')">
-        <DriftSeasonEventList v-if="!!season" :season="season" />
+        <DriftSeasonEventList v-if="!!season" :season="season" :eventSlug="eventSlug" />
       </section>
       <section class="view-section" v-if="isViewSelected('event-info')">
         <DriftSeasonEventInfo
