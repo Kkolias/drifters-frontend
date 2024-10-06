@@ -1,11 +1,14 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const hasEnPrefix = (path: string) => path.startsWith('/en') || path === '/en'; // Handles `/en` and `/en/`
-  
-  const toPathWithoutPrefix = to.fullPath.replace('/en', '')
-  const fromPathWithoutPrefix = from.fullPath.replace('/en', '') || '/'; // Handles `/en` and `/en/`
+  const hasEnPrefix = (path: string) =>
+    path.startsWith("/en") || path === "/en"; // Handles `/en` and `/en/`
+
+  const toPathWithoutPrefix = to.fullPath.replace("/en", "");
+  const fromPathWithoutPrefix = from.fullPath.replace("/en", "") || "/"; // Handles `/en` and `/en/`
+
+  const fromPathWithoutHash = fromPathWithoutPrefix.split("#")[0];
 
   // Handle the case where `/en/` and `/` are treated as the same root language change
-  const isSamePathWithoutLanguage = toPathWithoutPrefix === fromPathWithoutPrefix;
+  const isSamePathWithoutLanguage = toPathWithoutPrefix === fromPathWithoutHash;
 
   // 1. If going from `/path` to `/en/path` or `/en/path` to `/path`, we're changing the language
   if (isSamePathWithoutLanguage) {
