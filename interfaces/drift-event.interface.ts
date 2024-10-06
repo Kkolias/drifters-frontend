@@ -16,5 +16,6 @@ export interface IDriftEvent {
     qualifying: IQualifying;
     qualifyingShowdown: IQualifyingShowdownItem
     competitionDay: ICompetitionDay
+    isFinished: boolean;
     createdAt: string;
   }

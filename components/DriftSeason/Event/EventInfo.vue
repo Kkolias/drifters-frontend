@@ -1,5 +1,18 @@
 <template>
   <div class="component-EventInfo">
+    <div v-if="isFinished" class="top-three-section">
+      <DriftSeasonEventBracketTopThree
+        :bracketScoreboard="bracketScoreboard"
+        :driftSerie="driftSerie"
+      />
+    </div>
+    <div v-if="isFinished && qualifying" class="top-three-section">
+      <DriftSeasonEventQualifyingTopThree
+        :qualifying="qualifying"
+        :driftSerie="driftSerie"
+        :allDriversList="allDriversList"
+      />
+    </div>
     <div class="summary-section">
       <h2>{{ textContent.eventOverview }}</h2>
       <div class="event-info-container">
@@ -45,6 +58,10 @@ import { TRACK_LAYOUTS } from "~/constants/track-layouts";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import Language from "~/mixins/language.vue";
 import translations from "~/lang/components/DriftSeasonEventInfo.lang";
+import { type IScoreBoardItem } from "~/interfaces/competition-day.interface";
+import type { DriftSerie } from "~/enums/drift-serie.enum";
+import type { IQualifying } from "~/interfaces/qualifying.interface";
+import type { IDriver } from "~/interfaces/driver.interface";
 
 export default {
   mixins: [Language],
@@ -60,6 +77,26 @@ export default {
     nextEvent: {
       type: Object as PropType<IDriftEvent>,
       default: () => null,
+    },
+    bracketScoreboard: {
+      type: Array as PropType<IScoreBoardItem[]>,
+      default: () => [],
+    },
+    isFinished: {
+      type: Boolean,
+      default: false,
+    },
+    driftSerie: {
+      type: String as PropType<DriftSerie | null>,
+      default: null,
+    },
+    qualifying: {
+      type: Object as PropType<IQualifying>,
+      default: () => null,
+    },
+    allDriversList: {
+      type: Array as PropType<IDriver[]>,
+      default: () => [],
     },
   },
   computed: {

@@ -5,9 +5,9 @@
       <section class="hero-section">
         <h1 class="big-header">{{ eventText }}</h1>
         <p class="subtext">{{ serie }} {{ seasonYear }}</p>
-        <NuxtLink class="to-season-overview" :to="seasonOverviewLink"
-          >{{textContent.seasonOverview}}</NuxtLink
-        >
+        <NuxtLink class="to-season-overview" :to="seasonOverviewLink">{{
+          textContent.seasonOverview
+        }}</NuxtLink>
       </section>
       <section class="select-view-section">
         <DriftSeasonMobileViewSelection
@@ -18,7 +18,11 @@
       </section>
       <div class="contents margin-12">
         <section class="view-section" v-if="isViewSelected('events')">
-          <DriftSeasonEventList v-if="!!season" :season="season" :eventSlug="eventSlug" />
+          <DriftSeasonEventList
+            v-if="!!season"
+            :season="season"
+            :eventSlug="eventSlug"
+          />
         </section>
         <section class="view-section" v-if="isViewSelected('qualifying')">
           <QualifyingViewWrapper
@@ -73,6 +77,11 @@
             :driftEvent="driftEvent"
             :seasonSlug="seasonSlug"
             :nextEvent="nextEvent"
+            :allDriversList="allDriversList"
+            :qualifying="(qualifying as IQualifying)"
+            :bracketScoreboard="competitionDayScoreboard"
+            :driftSerie="driftSerie"
+            :isFinished="isEventFinished"
           />
         </section>
       </div>
@@ -83,7 +92,7 @@
 <script lang="ts">
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
-import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
+import type { ICompetitionDay, IScoreBoardItem } from "~/interfaces/competition-day.interface";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
@@ -97,7 +106,6 @@ import apiQualifying from "~/utils/drifting/api-qualifying";
 import translations from "~/lang/components/DriftSeasonEventDriftEventPage.lang";
 import Language from "~/mixins/language.vue";
 import countryTranslations from "~/lang/country.lang";
-
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -142,6 +150,12 @@ export default {
     },
   }),
   computed: {
+    competitionDayScoreboard(): IScoreBoardItem[] {
+      return this.competitionDay?.scoreBoard || [];
+    },
+    isEventFinished(): boolean {
+      return this.driftEvent?.isFinished || false;
+    },
     textContent() {
       return this.getTranslation(translations);
     },
@@ -159,7 +173,7 @@ export default {
         (e) => e.slug === this.eventSlug
       );
 
-      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null
+      const nextEvent = sortedByStartsAt?.[indexOfCurrentEvent + 1] || null;
       return nextEvent;
     },
     seasonOverviewLink(): string {

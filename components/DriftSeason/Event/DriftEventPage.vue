@@ -31,8 +31,13 @@
         <DriftSeasonEventInfo
           v-if="driftEvent"
           :driftEvent="driftEvent"
+          :bracketScoreboard="competitionDayScoreboard"
+          :driftSerie="driftSerie"
+          :isFinished="isEventFinished"
           :seasonSlug="seasonSlug"
           :nextEvent="nextEvent"
+          :allDriversList="allDriversList"
+          :qualifying="(qualifying as IQualifying)"
         />
       </section>
       <section class="view-section" v-if="isViewSelected('qualifying')">
@@ -89,7 +94,7 @@
 <script lang="ts">
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
-import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
+import type { ICompetitionDay, IScoreBoardItem } from "~/interfaces/competition-day.interface";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
@@ -146,6 +151,13 @@ export default {
     },
   }),
   computed: {
+    
+    competitionDayScoreboard(): IScoreBoardItem[] {
+      return this.competitionDay?.scoreBoard || [];
+    },
+    isEventFinished(): boolean {
+      return this.driftEvent?.isFinished || false;
+    },
     textContent() {
       return this.getTranslation(translations);
     },

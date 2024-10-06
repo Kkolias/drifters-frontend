@@ -1,5 +1,6 @@
 export default {
     fi: {
+        qualifying: "Lajittelun",
         showPoints: "Näytä sijoituksesta saatavat pisteet",
         position: "Sija",
         driver: "Kuljettaja",
@@ -9,6 +10,7 @@ export default {
         pointsFromPosition: "Sijoituksesta saatavat mestaruuspisteet"
     },
     en: {
+        qualifying: "Qualifying",
         showPoints: "Show championship points from position",
         position: "Position",
         driver: "Driver",
