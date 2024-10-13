@@ -103,6 +103,7 @@ export default {
   methods: {
     setResultId(id: string): void {
       this.$router.push({
+        hash: this.$route.hash,
         query: {
           ...this.$route.query,
           result: id,

@@ -83,6 +83,7 @@ export default {
   methods: {
     closeHeatModal(): void {
       this.$router.push({
+        hash: this.$route.hash,
         query: {
           ...this.$route.query,
           heat: "",
@@ -90,7 +91,10 @@ export default {
       });
     },
     showHeat(id: string): void {
-      this.$router.push({ query: { ...this.$route.query, heat: id } });
+      this.$router.push({
+        hash: this.$route.hash,
+        query: { ...this.$route.query, heat: id },
+      });
     },
   },
 };
