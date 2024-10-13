@@ -37,7 +37,7 @@
             </p>
           </div>
           <div class="heat-number">
-            <p>Heat 32</p>
+            <p>Heat 31</p>
           </div>
           <div
             class="chase driver"
