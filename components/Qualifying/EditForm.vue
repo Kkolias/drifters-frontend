@@ -148,7 +148,9 @@ export default {
     async create() {
       const { eventId, date } = this.qualifying;
 
-      const newQualifying = await qualifyingApi.createQualifying(eventId, date);
+      const dateUtc = `${date}:00.000Z`;
+
+      const newQualifying = await qualifyingApi.createQualifying(eventId, dateUtc);
 
       if (newQualifying) {
         if (this.emitSuccess) this.$emit("success");

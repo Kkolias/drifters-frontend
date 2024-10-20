@@ -20,6 +20,10 @@
         @setUpdatedEvent="setUpdatedEvent"
         @reloadSeason="reloadSeason"
       />
+      <ControlPanelDriftEventResultEdit
+        v-if="isEditResultView"
+        :eventId="driftEventId"
+      />
     </div>
   </div>
 </template>
@@ -40,7 +44,7 @@ export default {
       return this.$route?.query;
     },
     driftEventViews(): { query: string; label: string }[] {
-      if(this.queryParams?.eventId === "create-new") {
+      if (this.queryParams?.eventId === "create-new") {
         return [
           {
             query: "overview",
@@ -58,10 +62,22 @@ export default {
           label: "Lajittelu",
         },
         {
+          query: "qualifying-showdown",
+          label: "Showdown",
+        },
+        {
           query: "bracket",
           label: "Kaavio",
         },
       ];
+    },
+    isEditResultView(): boolean {
+      const view = this.$route?.query?.["event-view"];
+      return (
+        view === "qualifying" ||
+        view === "bracket" ||
+        view === "qualifying-showdown"
+      );
     },
   },
   methods: {

@@ -8,6 +8,13 @@
           <p class="error-message">{{ overViewErrorMessage }}</p>
         </div>
 
+        <CheckboxButton
+          class="checkbox-button"
+          label="Tapahtuma päättynyt"
+          :checked="driftEvent.isFinished"
+          @onClick="driftEvent.isFinished = !driftEvent.isFinished"
+        />
+
         <div class="input-wrapper">
           <label for="serie">Kausi:</label>
           <SingleSelect
@@ -147,6 +154,7 @@ interface DriftEventEditFormData {
     endsAt: string;
     seasonId: string;
     slug: string;
+    isFinished: boolean;
   };
 
   seasonList: IDriftSeason[];
@@ -186,6 +194,7 @@ export default {
       endsAt: "",
       seasonId: "",
       slug: "",
+      isFinished: false,
     },
 
     seasonList: [],
@@ -233,6 +242,7 @@ export default {
         endsAt: "",
         seasonId: "",
         slug: "",
+        isFinished: false,
       };
     },
     fetchInitialEvent(): void {
@@ -255,6 +265,7 @@ export default {
           endsAt: endsAt,
           seasonId: event.seasonId,
           slug: event.slug,
+          isFinished: event.isFinished,
         };
       }
       this.loading = false;
@@ -299,6 +310,7 @@ export default {
         endsAt,
         seasonId,
         slug,
+        isFinished
       }: {
         country: string;
         city: string;
@@ -308,6 +320,7 @@ export default {
         endsAt: string;
         seasonId: string;
         slug: string;
+        isFinished: boolean;
       } = this.driftEvent;
 
       // dates are in utc time but without the Z at the end for example 2021-12-31T23:59
@@ -324,6 +337,7 @@ export default {
         endsAt: endsAtUTC,
         seasonId,
         slug,
+        isFinished
       });
 
       if (updatedEvent) {
@@ -346,6 +360,7 @@ export default {
         endsAt,
         seasonId,
         slug,
+        isFinished
       }: {
         country: string;
         city: string;
@@ -355,6 +370,7 @@ export default {
         endsAt: string;
         seasonId: string;
         slug: string;
+        isFinished: boolean;
       } = this.driftEvent;
 
       const startsAtUTC = `${startsAt}:00.000Z`;
@@ -369,6 +385,7 @@ export default {
         endsAt: endsAtUTC,
         seasonId,
         slug,
+        isFinished
       });
 
       if (newEvent) {

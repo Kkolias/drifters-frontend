@@ -2,14 +2,14 @@
   <div class="component-ControlPanelDriftSeasonPage">
     <LoadingIndicator v-if="loading.season" />
     <div v-if="driftSeason" class="content">
-      <ControlPanelDriftSeasonHeaderSection :driftSeason="driftSeason" />
+      <ControlPanelDriftSeasonHeaderSection :driftSeason="driftSeason" @reloadData="fetchDriftSeason" />
     </div>
     <ControlPanelDriftEventWrapper
       :driftEventId="selectedEventId"
       @setUpdatedEvent="setUpdatedEvent"
       @reloadSeason="fetchDriftSeason"
     />
-    <pre>{{ driftSeason }}</pre>
+    <!-- <pre>{{ driftSeason }}</pre> -->
   </div>
 </template>
 

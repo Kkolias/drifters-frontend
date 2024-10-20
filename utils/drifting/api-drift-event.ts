@@ -10,6 +10,7 @@ const DRIFT_EVENT_ENDPOINTS = {
   ADD_DRIVER_TO_SEASON: "/drift-event/add-qualifying-to-drift-event",
   HANDLE_QUALIFYING_SCORING: "/drift-event/handle-qualifying-scoring",
   HANDLE_COMPETITION_DAY_SCORING: "/drift-event/handle-competition-day-scoring",
+  SET_IS_FINISHED: "/drift-event/set-is-finished",
 };
 
 export class DriftEventApi extends ApiUtil {
@@ -60,7 +61,8 @@ export class DriftEventApi extends ApiUtil {
     startsAt: string;
     endsAt: string;
     seasonId: string;
-    slug: string
+    slug: string;
+    isFinished: boolean;
   }): Promise<IDriftEvent | null> {
     try {
       const event = await this.post({
@@ -75,7 +77,9 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async updateDriftEvent(payload: Partial<IDriftEvent>): Promise<IDriftEvent | null> {
+  async updateDriftEvent(
+    payload: Partial<IDriftEvent>
+  ): Promise<IDriftEvent | null> {
     try {
       const event = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.UPDATE,
@@ -116,6 +120,23 @@ export class DriftEventApi extends ApiUtil {
     } catch (error) {
       console.error(error);
       return null;
+    }
+  }
+
+  async updateEventIsFinished(
+    eventId: string,
+    isFinished: boolean
+  ): Promise<boolean> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.SET_IS_FINISHED,
+        payload: { eventId, isFinished },
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
   }
 }

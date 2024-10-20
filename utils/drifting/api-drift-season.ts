@@ -12,6 +12,7 @@ const DRIFT_SEASON_ENDPOINTS = {
   ADD_MANY_DRIVERS_TO_SEASON: "/drift-season/add-many-drivers-to-season",
   ADD_LEADERBOARD_TO_SEASON: "/drift-season/add-leaderboard-to-season",
   ADD_EVENT_TO_SEASON: "/drift-season/add-event-to-season",
+  SET_IS_FINISHED: "/drift-season/set-is-finished",
 
 };
 
@@ -98,6 +99,20 @@ export class DriftSeasonApi extends ApiUtil {
     } catch (error) {
       console.error(error);
       return null;
+    }
+  }
+
+  async updateSeasonIsFinished(seasonId: string, isFinished: boolean): Promise<boolean> {
+    try {
+      const season = await this.post({
+        url: DRIFT_SEASON_ENDPOINTS.SET_IS_FINISHED,
+        payload: { seasonId, isFinished },
+      });
+
+      return season;
+    } catch (error) {
+      console.error(error);
+      return false
     }
   }
 

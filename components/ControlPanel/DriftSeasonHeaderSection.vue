@@ -4,6 +4,14 @@
       <h1 class="green-text">{{ seasonName }}</h1>
       <p class="green-text">Control panel</p>
     </div>
+    <div class="set-is-finished">
+      <CheckboxButton
+        class="checkbox-button"
+        label="Kausi päättynyt"
+        :checked="driftSeason.isFinished"
+        @onClick="updateIsFinishedSeason"
+      />
+    </div>
     <div class="select-event-section">
       <div class="single-select-container">
         <label for="event">Tapahtuma</label>
@@ -26,6 +34,7 @@
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
+import apiDriftSeason from "~/utils/drifting/api-drift-season";
 
 interface ParsedDriftEvent extends IDriftEvent {
   key: string;
@@ -40,6 +49,9 @@ export default {
     },
   },
   computed: {
+    driftSeasonId(): string {
+      return this.driftSeason._id;
+    },
     selectedEventId(): string {
       return this.$route?.query?.eventId as string;
     },
@@ -70,6 +82,13 @@ export default {
     },
   },
   methods: {
+    async updateIsFinishedSeason(): Promise<void> {
+      await apiDriftSeason.updateSeasonIsFinished(
+        this.driftSeasonId,
+        !this.driftSeason.isFinished
+      );
+      this.reloadData();
+    },
     selectEvent(event: ParsedDriftEvent): void {
       this.$router.push({
         query: { eventId: event.key, "event-view": "overview" },
@@ -79,6 +98,9 @@ export default {
       this.$router.push({
         query: { eventId: "create-new", "event-view": "overview" },
       });
+    },
+    reloadData(): void {
+      this.$emit("reloadData");
     },
   },
 };
@@ -103,7 +125,13 @@ export default {
       font-size: 18px;
     }
   }
-
+  .set-is-finished {
+    text-align: center;
+    margin-top: 24px;
+    .checkbox-button {
+     display: inline-block;
+    }
+  }
   .select-event-section {
     max-width: 350px;
     margin: auto;
