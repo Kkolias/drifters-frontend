@@ -6,6 +6,7 @@ const DRIFT_EVENT_ENDPOINTS = {
   GET_BY_ID: "/drift-event/get-by-id",
   GET_BY_SLUG: "/drift-event/get-by-slug",
   CREATE: "/drift-event/create-drift-event",
+  UPDATE: "/drift-event/update-drift-event",
   ADD_DRIVER_TO_SEASON: "/drift-event/add-qualifying-to-drift-event",
   HANDLE_QUALIFYING_SCORING: "/drift-event/handle-qualifying-scoring",
   HANDLE_COMPETITION_DAY_SCORING: "/drift-event/handle-competition-day-scoring",
@@ -64,6 +65,20 @@ export class DriftEventApi extends ApiUtil {
     try {
       const event = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.CREATE,
+        payload,
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async updateDriftEvent(payload: Partial<IDriftEvent>): Promise<IDriftEvent | null> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.UPDATE,
         payload,
       });
 

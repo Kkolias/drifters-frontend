@@ -1,7 +1,8 @@
 <template>
-  <div class="component-DriftEventEditForm">
-    <div class="form-wrapper">
-      <h1>Uusi Drift event</h1>
+  <div class="component-DriftEventEditForm" :class="{ notModal }">
+    <LoadingIndicator v-if="loading" />
+    <div v-else class="form-wrapper">
+      <h1 v-if="!notModal">Uusi Drift event</h1>
       <form @submit.prevent="(e) => submit(e)">
         <div v-if="overViewErrorMessage.length" class="error-wrapper">
           <p class="error-message">{{ overViewErrorMessage }}</p>
@@ -79,7 +80,7 @@
         </div>
 
         <div class="input-wrapper">
-          <label for="startsAt">Alkamispäivä:</label>
+          <label for="startsAt">Alkamispäivä (UTC):</label>
           <input
             v-model="driftEvent.startsAt"
             placeholder=""
@@ -92,7 +93,7 @@
         </div>
 
         <div class="input-wrapper">
-          <label for="endsAt">Päättymispäivä:</label>
+          <label for="endsAt">Päättymispäivä (UTC):</label>
           <input
             v-model="driftEvent.endsAt"
             placeholder=""
@@ -110,7 +111,7 @@
             :loading="loading"
             @click="submit"
           >
-            <span> Tilaa </span>
+            <span> {{ saveText }} </span>
           </ButtonWithLoader>
         </div>
       </form>
@@ -122,6 +123,7 @@
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import driftEventApi from "../../utils/drifting/api-drift-event";
 import driftSeasonApi from "~/utils/drifting/api-drift-season";
+import { formatUTCDateTime } from "~/utils/time";
 
 interface ErrorTexts {
   country: string;
@@ -130,8 +132,8 @@ interface ErrorTexts {
   name: string;
   startsAt: string;
   endsAt: string;
-  seasonId: string
-  slug: string
+  seasonId: string;
+  slug: string;
 }
 
 interface DriftEventEditFormData {
@@ -144,7 +146,7 @@ interface DriftEventEditFormData {
     startsAt: string;
     endsAt: string;
     seasonId: string;
-    slug: string
+    slug: string;
   };
 
   seasonList: IDriftSeason[];
@@ -158,6 +160,7 @@ interface DriftEventEditFormData {
 export default {
   props: {
     initialId: { type: String, default: "" },
+    notModal: { type: Boolean, default: false },
   },
   data: (): DriftEventEditFormData => ({
     loading: false,
@@ -171,7 +174,7 @@ export default {
       startsAt: "",
       endsAt: "",
       seasonId: "",
-      slug: ""
+      slug: "",
     },
     driftEvent: {
       id: "",
@@ -182,28 +185,84 @@ export default {
       startsAt: "",
       endsAt: "",
       seasonId: "",
-      slug: ""
+      slug: "",
     },
 
     seasonList: [],
   }),
   computed: {
+    saveText(): string {
+      return this.initialId ? "Tallenna" : "Luo";
+    },
     selectedSeasonLabel(): string {
-      return this.parsedSeasonList.find((q) => q.key === this.driftEvent.seasonId)?.label || "Valitse kausi";
+      return (
+        this.parsedSeasonList.find((q) => q.key === this.driftEvent.seasonId)
+          ?.label || "Valitse kausi"
+      );
     },
     parsedSeasonList() {
-      return this.seasonList.map((q) => ({
-        key: q?._id,
-        label: `${q?.serie} - ${q?.year}`
-      })) || []
-    }
+      return (
+        this.seasonList.map((q) => ({
+          key: q?._id,
+          label: `${q?.serie} - ${q?.year}`,
+        })) || []
+      );
+    },
   },
   mounted() {
     this.fetchSeasonList();
   },
+  watch: {
+    initialId: {
+      immediate: true,
+      handler() {
+        if (!this.initialId) this.clearInputs();
+        else this.fetchInitialEvent();
+      },
+    },
+  },
   methods: {
+    clearInputs(): void {
+      this.driftEvent = {
+        id: "",
+        country: "",
+        city: "",
+        track: "",
+        name: "",
+        startsAt: "",
+        endsAt: "",
+        seasonId: "",
+        slug: "",
+      };
+    },
+    fetchInitialEvent(): void {
+      if (!this.initialId) return;
+      this.fetchEvent(this.initialId);
+    },
+    async fetchEvent(id: string) {
+      this.loading = true;
+      const event = await driftEventApi.getDriftEventById(id);
+      if (event) {
+        const startsAt = formatUTCDateTime(event.startsAt);
+        const endsAt = formatUTCDateTime(event.endsAt);
+        this.driftEvent = {
+          id: event._id,
+          country: event.country,
+          city: event.city,
+          track: event.track,
+          name: event.name,
+          startsAt: startsAt,
+          endsAt: endsAt,
+          seasonId: event.seasonId,
+          slug: event.slug,
+        };
+      }
+      this.loading = false;
+    },
     generateSlug() {
-      const countryParsed = this.driftEvent.country.toLowerCase().replace(/ /g, "-");
+      const countryParsed = this.driftEvent.country
+        .toLowerCase()
+        .replace(/ /g, "-");
       const nameParsed = this.driftEvent.name.toLowerCase().replace(/ /g, "-");
       this.driftEvent.slug = `${nameParsed}-${countryParsed}`;
     },
@@ -226,10 +285,11 @@ export default {
         return;
       }
 
-      await this.createDriver();
+      if (!this.initialId) await this.createDriftEvent();
+      else await this.updateDriftEvent();
       this.setLoading(false);
     },
-    async createDriver() {
+    async updateDriftEvent() {
       const {
         country,
         city,
@@ -238,7 +298,7 @@ export default {
         startsAt,
         endsAt,
         seasonId,
-        slug
+        slug,
       }: {
         country: string;
         city: string;
@@ -247,10 +307,37 @@ export default {
         startsAt: string;
         endsAt: string;
         seasonId: string;
-        slug: string
+        slug: string;
       } = this.driftEvent;
 
-      const newEvent = await driftEventApi.createDriftEvent({
+      // dates are in utc time but without the Z at the end for example 2021-12-31T23:59
+      const startsAtUTC = `${startsAt}:00.000Z`;
+      const endsAtUTC = `${endsAt}:00.000Z`;
+
+      const updatedEvent = await driftEventApi.updateDriftEvent({
+        _id: this.driftEvent.id,
+        country,
+        city,
+        track,
+        name,
+        startsAt: startsAtUTC,
+        endsAt: endsAtUTC,
+        seasonId,
+        slug,
+      });
+
+      if (updatedEvent) {
+        if (this.notModal) {
+          this.$emit("eventUpdated", updatedEvent);
+        } else {
+          this.$router.push(`/drift-event`);
+        }
+      } else {
+        this.setOverViewErrorMessage("Virhe päivitettäessä tapahtumaa");
+      }
+    },
+    async createDriftEvent() {
+      const {
         country,
         city,
         track,
@@ -258,11 +345,41 @@ export default {
         startsAt,
         endsAt,
         seasonId,
-        slug
+        slug,
+      }: {
+        country: string;
+        city: string;
+        track: string;
+        name: string;
+        startsAt: string;
+        endsAt: string;
+        seasonId: string;
+        slug: string;
+      } = this.driftEvent;
+
+      const startsAtUTC = `${startsAt}:00.000Z`;
+      const endsAtUTC = `${endsAt}:00.000Z`;
+
+      const newEvent = await driftEventApi.createDriftEvent({
+        country,
+        city,
+        track,
+        name,
+        startsAt: startsAtUTC,
+        endsAt: endsAtUTC,
+        seasonId,
+        slug,
       });
 
       if (newEvent) {
-        this.$router.push(`/drift-event`);
+        if (this.notModal) {
+          this.$emit("reloadSeason");
+          this.$router.push({
+            query: { eventId: newEvent._id, "event-view": "overview" },
+          });
+        } else {
+          this.$router.push(`/drift-event`);
+        }
       } else {
         this.setOverViewErrorMessage("Virhe luodessa tapahtumaa");
       }
@@ -317,10 +434,18 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftEventEditForm {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  &:not(.notModal) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.notModal {
+    .form-wrapper {
+      border: none !important;
+    }
+  }
 
   .form-wrapper {
     border: 2px solid var(--black-2);

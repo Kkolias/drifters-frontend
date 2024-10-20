@@ -13,7 +13,7 @@
       </div>
 
       <ul v-if="isListOpen" class="option-list-wrapper">
-        <li v-for="(option, key) in optionList" :key="key">
+        <li v-for="(option, key) in optionList" :key="key" :class="{ selected: isOptionSelected(option)}">
           <button
             type="button"
             class="blank select-option-btn"
@@ -52,6 +52,10 @@ export default {
       type: String,
       default: "key",
     },
+    selectedId: {
+      type: String,
+      default: "",
+    },
   },
   data: () => ({
     isListOpen: false,
@@ -78,7 +82,7 @@ export default {
       this.$emit("select", option);
     },
     isOptionSelected(option: any): boolean {
-      return option?.[this.valueKey] === this.value;
+      return option?.[this.valueKey] === this.selectedId;
     },
   },
 };
@@ -160,7 +164,7 @@ export default {
             height: 100%;
           }
 
-          &:hover {
+          &:hover, &.selected {
             background: var(--black-2);
           }
         }

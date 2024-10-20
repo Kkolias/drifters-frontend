@@ -42,7 +42,7 @@ export default {
       return (
         this.seasonList?.map((season) => {
           const id = season?._id || "";
-          const link = `/drift-season/${id}`;
+          const link = `/drift-season/control-panel/${id}`;
 
           return {
             ...season,
