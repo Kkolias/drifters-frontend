@@ -26,6 +26,7 @@
             <LanguageToggle class="mobile-language-toggle" />
           </li>
           <li class="bottom">
+            <BuyMeACoffeeButton />
             <NuxtLink to="/miksi-mainoksia" class="why-ads-btn-bottom">{{
               textContent.whyAds
             }}</NuxtLink>

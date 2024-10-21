@@ -1,7 +1,12 @@
 <template>
   <div class="component-footer">
     <div class="contact-section">
-      <NuxtLink to="/miksi-mainoksia" class="why-ads-btn">{{ textContent.whyAds }}</NuxtLink>
+      <div class="flex-container">
+        <BuyMeACoffeeButton />
+        <NuxtLink to="/miksi-mainoksia" class="why-ads-btn">{{
+          textContent.whyAds
+        }}</NuxtLink>
+      </div>
       <p>
         {{ textContent.foundError }}
         <a href="mailto:driftdataan@gmail.com"> driftdataan@gmail.com </a>
@@ -47,8 +52,19 @@ useHead({
   width: 100%;
   border-top: 1px solid var(--green-1-50);
   margin-top: 12px;
-//   box-shadow: 0px -2px 12px var(--black-dark);
+  //   box-shadow: 0px -2px 12px var(--black-dark);
   padding: 12px 0;
+ 
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    @media only screen and (max-width: 500px) {
+      flex-direction: column;
+    }
+  }
 
   .contact-section {
     text-align: center;

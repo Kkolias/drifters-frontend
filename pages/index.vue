@@ -24,6 +24,7 @@
       </p>
       <a href="/drift-sm-esittely">{{ textContent.dirftSmSection.readMore }}</a>
     </section>
+    <!-- <BuyMeACoffeeButton class="buy-coffee floating" /> -->
   </div>
 </template>
 
@@ -88,6 +89,12 @@ export default {
       margin-left: 12px;
     }
   }
+
+  // .buy-coffee {
+  //   @media only screen and (max-width: 1090px) {
+  //     display: none;
+  //   }
+  // }
 
   @media only screen and (max-width: 600px) {
     padding: 0 12px;
