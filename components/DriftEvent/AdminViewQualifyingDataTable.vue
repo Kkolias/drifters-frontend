@@ -12,6 +12,7 @@
       :qualifyingResultItem="(selectedResultItem as IQualifyingResultItem)"
       :qualifyingId="qualifyingId"
       :selectedRun="selectedRunNumber"
+      :allDriversList="allDrivers"
       @success="updateQualifyingData"
       @closeModal="closeRunPointModal()"
     />

@@ -3,7 +3,7 @@
     <Modal :value="true" @close="closeModal()">
       <div class="content" slot="content">
         <div class="form-wrapper">
-          <h1>Pisteytä veto</h1>
+          <h1>{{ driverName }} veto {{ selectedRun }}</h1>
           <form @submit.prevent="(e) => submit(e)">
             <!-- <div v-if="overViewErrorMessage.length" class="error-wrapper">
               <p class="error-message">{{ overViewErrorMessage }}</p>
@@ -12,6 +12,7 @@
             <div class="input-wrapper">
               <label for="line">Linja:</label>
               <input
+                ref="lineInput"
                 v-model.number="run.line"
                 type="number"
                 id="line"
@@ -40,6 +41,10 @@
               <!-- <ErrorHover :errorMessage="errorTexts.year" /> -->
             </div>
 
+            <div class="sum-wrapper">
+              <p>Yhteensä: {{ runSummary }}</p>
+            </div>
+
             <div class="button-wrapper">
               <ButtonWithLoader
                 buttonType="submit"
@@ -61,6 +66,7 @@ import type {
   IQualifyingResultItem,
 } from "~/interfaces/qualifying.interface";
 import service from "./QualifyingRunPointModal.service";
+import type { IDriver } from "~/interfaces/driver.interface";
 
 interface IData {
   run: {
@@ -85,6 +91,10 @@ export default {
       type: Number,
       default: 1,
     },
+    allDriversList: {
+      type: Array as PropType<IDriver[]>,
+      default: () => [],
+    }
   },
   data: (): IData => ({
     run: {
@@ -102,11 +112,34 @@ export default {
     runKey(): "run1" | "run2" {
       return service.getRunNumber(this.selectedRun);
     },
+    driverName(): string {
+      const driver = this.allDriversList.find(
+        (driver) => driver._id === this.qualifyingResultItem?.driver
+      );
+
+      const firstName = driver?.firstName || "";
+      const lastName = driver?.lastName || "";
+
+      return `${firstName} ${lastName}`;
+    },
+    runSummary(): number {
+      const run1 = this.run?.line ?? 0
+      const run2 = this.run?.angle ?? 0
+      const run3 = this.run?.style ?? 0
+
+      return run1 + run2 + run3;
+    }
   },
   mounted() {
     this.setData();
+    this.focusOnFirstInput();
   },
   methods: {
+    focusOnFirstInput() {
+      const firstInput = this.$refs.lineInput as HTMLInputElement;
+      firstInput?.focus();
+      firstInput?.select();
+    },
     setData(): void {
       if (this.qualifyingResultItem === null) return;
       if (!this.runKey) return;
