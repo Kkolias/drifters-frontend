@@ -18,7 +18,11 @@
           :navigationList="navigationList"
         />
       </section>
-      <section v-if="isSeasonFinished" class="view-section scroll-section" id="top-three">
+      <section
+        v-if="isSeasonFinished"
+        class="view-section scroll-section"
+        id="top-three"
+      >
         <h2 class="section-header">{{ textContent.topThree }}</h2>
         <DriftSeasonDesktopTopThree
           :scoreboard="scoreboard"
@@ -32,7 +36,13 @@
       </section>
       <section class="view-section scroll-section" id="stats">
         <h2 class="section-header">{{ textContent.seasonStats }}</h2>
+        <h3 class="section-sub-header">{{ textContent.scoreChart }}</h3>
         <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
+        <h3 class="section-sub-header">{{ textContent.qualifyingAverage }}</h3>
+        <DriftSeasonAverageQualifyingResults
+          :allDriversList="allDriversList"
+          :seasonSlug="seasonSlug"
+        />
       </section>
       <section class="view-section scroll-section" id="leaderboard">
         <h2 class="section-header">{{ textContent.seasonScoreboard }}</h2>
@@ -297,6 +307,14 @@ export default {
       font-size: 2rem;
       color: var(--green-1);
       margin: 0;
+    }
+    .section-sub-header {
+      text-align: center;
+      font-size: 20px;
+      color: var(--white-1);
+      margin: 0;
+      margin-top: 24px;
+      margin-bottom: 12px;
     }
   }
   .event-details,

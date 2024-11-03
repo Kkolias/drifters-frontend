@@ -8,6 +8,8 @@ export default {
         seasonScoreboard: "Kauden Pistetaulukko",
         scoreboard: "Pistetaulukko",
         otherSeasons: "Muut kaudet",
+        scoreChart: "Pistetilanne kehitys kauden aikana",
+        qualifyingAverage: "Kuljettajien lajittelun pistekeskiarvo",
     },
     en: {
         backToSeries: "Back to series",
@@ -18,5 +20,7 @@ export default {
         seasonScoreboard: "Season Scoreboard",
         scoreboard: "Scoreboard",
         otherSeasons: "Other seasons",
+        scoreChart: "Scoreboard development during the season",
+        qualifyingAverage: "Drivers qualifying score average",
     }
 }

@@ -128,6 +128,20 @@ export default {
     margin: auto;
     border-spacing: 0px;
 
+    tbody {
+      tr {
+        &:hover {
+          background: var(--black-2);
+
+          td {
+            &:hover {
+              border: 1px solid var(--green-1);
+            }
+          }
+        }
+      }
+    }
+
     th {
       border: 1px solid var(--green-1-50);
 

@@ -27,7 +27,15 @@
           <DriftSeasonEventList v-if="!!season" :season="season" />
         </section>
         <section class="view-section" v-if="isViewSelected('stats')">
-          <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
+          <h3 class="section-sub-header">{{ textContent.scoreChart }}</h3>
+          <DriftSeasonPointsChart class="chart" :eventList="eventList" :seasonId="seasonId" />
+          <h3 class="section-sub-header">
+            {{ textContent.qualifyingAverage }}
+          </h3>
+          <DriftSeasonAverageQualifyingResults
+            :allDriversList="allDriversList"
+            :seasonSlug="seasonSlug"
+          />
         </section>
         <section class="view-section" v-if="isViewSelected('leaderboard')">
           <LeaderboardScoreboardView
@@ -66,6 +74,9 @@ const translations = {
     stats: "Tilastot",
     leaderboard: "Pistetaulukko",
     seasons: "Muut kaudet",
+    scoreChart: "Pistetilanne kehitys kauden aikana",
+    qualifyingAverage: "Kuljettajien lajittelun pistekeskiarvo",
+    
   },
   en: {
     overview: "Season overview",
@@ -73,6 +84,8 @@ const translations = {
     stats: "Stats",
     leaderboard: "Scoreboard",
     seasons: "Other seasons",
+    scoreChart: "Scoreboard development during the season",
+    qualifyingAverage: "Drivers qualifying score average",
   },
 };
 
@@ -187,7 +200,7 @@ export default {
     },
   },
   mounted() {
-    if(!this.$route.hash) {
+    if (!this.$route.hash) {
       this.$router.push({ hash: "#events" });
     }
     this.fetchDriftSeason();
@@ -220,6 +233,14 @@ export default {
 
 <style lang="less" scoped>
 .component-DriftEventPage {
+  .section-sub-header {
+    text-align: center;
+    font-size: 20px;
+    color: var(--white-1);
+    margin: 0;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
   .hero-section {
     min-height: 80px;
 
@@ -305,6 +326,10 @@ export default {
 
   .view-section {
     margin-top: 24px;
+
+    .chart {
+      margin-bottom: 60px;
+    }
 
     .events-header {
       position: relative;

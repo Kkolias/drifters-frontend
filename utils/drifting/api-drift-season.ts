@@ -1,5 +1,8 @@
 import type { DriftSerie } from "~/enums/drift-serie.enum";
-import type { IDriftSeason } from "~/interfaces/drift-season.interface";
+import type {
+  IDriftSeason,
+  ISeasonAverageQualifyingResult,
+} from "~/interfaces/drift-season.interface";
 
 const DRIFT_SEASON_ENDPOINTS = {
   GET_ALL: "/drift-season/get-all",
@@ -13,7 +16,8 @@ const DRIFT_SEASON_ENDPOINTS = {
   ADD_LEADERBOARD_TO_SEASON: "/drift-season/add-leaderboard-to-season",
   ADD_EVENT_TO_SEASON: "/drift-season/add-event-to-season",
   SET_IS_FINISHED: "/drift-season/set-is-finished",
-
+  GET_AVERAGE_QUALIFYING_RESULTS:
+    "/drift-season/get-season-average-qualifying-results",
 };
 
 export class DriftSeasonApi extends ApiUtil {
@@ -40,7 +44,7 @@ export class DriftSeasonApi extends ApiUtil {
       return [];
     }
   }
-  
+
   async getAllByDriverId(id: string): Promise<IDriftSeason[]> {
     try {
       const seasons = await this.get({
@@ -85,8 +89,8 @@ export class DriftSeasonApi extends ApiUtil {
 
   async createDriftSeason(payload: {
     serie: DriftSerie;
-    name: string
-    slug: string
+    name: string;
+    slug: string;
     year: number;
   }): Promise<IDriftSeason | null> {
     try {
@@ -102,7 +106,10 @@ export class DriftSeasonApi extends ApiUtil {
     }
   }
 
-  async updateSeasonIsFinished(seasonId: string, isFinished: boolean): Promise<boolean> {
+  async updateSeasonIsFinished(
+    seasonId: string,
+    isFinished: boolean
+  ): Promise<boolean> {
     try {
       const season = await this.post({
         url: DRIFT_SEASON_ENDPOINTS.SET_IS_FINISHED,
@@ -112,10 +119,25 @@ export class DriftSeasonApi extends ApiUtil {
       return season;
     } catch (error) {
       console.error(error);
-      return false
+      return false;
     }
   }
 
+  async getSeasonAverageQualifyingResults(
+    seasonSlug: string
+  ): Promise<ISeasonAverageQualifyingResult[]> {
+    try {
+      const results = await this.get({
+        url: DRIFT_SEASON_ENDPOINTS.GET_AVERAGE_QUALIFYING_RESULTS,
+        query: { seasonSlug },
+      });
+
+      return results;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
   // async addDriverToDriftSeason(payload:
   //     { permitId: string, specie: string, weightInGrams: number }): Promise<IFishingPermit | null> {
   //     try {

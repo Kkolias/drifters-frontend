@@ -32,3 +32,14 @@ interface IDriftSeasonInfo {
 export interface ILeaderboardWithSeasonInfo extends ILeaderboard {
   seasonInfo: IDriftSeasonInfo | null;
 }
+
+export interface ISeasonAverageQualifyingResult {
+  driverId: string;
+  eventList: {
+    eventId: string;
+    pointsRun1: number;
+    pointsRun2: number;
+  }[];
+  averageBest: number; // average tapahtumien paremmista pisteistä
+  averageAllRuns: number; // average kaikista pisteistä
+}
