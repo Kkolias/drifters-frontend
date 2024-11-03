@@ -20,8 +20,14 @@
         class="blank show-all-toggle-overlay"
         @click="setShowAll(true)"
       >
-        <span>Näytä koko lista klikkaamalla tästä</span>
+        <span>{{ textContent.showWholeList }}</span>
       </button>
+      <CheckboxButton
+        class="show-multiple-event-drivers"
+        :label="textContent.showMultipleEventDrivers"
+        :checked="showMultipleEventDrivers"
+        @onClick="showMultipleEventDrivers = !showMultipleEventDrivers"
+      />
       <table class="scoreboard-table">
         <thead>
           <tr>
@@ -36,20 +42,47 @@
             v-for="(result, index) in parsedAverageQualifyingResults"
             :key="result.driverId"
           >
-            <td>{{ index + 1 }}.</td>
             <td>
-              {{ result.driverName }}
+              <button
+                class="blank"
+                @click="selecteDriverQualifyingResult(result)"
+              >
+                {{ index + 1 }}.
+              </button>
             </td>
             <td>
-              {{ parsePoint(result.averageAllRuns) }}
+              <button
+                class="blank"
+                @click="selecteDriverQualifyingResult(result)"
+              >
+                {{ result.driverName }}
+              </button>
             </td>
             <td>
-              {{ parsePoint(result.averageBest) }}
+              <button
+                class="blank"
+                @click="selecteDriverQualifyingResult(result)"
+              >
+                {{ parsePoint(result.averageAllRuns) }}
+              </button>
+            </td>
+            <td>
+              <button
+                class="blank"
+                @click="selecteDriverQualifyingResult(result)"
+              >
+                {{ parsePoint(result.averageBest) }}
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <DriftSeasonAverageQualifyingResultModal
+      v-if="selectedDriverQualifyingResult"
+      :driverQualifyingResult="selectedDriverQualifyingResult"
+      @close="selecteDriverQualifyingResult(null)"
+    />
   </div>
 </template>
 
@@ -70,6 +103,9 @@ const translations = {
     explanationPointsBestAverage:
       "Kujettajan jokaisen tapahtuman parhaan lajittelu vedon pistekeskiarvo.",
     cta: "Klikkaa kuljettajaa nähdäksesi kauden lajittelutulokset",
+    showMultipleEventDrivers:
+      "Näytä kuljettajat, jotka ovat osallistuneet vähintään kahteen tapahtumaan",
+    showWholeList: "Näytä koko lista klikkaamalla tästä",
   },
   en: {
     driver: "Driver",
@@ -81,14 +117,26 @@ const translations = {
     explanationPointsBestAverage:
       "Driver's best average points of each qualifying run of the season.",
     cta: "Click on driver to see season qualifying results",
+    showMultipleEventDrivers:
+      "Show drivers who have participated in at least two events",
+    showWholeList: "Show whole list by clicking here",
   },
 };
+
+interface ISeasonAverageQualifyingResultWithDriverName
+  extends ISeasonAverageQualifyingResult {
+  driverName: string;
+}
 
 interface IData {
   loading: boolean;
   averageQualifyingResults: ISeasonAverageQualifyingResult[];
 
   showAll: boolean;
+  isMobilePlatform: boolean;
+
+  selectedDriverQualifyingResult: ISeasonAverageQualifyingResultWithDriverName | null;
+  showMultipleEventDrivers: boolean;
 }
 
 export default {
@@ -108,13 +156,24 @@ export default {
     averageQualifyingResults: [],
 
     showAll: false,
+    isMobilePlatform: false,
+
+    selectedDriverQualifyingResult: null,
+    showMultipleEventDrivers: false,
   }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
     },
-    parsedAverageQualifyingResults() {
-      const parsed = this.averageQualifyingResults.map((result) => ({
+    filteredAverageList(): ISeasonAverageQualifyingResult[] {
+      if (!this.showMultipleEventDrivers) return this.averageQualifyingResults;
+
+      return this.averageQualifyingResults.filter(
+        (result) => result?.eventList?.length > 1
+      );
+    },
+    parsedAverageQualifyingResults(): ISeasonAverageQualifyingResultWithDriverName[] {
+      const parsed = this.filteredAverageList.map((result) => ({
         ...result,
         driverName: this.getDriverName(result.driverId),
       }));
@@ -130,6 +189,11 @@ export default {
     await this.fetchAverageQualifyingResults();
   },
   methods: {
+    selecteDriverQualifyingResult(
+      result: ISeasonAverageQualifyingResultWithDriverName | null
+    ) {
+      this.selectedDriverQualifyingResult = result;
+    },
     parsePoint(point: number) {
       return point.toFixed(2);
     },
@@ -163,22 +227,28 @@ export default {
     max-width: 700px;
     margin: auto;
     p {
-        margin: 0;
+      margin: 0;
 
-        &.subtext {
-            margin-bottom: 12px;
-        }
-        &.cta-text {
-            margin-top: 24px;
-        }
+      &.subtext {
+        margin-bottom: 12px;
+      }
+      &.cta-text {
+        margin-top: 24px;
+      }
 
-        b {
-            color: var(--green-1);
-        }
+      b {
+        color: var(--green-1);
+      }
     }
   }
   .content {
     position: relative;
+    margin-top: 12px;
+
+    .show-multiple-event-drivers {
+      max-width: 665px;
+      margin: auto;
+    }
 
     .show-all-toggle-overlay {
       max-width: 700px;
@@ -203,6 +273,13 @@ export default {
     &:hover {
       .show-all-toggle-overlay {
         opacity: 1;
+      }
+    }
+
+    @media only screen and (max-width: 1090px) {
+      .show-all-toggle-overlay {
+        opacity: 1;
+        font-size: 16px;
       }
     }
   }
