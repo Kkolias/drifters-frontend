@@ -2,85 +2,91 @@
   <div class="component-BracketBattleOverview">
     <Modal :value="true" @close="closeModal()">
       <div class="content" slot="content">
-        <div class="heat-wrapper">
-          <h3>{{ heatNumber }}</h3>
-        </div>
-        <div class="top-section">
-          <div class="driver-left">
-            <div class="profile-picture"></div>
-            <NuxtLink
-              :title="`${driver1Name} kuljettajaprofiili`"
-              class="button blank"
-              :to="driver1ProfileLink"
-            >
-              <p :class="{ winner: isWinner('driver1') }">{{ driver1Name }}</p>
-              <p v-if="isWinner('driver1')" class="advance-text">
-                {{ advanceText }}
-              </p>
-            </NuxtLink>
+        <div class="scroll-container">
+          <div class="heat-wrapper">
+            <h3>{{ heatNumber }}</h3>
           </div>
-          <div class="driver-right">
-            <div class="profile-picture"></div>
-            <NuxtLink
-              :title="`${driver2Name} kuljettajaprofiili`"
-              class="button blank"
-              :to="driver2ProfileLink"
-            >
-              <p :class="{ winner: isWinner('driver2') }">{{ driver2Name }}</p>
-              <p v-if="isWinner('driver2')" class="advance-text">
-                {{ advanceText }}
-              </p>
-            </NuxtLink>
+          <div class="top-section">
+            <div class="driver-left">
+              <div class="profile-picture"></div>
+              <NuxtLink
+                :title="`${driver1Name} kuljettajaprofiili`"
+                class="button blank"
+                :to="driver1ProfileLink"
+              >
+                <p :class="{ winner: isWinner('driver1') }">
+                  {{ driver1Name }}
+                </p>
+                <p v-if="isWinner('driver1')" class="advance-text">
+                  {{ advanceText }}
+                </p>
+              </NuxtLink>
+            </div>
+            <div class="driver-right">
+              <div class="profile-picture"></div>
+              <NuxtLink
+                :title="`${driver2Name} kuljettajaprofiili`"
+                class="button blank"
+                :to="driver2ProfileLink"
+              >
+                <p :class="{ winner: isWinner('driver2') }">
+                  {{ driver2Name }}
+                </p>
+                <p v-if="isWinner('driver2')" class="advance-text">
+                  {{ advanceText }}
+                </p>
+              </NuxtLink>
+            </div>
           </div>
-        </div>
-        <div v-if="!isShowdown" class="driver-odds-section">
-          <div class="odds-content">
-            <p class="odds-title">{{ textContent.wins }}</p>
-            <div class="odds-wrapper">
-              <div class="odds">
-                <p>{{ driver1Odds }}</p>
-              </div>
-              <div class="odds">
-                <p>{{ driver2Odds }}</p>
+          <div v-if="!isShowdown" class="driver-odds-section">
+            <div class="odds-content">
+              <p class="odds-title">{{ textContent.wins }}</p>
+              <div class="odds-wrapper">
+                <div class="odds">
+                  <p>{{ driver1Odds }}</p>
+                </div>
+                <div class="odds">
+                  <p>{{ driver2Odds }}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="battle-section">
-          <ul class="run-list">
-            <li v-for="(run, index) in runList" :key="index" class="run">
-              <p class="run-number">Run {{ index + 1 }}</p>
-              <div class="judge-result">
-                <div
-                  class="judget-wrapper"
-                  :class="resultClass(run, 'judgePoint1')"
-                >
-                  <div class="judge">
-                    {{ resultJudgeText(run, "judgePoint1", "Judge 1") }}
+          <div class="battle-section">
+            <ul class="run-list">
+              <li v-for="(run, index) in runList" :key="index" class="run">
+                <p class="run-number">Run {{ index + 1 }}</p>
+                <div class="judge-result">
+                  <div
+                    class="judget-wrapper"
+                    :class="resultClass(run, 'judgePoint1')"
+                  >
+                    <div class="judge">
+                      {{ resultJudgeText(run, "judgePoint1", "Judge 1") }}
+                    </div>
+                    <div class="result">advance</div>
                   </div>
-                  <div class="result">advance</div>
-                </div>
-                <div
-                  class="judget-wrapper"
-                  :class="resultClass(run, 'judgePoint2')"
-                >
-                  <div class="judge">
-                    {{ resultJudgeText(run, "judgePoint2", "Judge 2") }}
+                  <div
+                    class="judget-wrapper"
+                    :class="resultClass(run, 'judgePoint2')"
+                  >
+                    <div class="judge">
+                      {{ resultJudgeText(run, "judgePoint2", "Judge 2") }}
+                    </div>
+                    <div class="result">advance</div>
                   </div>
-                  <div class="result">advance</div>
-                </div>
-                <div
-                  class="judget-wrapper"
-                  :class="resultClass(run, 'judgePoint3')"
-                >
-                  <div class="judge">
-                    {{ resultJudgeText(run, "judgePoint3", "Judge 3") }}
+                  <div
+                    class="judget-wrapper"
+                    :class="resultClass(run, 'judgePoint3')"
+                  >
+                    <div class="judge">
+                      {{ resultJudgeText(run, "judgePoint3", "Judge 3") }}
+                    </div>
+                    <div class="result">advance</div>
                   </div>
-                  <div class="result">advance</div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </Modal>
@@ -104,13 +110,13 @@ const translations = {
     advances: "Jatkaa seuraavaan vaiheeseen",
     winner: "Voittaja",
     bronze: "Pronssi",
-    wins: "Voitto jakauma"
+    wins: "Voitto jakauma",
   },
   en: {
     advances: "Advances to next stage",
     winner: "Winner",
     bronze: "Bronze",
-    wins: "Win distribution"
+    wins: "Win distribution",
   },
 };
 
@@ -146,13 +152,13 @@ export default {
       return this.getTranslation(translations);
     },
     driver1Odds(): string {
-      const oddsDecimal = this.driver1OddsDecimal
+      const oddsDecimal = this.driver1OddsDecimal;
       const oddsPercentage = oddsDecimal === 0 ? 0 : oddsDecimal * 100;
       const roundedPercentage = Math.round(oddsPercentage * 100) / 100;
       return `${roundedPercentage}%`;
     },
     driver2Odds(): string {
-      const oddsDecimal = this.driver2OddsDecimal
+      const oddsDecimal = this.driver2OddsDecimal;
       const oddsPercentage = oddsDecimal === 0 ? 0 : oddsDecimal * 100;
       const roundedPercentage = Math.round(oddsPercentage * 100) / 100;
       return `${roundedPercentage}%`;
@@ -283,6 +289,13 @@ export default {
     padding: 20px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
     width: 450px;
+
+    .scroll-container {
+      @media only screen and (max-height: 750px) {
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+    }
 
     .heat-wrapper {
       display: flex;
