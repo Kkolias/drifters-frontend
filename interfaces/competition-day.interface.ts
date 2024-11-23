@@ -45,3 +45,8 @@ export interface IScoreBoardItem {
   // points: number; // TODO
   placement: number;
 }
+
+export interface IRunPairOdds {
+  driver1: number;
+  driver2: number;
+}

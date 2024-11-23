@@ -1,6 +1,6 @@
 import type { HeatType } from "~/enums/heat-type.enum";
 import type { JudgePoint } from "~/enums/judge-point.enum";
-import type { ICompetitionDay } from "~/interfaces/competition-day.interface";
+import type { ICompetitionDay, IRunPairOdds } from "~/interfaces/competition-day.interface";
 
 const DRFIT_COMPETITION_DAY_ENDPOINTS = {
   GET_ALL: "/competition-day/get-all",
@@ -12,6 +12,7 @@ const DRFIT_COMPETITION_DAY_ENDPOINTS = {
   GENERATE_COMPETITION_DAY_FROM_RESULTS:
     "/competition-day/generate-competition-day-from-results",
   UPDATE_HEAT: "/competition-day/update-heat",
+  GET_DRIVER_BATTLE_ODDS: "/competition-day/get-driver-battle-odds",
 };
 
 export class CompetitionDayApi extends ApiUtil {
@@ -124,6 +125,20 @@ export class CompetitionDayApi extends ApiUtil {
       });
 
       return competitionDay;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async getDriverBattleOdds(driver1: string, driver2: string): Promise<IRunPairOdds | null> {
+    try {
+      const odds = await this.get({
+        url: DRFIT_COMPETITION_DAY_ENDPOINTS.GET_DRIVER_BATTLE_ODDS,
+        query: { driver1, driver2 },
+      });
+
+      return odds;
     } catch (error) {
       console.error(error);
       return null;

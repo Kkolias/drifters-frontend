@@ -8,7 +8,11 @@
         <div class="top-section">
           <div class="driver-left">
             <div class="profile-picture"></div>
-            <NuxtLink :title="`${driver1Name} kuljettajaprofiili`" class="button blank" :to="driver1ProfileLink">
+            <NuxtLink
+              :title="`${driver1Name} kuljettajaprofiili`"
+              class="button blank"
+              :to="driver1ProfileLink"
+            >
               <p :class="{ winner: isWinner('driver1') }">{{ driver1Name }}</p>
               <p v-if="isWinner('driver1')" class="advance-text">
                 {{ advanceText }}
@@ -17,12 +21,29 @@
           </div>
           <div class="driver-right">
             <div class="profile-picture"></div>
-            <NuxtLink :title="`${driver2Name} kuljettajaprofiili`" class="button blank" :to="driver2ProfileLink">
+            <NuxtLink
+              :title="`${driver2Name} kuljettajaprofiili`"
+              class="button blank"
+              :to="driver2ProfileLink"
+            >
               <p :class="{ winner: isWinner('driver2') }">{{ driver2Name }}</p>
               <p v-if="isWinner('driver2')" class="advance-text">
                 {{ advanceText }}
               </p>
             </NuxtLink>
+          </div>
+        </div>
+        <div v-if="!isShowdown" class="driver-odds-section">
+          <div class="odds-content">
+            <p class="odds-title">{{ textContent.wins }}</p>
+            <div class="odds-wrapper">
+              <div class="odds">
+                <p>{{ driver1Odds }}</p>
+              </div>
+              <div class="odds">
+                <p>{{ driver2Odds }}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="battle-section">
@@ -71,22 +92,34 @@ import { JudgePoint } from "~/enums/judge-point.enum";
 import type {
   IHeat,
   IRunPairItem,
+  IRunPairOdds,
 } from "~/interfaces/competition-day.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
 import type { IShowdownHeat } from "~/interfaces/qualifying-showdown.interface";
 import Language from "~/mixins/language.vue";
+import apiCompetitionDay from "~/utils/drifting/api-competition-day";
 
 const translations = {
   fi: {
     advances: "Jatkaa seuraavaan vaiheeseen",
     winner: "Voittaja",
     bronze: "Pronssi",
+    wins: "Voitto jakauma"
   },
   en: {
     advances: "Advances to next stage",
     winner: "Winner",
     bronze: "Bronze",
-  }
+    wins: "Win distribution"
+  },
+};
+
+interface IData {
+  driverPreviousOdds: IRunPairOdds | null;
+  loadingOdds: boolean;
+
+  driver1OddsDecimal: number;
+  driver2OddsDecimal: number;
 }
 
 export default {
@@ -101,9 +134,36 @@ export default {
       default: false,
     },
   },
+  data: (): IData => ({
+    driverPreviousOdds: null,
+    loadingOdds: false,
+
+    driver1OddsDecimal: 0,
+    driver2OddsDecimal: 0,
+  }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
+    },
+    driver1Odds(): string {
+      const oddsDecimal = this.driver1OddsDecimal
+      const oddsPercentage = oddsDecimal === 0 ? 0 : oddsDecimal * 100;
+      const roundedPercentage = Math.round(oddsPercentage * 100) / 100;
+      return `${roundedPercentage}%`;
+    },
+    driver2Odds(): string {
+      const oddsDecimal = this.driver2OddsDecimal
+      const oddsPercentage = oddsDecimal === 0 ? 0 : oddsDecimal * 100;
+      const roundedPercentage = Math.round(oddsPercentage * 100) / 100;
+      return `${roundedPercentage}%`;
+    },
+    driver1Id(): string {
+      const driver1 = this.heatItem?.driver1 as IDriver;
+      return driver1?._id || "";
+    },
+    driver2Id(): string {
+      const driver2 = this.heatItem?.driver2 as IDriver;
+      return driver2?._id || "";
     },
     driver1Name(): string {
       const driver1 = this.heatItem?.driver1 as IDriver;
@@ -146,7 +206,44 @@ export default {
       return this.textContent.advances;
     },
   },
+  mounted() {
+    this.fetchDriverBattleOdds();
+  },
   methods: {
+    async fetchDriverBattleOdds() {
+      this.loadingOdds = true;
+      const r = await apiCompetitionDay.getDriverBattleOdds(
+        this.driver1Id,
+        this.driver2Id
+      );
+      this.driverPreviousOdds = r;
+      this.doOddsChangeAnimation();
+      this.loadingOdds = false;
+    },
+    doOddsChangeAnimation(): void {
+      this.driver1OddsDecimal = 0;
+      this.driver2OddsDecimal = 0;
+      if (this.driverPreviousOdds) {
+        const driver1OddsDecimal = this.driverPreviousOdds?.driver1 || 0;
+        const driver2OddsDecimal = this.driverPreviousOdds?.driver2 || 0;
+        const interval = 20;
+        const step = 0.01;
+        const intervalId = setInterval(() => {
+          if (this.driver1OddsDecimal < driver1OddsDecimal) {
+            this.driver1OddsDecimal += step;
+          }
+          if (this.driver2OddsDecimal < driver2OddsDecimal) {
+            this.driver2OddsDecimal += step;
+          }
+          if (
+            this.driver1OddsDecimal >= driver1OddsDecimal &&
+            this.driver2OddsDecimal >= driver2OddsDecimal
+          ) {
+            clearInterval(intervalId);
+          }
+        }, interval);
+      }
+    },
     closeModal() {
       this.$emit("close");
     },
@@ -235,6 +332,31 @@ export default {
       // .driver-right {
       //   margin-left: 48px;
       // }
+    }
+
+    .driver-odds-section {
+      .odds-content {
+        .odds-title {
+          margin-bottom: 0;
+          font-size: 18px;
+          text-align: center;
+        }
+
+        .odds-wrapper {
+          display: flex;
+          justify-content: space-around;
+          gap: 12px;
+          margin-top: 12px;
+
+          .odds {
+            p {
+              font-weight: 700;
+              font-size: 20px;
+              margin: 0;
+            }
+          }
+        }
+      }
     }
 
     .run-list {
