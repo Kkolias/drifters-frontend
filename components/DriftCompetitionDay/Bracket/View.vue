@@ -128,12 +128,12 @@ import Language from "~/mixins/language.vue";
 const translations = {
   fi: {
     bracketText: "Tulokset kaavio muodossa.",
-    moreInfo: "Näet parien tarkemmat tulokset valitsemalla haluamasi heatin.",
+    moreInfo: "Näet parien tarkemmat tulokset valitsemalla haluamasi heatin. UUTTA: Näet nyt myös kuljettajien voitto jakauman klikkaamalla haluamasi heatin!",
   },
   en: {
     bracketText: "Results in bracket format.",
     moreInfo:
-      "You can see more detailed results by selecting the heat you want.",
+      "You can see more detailed results by selecting the heat you want. NEW: You can now also see the drivers' win distribution by clicking on the heat you want!",
   },
 };
 
