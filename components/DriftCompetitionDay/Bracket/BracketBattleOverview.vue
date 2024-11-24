@@ -60,28 +60,43 @@
                     class="judget-wrapper"
                     :class="resultClass(run, 'judgePoint1')"
                   >
-                    <div class="judge">
+                    <div class="judge first">
                       {{ resultJudgeText(run, "judgePoint1", "Judge 1") }}
                     </div>
-                    <div class="result">advance</div>
+                    <div
+                      class="result first"
+                      :class="{ 'omt-round': index === 1 }"
+                    >
+                      advance
+                    </div>
                   </div>
                   <div
                     class="judget-wrapper"
                     :class="resultClass(run, 'judgePoint2')"
                   >
-                    <div class="judge">
+                    <div class="judge second">
                       {{ resultJudgeText(run, "judgePoint2", "Judge 2") }}
                     </div>
-                    <div class="result">advance</div>
+                    <div
+                      class="result second"
+                      :class="{ 'omt-round': index === 1 }"
+                    >
+                      advance
+                    </div>
                   </div>
                   <div
                     class="judget-wrapper"
                     :class="resultClass(run, 'judgePoint3')"
                   >
-                    <div class="judge">
+                    <div class="judge third">
                       {{ resultJudgeText(run, "judgePoint3", "Judge 3") }}
                     </div>
-                    <div class="result">advance</div>
+                    <div
+                      class="result third"
+                      :class="{ 'omt-round': index === 1 }"
+                    >
+                      advance
+                    </div>
                   </div>
                 </div>
               </li>
@@ -423,6 +438,33 @@ export default {
             &.omt {
               .judge {
                 background: var(--black-2);
+
+                &.first {
+                  animation: shake 0.25s forwards;
+                }
+
+                &.second {
+                  animation: shake 0.25s 0.25s forwards;
+                }
+
+                &.third {
+                  animation: shake 0.25s 0.5s forwards;
+                }
+
+                @keyframes shake {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  33% {
+                    transform: translateX(-5px);
+                  }
+                  66% {
+                    transform: translateX(5px);
+                  }
+                  100% {
+                    transform: translateX(0);
+                  }
+                }
               }
             }
 
@@ -463,7 +505,46 @@ export default {
                 position: absolute;
                 left: 1px;
                 top: 50%;
-                transform: translate(-100%, -50%);
+                transform: translate(0%, -50%);
+                z-index: -1;
+                width: 54px;
+
+                &.first {
+                  &:not(.omt-round) {
+                    animation: left 0.5s forwards;
+                  }
+                  &.omt-round {
+                    animation: left 0.5s 0.75s forwards;
+                  }
+                }
+
+                &.second {
+                  &:not(.omt-round) {
+                    animation: left 0.5s 0.25s forwards;
+                  }
+                  &.omt-round {
+                    animation: left 0.5s 1s forwards;
+                  }
+                }
+
+                &.third {
+                  &:not(.omt-round) {
+                    animation: left 0.5s 0.5s forwards;
+                  }
+                  &.omt-round {
+                    animation: left 0.5s 1.25s forwards;
+                  }
+                }
+
+                @keyframes left {
+                  from {
+                    transform: translate(0%, -50%);
+                  }
+                  to {
+                    width: auto;
+                    transform: translate(-100%, -50%);
+                  }
+                }
               }
             }
             &.right {
@@ -473,7 +554,47 @@ export default {
                 position: absolute;
                 right: 1px;
                 top: 50%;
-                transform: translate(100%, -50%);
+                transform: translate(0%, -50%);
+                z-index: -1;
+                width: 54px;
+
+                &.first {
+                  &:not(.omt-round) {
+                    animation: right 0.5s forwards;
+                  }
+                  &.omt-round {
+                    animation: right 0.5s 0.75s forwards;
+                  }
+                }
+
+                &.second {
+                  &:not(.omt-round) {
+                    animation: right 0.5s 0.25s forwards;
+                  }
+                  &.omt-round {
+                    animation: right 0.5s 1s forwards;
+                  }
+                  
+                }
+
+                &.third {
+                  &:not(.omt-round) {
+                    animation: right 0.5s 0.5s forwards;
+                  }
+                  &.omt-round {
+                    animation: right 0.5s 1.25s forwards;
+                  }
+                }
+
+                @keyframes right {
+                  from {
+                    transform: translate(0%, -50%);
+                  }
+                  to {
+                    width: auto;
+                    transform: translate(100%, -50%);
+                  }
+                }
               }
             }
             &.omt,
