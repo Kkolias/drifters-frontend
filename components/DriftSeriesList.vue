@@ -116,9 +116,20 @@ export default {
       return selectedSeries?.seasonList || [];
     },
     notSelectedSeries(): any[] {
-      return this.series.filter(
+      const series = this.series.filter(
         (serie) => !this.seriesHasSelectedSeason(serie)
       );
+      const sortedSeasons =
+        series?.map((serie) => {
+          const sortedSeasonList =
+            serie.seasonList.sort((a: any, b: any) => b.year - a.year) || [];
+
+          return {
+            ...serie,
+            seasonList: sortedSeasonList,
+          };
+        }) || [];
+      return sortedSeasons;
     },
   },
   mounted() {

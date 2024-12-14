@@ -85,6 +85,7 @@ export default {
       this.chartData = dataSet;
     },
     setDefaultTop3() {
+      if(this.scoreboard?.length < 3 || !this.scoreboard?.length) return;
       const top3 = this.scoreboard.slice(0, 3);
       const defaultDriverIds = top3.map((item: any) => item.driver?._id);
       this.selectedDriverIds = defaultDriverIds;

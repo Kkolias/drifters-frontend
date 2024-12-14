@@ -171,6 +171,7 @@ export class DriftSeasonPointsChartService {
   driverOptionList(
     scoreboard: ScoreboardItem[]
   ): { value: string; label: string }[] {
+    if(!scoreboard) return []
     return scoreboard.map((scoreboardItem) => {
       const driver = scoreboardItem.driver as IDriver;
       return {
