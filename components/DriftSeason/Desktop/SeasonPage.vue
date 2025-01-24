@@ -7,7 +7,7 @@
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
-      <h1 class="big-header">{{ serie }} {{ seasonYear }}</h1>
+      <h1 class="big-header">{{ serie }} {{ seasonYear }} {{ textContent.results }}</h1>
       <p class="event-details">
         {{ driftEventName }}
         <span class="city">{{ eventTrackCity }}</span>

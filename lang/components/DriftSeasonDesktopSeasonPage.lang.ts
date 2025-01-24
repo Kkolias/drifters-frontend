@@ -1,6 +1,7 @@
 export default {
     fi: {
         backToSeries: "Takaisin sarjoihin",
+        results: "tulokset",
         topThree: "Kauden Top 3",
         events: "Tapahtumat",
         seasonStats: "Kauden Tilastot",
@@ -13,6 +14,7 @@ export default {
     },
     en: {
         backToSeries: "Back to series",
+        results: "results",
         topThree: "Season Top 3",
         events: "Events",
         seasonStats: "Season Stats",
