@@ -3,8 +3,8 @@
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <section class="hero-section">
-        <h1 class="big-header">{{ eventText }}</h1>
-        <p class="subtext">{{ serie }} {{ seasonYear }}</p>
+        <h1 class="big-header">{{ serie }} {{ seasonYear}} {{ eventCountry }}</h1>
+        <p class="subtext">{{ driftEventName }} {{ textContent.results }}</p>
         <NuxtLink class="to-season-overview" :to="seasonOverviewLink">{{
           textContent.seasonOverview
         }}</NuxtLink>
@@ -58,7 +58,7 @@
           />
           <p v-else class="no-data">Tietoja puuttuu</p>
         </section>
-        <section class="view-section" v-if="isViewSelected('leaderboard')">
+        <section class="view-section" v-if="isViewSelected('standings')">
           <LeaderboardScoreboardView
             v-if="season"
             :loading="loading.drivers || loading.season"
@@ -203,7 +203,7 @@ export default {
         },
         {
           label: this.textContent.scoreboard,
-          key: "leaderboard",
+          key: "standings",
         },
         {
           label: this.textContent.otherSeasons,
@@ -382,7 +382,8 @@ export default {
       color: var(--green-1);
       margin: 0;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 400;
+      margin-top: 8px;
     }
 
     .to-season-overview {

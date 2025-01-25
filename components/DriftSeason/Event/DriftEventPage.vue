@@ -8,7 +8,7 @@
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <h1 class="big-header">
-        {{ serie }} {{ seasonYear }} - {{ driftEventName }}
+        {{ serie }} {{ seasonYear }} {{ country }} - {{ driftEventName }}
         {{ textContent.results }}
         <!-- {{ serie }} {{ seasonYear }} {{ eventTrackCity }} {{ textContent.results }} -->
       </h1>
@@ -74,7 +74,7 @@
         />
         <p v-else class="no-data">{{ textContent.informationMissing }}</p>
       </section>
-      <section class="view-section" v-if="isViewSelected('leaderboard')">
+      <section class="view-section" v-if="isViewSelected('standings')">
         <LeaderboardScoreboardView
           v-if="season"
           :loading="loading.drivers || loading.season"
@@ -107,6 +107,8 @@ import apiDriftEvent from "~/utils/drifting/api-drift-event";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiQualifying from "~/utils/drifting/api-qualifying";
 import translations from "~/lang/components/DriftSeasonEventDriftEventPage.lang";
+import countryTranslations from "~/lang/country.lang";
+
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -151,7 +153,9 @@ export default {
     },
   }),
   computed: {
-    
+    countryTextContent() {
+      return this.getTranslation(countryTranslations);
+    },
     competitionDayScoreboard(): IScoreBoardItem[] {
       return this.competitionDay?.scoreBoard || [];
     },
@@ -167,7 +171,7 @@ export default {
         { label: this.textContent.qualifying, key: "qualifying" },
         { label: this.textContent.showdown, key: "qualifying-showdown" },
         { label: this.textContent.bracket, key: "battles" },
-        { label: this.textContent.scoreboard, key: "leaderboard" },
+        { label: this.textContent.scoreboard, key: "standings" },
         { label: this.textContent.events, key: "events" },
         { label: this.textContent.otherSeasons, key: "seasons" },
       ];
@@ -231,6 +235,10 @@ export default {
     },
     driftEventName(): string {
       return this.driftEvent?.name || "";
+    },
+    country(): string {
+      const country = this.driftEvent?.country || "";
+      return getCountryName(country, this.countryTextContent);
     },
     eventTrack(): string {
       return this.driftEvent?.track || "";

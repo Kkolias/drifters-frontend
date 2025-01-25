@@ -26,7 +26,7 @@ export default {
         showdown: "Showdown",
         bracket: "Bracket",
         events: "Events",
-        scoreboard: "Scoreboard",
+        scoreboard: "Standings",
         otherSeasons: "Other seasons"
     }
 }
