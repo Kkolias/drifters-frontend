@@ -20,10 +20,10 @@
         class="select-view leaderboards always-visible"
         :class="[
           {
-            selected: isViewSelected('leaderboard'),
+            selected: isViewSelected('standings'),
           },
         ]"
-        :to="getQueryPath('leaderboard')"
+        :to="getQueryPath('standings')"
       >
         <span>Pistetaulukko</span>
       </NuxtLink>

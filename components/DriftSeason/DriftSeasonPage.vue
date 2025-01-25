@@ -19,7 +19,7 @@
       <section class="view-section" v-if="isViewSelected('stats')">
         <DriftSeasonPointsChart :eventList="eventList" :seasonId="seasonId" />
       </section>
-      <section class="view-section" v-if="isViewSelected('leaderboard')">
+      <section class="view-section" v-if="isViewSelected('standings')">
         <LeaderboardScoreboardView
           v-if="season"
           :loading="loading.drivers || loading.season"

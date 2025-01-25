@@ -37,7 +37,7 @@
             :seasonSlug="seasonSlug"
           />
         </section>
-        <section class="view-section" v-if="isViewSelected('leaderboard')">
+        <section class="view-section" v-if="isViewSelected('standings')">
           <LeaderboardScoreboardView
             v-if="season"
             :loading="loading.drivers || loading.season"
@@ -82,7 +82,7 @@ const translations = {
     overview: "Season overview",
     events: "Events",
     stats: "Stats",
-    leaderboard: "Scoreboard",
+    leaderboard: "Standings",
     seasons: "Other seasons",
     scoreChart: "Scoreboard development during the season",
     qualifyingAverage: "Drivers qualifying score average",
@@ -146,7 +146,7 @@ export default {
         },
         {
           label: this.textContent.leaderboard,
-          key: "leaderboard",
+          key: "standings",
         },
         {
           label: this.textContent.seasons,

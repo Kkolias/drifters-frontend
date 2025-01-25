@@ -8,7 +8,7 @@ export default {
     },
     en: {
         season: "Season",
-        scoreboard: "scoreboard.",
+        scoreboard: "standings.",
         placement: "Placement",
         driver: "Driver",
         points: "Points",
