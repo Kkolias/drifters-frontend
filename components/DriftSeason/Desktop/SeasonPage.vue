@@ -44,7 +44,7 @@
           :seasonSlug="seasonSlug"
         />
       </section>
-      <section class="view-section scroll-section" id="leaderboard">
+      <section class="view-section scroll-section" id="standings">
         <h2 class="section-header">{{ textContent.seasonScoreboard }}</h2>
         <LeaderboardScoreboardView
           v-if="season"
@@ -133,7 +133,7 @@ export default {
         },
         {
           label: this.textContent.scoreboard,
-          key: "leaderboard",
+          key: "standings",
         },
         {
           label: this.textContent.otherSeasons,
