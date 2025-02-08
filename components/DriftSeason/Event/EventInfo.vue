@@ -39,6 +39,10 @@
         <span class="event-name">{{ textContent.wholeSeasonOverview }}</span>
       </NuxtLink>
     </div>
+    <div class="timetable-section">
+      <h2>{{ textContent.timetable }}</h2>
+      <DriftSeasonEventTimetable :driftEvent="driftEvent" />
+    </div>
     <div class="track-layout">
       <h2>{{ textContent.trackLayout }}</h2>
       <img
