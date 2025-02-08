@@ -20,6 +20,13 @@
         @setUpdatedEvent="setUpdatedEvent"
         @reloadSeason="reloadSeason"
       />
+      <ControlPanelDriftEventScheduleEdit
+        v-if="isViewSelected('schedule')"
+        class="schedule-edit"
+        :eventId="driftEventId"
+        @setUpdatedEvent="setUpdatedEvent"
+        @reloadSeason="reloadSeason"
+      />
       <ControlPanelDriftEventResultEdit
         v-if="isEditResultView"
         :eventId="driftEventId"
@@ -29,6 +36,7 @@
 </template>
 
 <script lang="ts">
+import { ControlPanelDriftEventScheduleEdit } from "#components";
 import type { LocationQuery } from "vue-router";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 
@@ -56,6 +64,10 @@ export default {
         {
           query: "overview",
           label: "Tiedot",
+        },
+        {
+          query: "schedule",
+          label: "Aikataulu",
         },
         {
           query: "qualifying",
@@ -120,6 +132,9 @@ export default {
         color: var(--white-1);
       }
     }
+  }
+  .schedule-edit {
+    margin: auto;
   }
 }
 </style>

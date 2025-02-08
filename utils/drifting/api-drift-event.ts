@@ -11,6 +11,7 @@ const DRIFT_EVENT_ENDPOINTS = {
   HANDLE_QUALIFYING_SCORING: "/drift-event/handle-qualifying-scoring",
   HANDLE_COMPETITION_DAY_SCORING: "/drift-event/handle-competition-day-scoring",
   SET_IS_FINISHED: "/drift-event/set-is-finished",
+  ADD_DAY_SCHEDULE: "/drift-event/add-day-schedule",
 };
 
 export class DriftEventApi extends ApiUtil {
@@ -137,6 +138,23 @@ export class DriftEventApi extends ApiUtil {
     } catch (error) {
       console.error(error);
       return false;
+    }
+  }
+
+  async addDaySchedule(eventId: string, daySchedules: any): Promise<IDriftEvent | null> {
+    try {
+      const event = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.ADD_DAY_SCHEDULE,
+        payload: {
+          eventId,
+          daySchedules
+        }
+      });
+
+      return event;
+    } catch (error) {
+      console.error(error);
+      return null;
     }
   }
 }

@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
   modules: ["@pinia/nuxt"],
 
   // pwa: { icon: { source: "/favicon.svg?v1" } },
@@ -36,5 +35,7 @@ export default defineNuxtConfig({
       // __dangerouslyDisableSanitizers: ['script']
     },
   },
+
   css: ["~/assets/less/main.less"],
+  compatibilityDate: "2025-02-04",
 });
