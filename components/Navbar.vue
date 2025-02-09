@@ -60,6 +60,10 @@ export default {
           path: "/",
         },
         {
+          label: this.textContent.nav.driftMasters,
+          path: "/drift-masters",
+        },
+        {
           label: this.textContent.nav.driftSm,
           path: "/drift-sm-esittely",
         },

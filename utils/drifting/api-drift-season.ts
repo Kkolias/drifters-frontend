@@ -18,6 +18,7 @@ const DRIFT_SEASON_ENDPOINTS = {
   SET_IS_FINISHED: "/drift-season/set-is-finished",
   GET_AVERAGE_QUALIFYING_RESULTS:
     "/drift-season/get-season-average-qualifying-results",
+  GET_ALL_BY_SERIE: "/drift-season/get-all-by-serie",
 };
 
 export class DriftSeasonApi extends ApiUtil {
@@ -130,6 +131,22 @@ export class DriftSeasonApi extends ApiUtil {
       const results = await this.get({
         url: DRIFT_SEASON_ENDPOINTS.GET_AVERAGE_QUALIFYING_RESULTS,
         query: { seasonSlug },
+      });
+
+      return results;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  async getAllBySerie(
+    serie: DriftSerie
+  ): Promise<IDriftSeason[]> {
+    try {
+      const results = await this.get({
+        url: DRIFT_SEASON_ENDPOINTS.GET_ALL_BY_SERIE,
+        query: { serie },
       });
 
       return results;

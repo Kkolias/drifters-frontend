@@ -4,6 +4,7 @@ export default {
         privacyPolicy: "Tietosuojakäytäntömme",
         nav: {
             home: "Etusivu",
+            driftMasters: "Drift Masters",
             driftSm: "Drift SM",
             drivers: "Kuljettajat",
             series: "Sarjat",
@@ -14,6 +15,7 @@ export default {
         privacyPolicy: "Our privacy policy",
         nav: {
             home: "Home",
+            driftMasters: "Drift Masters",
             driftSm: "Drift SM",
             drivers: "Drivers",
             series: "Series",
