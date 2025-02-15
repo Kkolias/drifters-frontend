@@ -7,7 +7,9 @@
     </div>
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
-      <h1 class="big-header">{{ serie }} {{ seasonYear }} {{ textContent.results }}</h1>
+      <h1 class="big-header">
+        {{ serie }} {{ seasonYear }} {{ textContent.results }}
+      </h1>
       <p class="event-details">
         {{ driftEventName }}
         <span class="city">{{ eventTrackCity }}</span>
@@ -208,8 +210,19 @@ export default {
         }
       }
     });
+    // this.setInitialView();
   },
   methods: {
+    // setInitialView(): void {
+    //   const hasHash = !!this.$route.hash;
+
+    //   const hash = this.isSeasonFinished ? "#top-three" : "#events";
+    //   if (!hasHash) {
+    //     this.$router.push({
+    //       hash,
+    //     });
+    //   }
+    // },
     async fetchDriftSeason(): Promise<void> {
       this.setLoading("season", true);
       const r = await apiDriftSeason.getDriftSeasonBySlug(this.seasonSlug);

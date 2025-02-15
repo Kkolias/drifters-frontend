@@ -9,61 +9,26 @@
 
 <url>
   <loc>https://driftdataan.fi/</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/drift-masters</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/series</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/drivers</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024?view=events</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024?view=leaderboard</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024?view=seasons</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-1-spain?view=qualifying</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-1-spain?view=qualifying-showdown</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-1-spain?view=battles</loc>
-  <lastmod>2024-06-04T12:00:15+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-1-spain?view=leaderboard</loc>
   <lastmod>2024-06-04T12:00:15+00:00</lastmod>
   <priority>0.80</priority>
 </url>
@@ -74,189 +39,244 @@
 </url>
 <url>
   <loc>https://driftdataan.fi/miksi-mainoksia</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/tietosuojakaytantomme</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024?view=events</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-1-finland#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-1-finland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-2-lapua#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-2-lapua</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-3-lahti#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-3-lahti</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-4-hameenlinna#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-sm-pro-2024/event/sm-pro-round-4-hameenlinna</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025?view=events</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-1-italy#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-1-italy</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-2-spain#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-2-spain</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-3-finland-2025#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-3-finland-2025</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-4-ireland#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-4-ireland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-5-latvia#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-5-latvia</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-6-germany#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-6-germany</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-7-poland#event-info</loc>
-  <lastmod>2025-02-12T18:35:36+00:00</lastmod>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-2025/event/round-7-poland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-1-spain</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-2-ireland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-3-finland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-4-latvia</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-5-hungary</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/drift-season/drift-masters-european-championship-2024/event/round-6-poland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
 
 <url>
   <loc>https://driftdataan.fi/en</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/drift-masters</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/drift-sm-esittely</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/series</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/drivers</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/miksi-mainoksia</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://driftdataan.fi/en/tietosuojakaytantomme</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025?view=events#events</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-1-italy#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-1-italy</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-2-spain#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-2-spain</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-3-finland-2025#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-3-finland-2025</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-4-ireland#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-4-ireland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-5-latvia#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-5-latvia</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-6-germany#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-6-germany</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-7-poland#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-2025/event/round-7-poland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024?view=events</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-1-finland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-1-finland#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-2-lapua</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-2-lapua#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-3-lahti</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-3-lahti#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-4-hameenlinna</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024/event/sm-pro-round-4-hameenlinna#event-info</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-sm-pro-2024#standings</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024#standings</loc>
-  <lastmod>2025-02-12T18:39:22+00:00</lastmod>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-1-spain</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-2-ireland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-3-finland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-4-latvia</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-5-hungary</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://driftdataan.fi/en/drift-season/drift-masters-european-championship-2024/event/round-6-poland</loc>
+  <lastmod>2025-02-15T08:00:36+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 

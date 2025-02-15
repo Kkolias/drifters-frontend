@@ -268,6 +268,7 @@ export default {
     },
   },
   mounted() {
+    this.setInitialView();
     this.fetchDriftSeason();
     this.fetchDrivers();
     if (this.eventSlug) {
@@ -292,6 +293,14 @@ export default {
     },
   },
   methods: {
+    setInitialView(): void {
+      const hasHash = !!this.$route.hash;
+      if (!hasHash) {
+        this.$router.push({
+          hash: "#event-info",
+        });
+      }
+    },
     async fetchDriftEvent(): Promise<void> {
       this.setLoading("driftEvent", true);
       const r = await apiDriftEvent.getDriftEventBySlug(this.eventSlug);
