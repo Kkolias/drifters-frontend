@@ -43,6 +43,7 @@ import apiDrivers from "~/utils/drifting/api-drivers";
 import { getAgeFromDate } from "~/utils/getAgeFromDate";
 import { getCountryName } from "~/utils/getCountryName";
 import translations from "~/lang/components/DriversProfile.lang";
+import countryLang from "~/lang/country.lang";
 
 interface IData {
   driverStats: IDriverSeasonStats | null;
@@ -65,9 +66,12 @@ export default {
     textContent() {
       return this.getTranslation(translations);
     },
+    countryTextContent() {
+      return this.getTranslation(countryLang);
+    },
     country(): string {
       const nationality = this.driver?.nationality;
-      return getCountryName(nationality);
+      return getCountryName(nationality, this.countryTextContent);
     },
     age(): string {
       const birthday = this.driver?.birthday;
