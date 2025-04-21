@@ -12,6 +12,10 @@
         {{ textContent.results }}
         <!-- {{ serie }} {{ seasonYear }} {{ eventTrackCity }} {{ textContent.results }} -->
       </h1>
+      <DriftEventLiveUpdatesStatus
+        :isLiveUpdates="isLiveUpdates"
+        v-if="showLiveStatus"
+      />
       <!-- <h2 class="event-details">{{ textContent.event }} {{ driftEventName }}</h2>
       <h2 class="event-details">{{ textContent.track }} {{ eventTrackCityShort }}</h2>
       <h2 class="event-details">{{ textContent.dates }} {{ eventDates }}</h2> -->
@@ -25,7 +29,11 @@
         />
       </section>
       <section class="view-section" v-if="isViewSelected('events')">
-        <DriftSeasonEventList v-if="!!season" :season="season" :eventSlug="eventSlug" />
+        <DriftSeasonEventList
+          v-if="!!season"
+          :season="season"
+          :eventSlug="eventSlug"
+        />
       </section>
       <section class="view-section" v-if="isViewSelected('event-info')">
         <DriftSeasonEventInfo
@@ -44,6 +52,7 @@
         <QualifyingViewWrapper
           v-if="qualifying"
           :qualifying="qualifying"
+          :isLiveUpdates="isLiveUpdates"
           :loadingQualifying="loading.qualifying"
           :loadingDrivers="loading.drivers"
           :driftSerie="driftSerie"
@@ -94,7 +103,10 @@
 <script lang="ts">
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
-import type { ICompetitionDay, IScoreBoardItem } from "~/interfaces/competition-day.interface";
+import type {
+  ICompetitionDay,
+  IScoreBoardItem,
+} from "~/interfaces/competition-day.interface";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
@@ -108,7 +120,6 @@ import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import apiQualifying from "~/utils/drifting/api-qualifying";
 import translations from "~/lang/components/DriftSeasonEventDriftEventPage.lang";
 import countryTranslations from "~/lang/country.lang";
-
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -153,6 +164,12 @@ export default {
     },
   }),
   computed: {
+    showLiveStatus(): boolean {
+      return isEventTwoDaysAhead(this.driftEvent);
+    },
+    isLiveUpdates(): boolean {
+      return this.driftEvent?.liveUpdates || false;
+    },
     countryTextContent() {
       return this.getTranslation(countryTranslations);
     },

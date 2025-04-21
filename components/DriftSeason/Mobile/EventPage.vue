@@ -3,11 +3,14 @@
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <section class="hero-section">
-        <h1 class="big-header">{{ serie }} {{ seasonYear}} {{ eventCountry }}</h1>
+        <h1 class="big-header">
+          {{ serie }} {{ seasonYear }} {{ eventCountry }}
+        </h1>
         <p class="subtext">{{ driftEventName }} {{ textContent.results }}</p>
         <NuxtLink class="to-season-overview" :to="seasonOverviewLink">{{
           textContent.seasonOverview
         }}</NuxtLink>
+        <DriftEventLiveUpdatesStatus v-if="showLiveStatus" :isLiveUpdates="isLiveUpdates" />
       </section>
       <section class="select-view-section">
         <DriftSeasonMobileViewSelection
@@ -92,7 +95,10 @@
 <script lang="ts">
 import { DRIFT_SERIES_LABEL } from "~/constants/drift-series";
 import type { DriftSerie } from "~/enums/drift-serie.enum";
-import type { ICompetitionDay, IScoreBoardItem } from "~/interfaces/competition-day.interface";
+import type {
+  ICompetitionDay,
+  IScoreBoardItem,
+} from "~/interfaces/competition-day.interface";
 import type { IDriftEvent } from "~/interfaces/drift-event.interface";
 import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import type { IDriver } from "~/interfaces/driver.interface";
@@ -150,6 +156,12 @@ export default {
     },
   }),
   computed: {
+    showLiveStatus(): boolean {
+      return isEventTwoDaysAhead(this.driftEvent);
+    },
+    isLiveUpdates(): boolean {
+      return this.driftEvent?.liveUpdates || false;
+    },
     competitionDayScoreboard(): IScoreBoardItem[] {
       return this.competitionDay?.scoreBoard || [];
     },
