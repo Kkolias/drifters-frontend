@@ -12,6 +12,7 @@ const DRIFT_EVENT_ENDPOINTS = {
   HANDLE_COMPETITION_DAY_SCORING: "/drift-event/handle-competition-day-scoring",
   SET_IS_FINISHED: "/drift-event/set-is-finished",
   ADD_DAY_SCHEDULE: "/drift-event/add-day-schedule",
+  SET_LIVE_UPDATES: "/drift-event/set-live-updates",
 };
 
 export class DriftEventApi extends ApiUtil {
@@ -155,6 +156,23 @@ export class DriftEventApi extends ApiUtil {
     } catch (error) {
       console.error(error);
       return null;
+    }
+  }
+
+  async setLiveUpdates(eventId: string, liveUpdates: boolean): Promise<boolean> {
+    try {
+      const r = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.SET_LIVE_UPDATES,
+        payload: {
+          eventId,
+          liveUpdates
+        }
+      });
+
+      return r;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
   }
 }

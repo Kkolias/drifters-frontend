@@ -9,6 +9,14 @@
         </div>
 
         <CheckboxButton
+          v-if="initialId"
+          class="checkbox-button"
+          label="Live tulospäivitys"
+          :checked="isLiveUpdates"
+          @onClick="setLiveUpdatesState"
+        />
+
+        <CheckboxButton
           class="checkbox-button"
           label="Tapahtuma päättynyt"
           :checked="driftEvent.isFinished"
@@ -131,6 +139,7 @@ import type { IDriftSeason } from "~/interfaces/drift-season.interface";
 import driftEventApi from "../../utils/drifting/api-drift-event";
 import driftSeasonApi from "~/utils/drifting/api-drift-season";
 import { formatUTCDateTime } from "~/utils/time";
+import apiDriftEvent from "../../utils/drifting/api-drift-event";
 
 interface ErrorTexts {
   country: string;
@@ -163,6 +172,8 @@ interface DriftEventEditFormData {
   overViewErrorMessage: string;
 
   loading: boolean;
+
+  isLiveUpdates: boolean;
 }
 
 export default {
@@ -198,6 +209,8 @@ export default {
     },
 
     seasonList: [],
+
+    isLiveUpdates: false,
   }),
   computed: {
     saveText(): string {
@@ -267,6 +280,7 @@ export default {
           slug: event.slug,
           isFinished: event.isFinished,
         };
+        this.isLiveUpdates = event.liveUpdates;
       }
       this.loading = false;
     },
@@ -310,7 +324,7 @@ export default {
         endsAt,
         seasonId,
         slug,
-        isFinished
+        isFinished,
       }: {
         country: string;
         city: string;
@@ -337,7 +351,7 @@ export default {
         endsAt: endsAtUTC,
         seasonId,
         slug,
-        isFinished
+        isFinished,
       });
 
       if (updatedEvent) {
@@ -360,7 +374,7 @@ export default {
         endsAt,
         seasonId,
         slug,
-        isFinished
+        isFinished,
       }: {
         country: string;
         city: string;
@@ -385,7 +399,7 @@ export default {
         endsAt: endsAtUTC,
         seasonId,
         slug,
-        isFinished
+        isFinished,
       });
 
       if (newEvent) {
@@ -401,6 +415,17 @@ export default {
         this.setOverViewErrorMessage("Virhe luodessa tapahtumaa");
       }
     },
+
+    async setLiveUpdatesState(): Promise<void> {
+      const liveUpdates = !this.isLiveUpdates;
+      const r = await apiDriftEvent.setLiveUpdates(this.initialId, liveUpdates);
+      if (r) {
+        this.fetchInitialEvent();
+      } else {
+        this.setOverViewErrorMessage("Virhe asetettaessa live päivityksiä");
+      }
+    },
+
     checkInputsForErrors(): boolean {
       let isError = false;
       if (!this.driftEvent?.name?.length) {

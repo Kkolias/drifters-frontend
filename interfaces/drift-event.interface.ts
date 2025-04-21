@@ -18,6 +18,7 @@ export interface IDriftEvent {
   isFinished: boolean;
   createdAt: string;
   timetable: IDayScheduleSchema[];
+  liveUpdates: boolean
 }
 
 export interface ITimetableEntrySchema {
