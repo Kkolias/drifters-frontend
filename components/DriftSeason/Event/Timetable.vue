@@ -30,14 +30,39 @@
 import type { IDayScheduleSchema } from "~/interfaces/drift-event.interface";
 import Language from "~/mixins/language.vue";
 
+const dayForIndex: Record<number, string> = {
+  0: "sunday",
+  1: "monday",
+  2: "tuesday",
+  3: "wednesday",
+  4: "thursday",
+  5: "friday",
+  6: "saturday",
+}
+
 const translations = {
   en: {
     noSchedule: "No schedule available",
     timeAsYourTime: "Event schedules in your timezone",
+    sunday: "Sun",
+    monday: "Mon",
+    tuesday: "Tue",
+    wednesday: "Wed",
+    thursday: "Thu",
+    friday: "Fri",
+    saturday: "Sat",
   },
   fi: {
     noSchedule: "Aikataulua ei saatavilla",
     timeAsYourTime: "Tapahtuman aikataulut aikavyöhykkeesi mukaan",
+    sunday: "Su",
+    monday: "Ma",
+    tuesday: "Ti",
+    wednesday: "Ke",
+    thursday: "To",
+    friday: "Pe",
+    saturday: "La",
+
   },
 };
 
@@ -65,7 +90,18 @@ export default {
       return this.getTranslation(name);
     },
     getDayFormatted(day: string): string {
-      return new Date(day).toLocaleDateString();
+      const date = new Date(day)
+      const dayFormatted = date.toLocaleDateString();
+      const dayName = this.getDayNameShort(date);
+      return `${dayName} ${dayFormatted}`;
+    },
+    getDayNameShort(date: Date): string {
+      const dayNumber = date.getDay()
+      if(dayNumber > 6 || dayNumber < 0) return ''
+
+      const keyForDay = dayForIndex?.[dayNumber] || null
+      if(!keyForDay) return ''
+      return this.textContent?.[keyForDay] || ''
     },
     getClockTime(dayWithTime: string): string {
       const utcDate = new Date(dayWithTime);
