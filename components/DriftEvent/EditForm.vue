@@ -15,6 +15,13 @@
           :checked="isLiveUpdates"
           @onClick="setLiveUpdatesState"
         />
+        <CheckboxButton
+          v-if="initialId"
+          class="checkbox-button"
+          label="Tapahtuma peruutettu"
+          :checked="isEventCancelled"
+          @onClick="setIsCancelled"
+        />
 
         <CheckboxButton
           class="checkbox-button"
@@ -174,6 +181,7 @@ interface DriftEventEditFormData {
   loading: boolean;
 
   isLiveUpdates: boolean;
+  isEventCancelled: boolean;
 }
 
 export default {
@@ -211,6 +219,7 @@ export default {
     seasonList: [],
 
     isLiveUpdates: false,
+    isEventCancelled: false,
   }),
   computed: {
     saveText(): string {
@@ -281,6 +290,7 @@ export default {
           isFinished: event.isFinished,
         };
         this.isLiveUpdates = event.liveUpdates;
+        this.isEventCancelled = event.isCancelled;
       }
       this.loading = false;
     },
@@ -423,6 +433,18 @@ export default {
         this.fetchInitialEvent();
       } else {
         this.setOverViewErrorMessage("Virhe asetettaessa live päivityksiä");
+      }
+    },
+    async setIsCancelled(): Promise<void> {
+      const isCancelled = !this.isEventCancelled;
+      const r = await apiDriftEvent.updateIsCancelled(
+        this.initialId,
+        isCancelled
+      );
+      if (r) {
+        this.fetchInitialEvent();
+      } else {
+        this.setOverViewErrorMessage("Virhe asetettaessa peruutusta");
       }
     },
 

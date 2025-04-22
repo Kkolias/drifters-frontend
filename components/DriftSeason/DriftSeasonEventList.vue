@@ -10,6 +10,9 @@
         :class="{ active: isEventActive(event) }"
       >
         <NuxtLink class="to-event" :to="pathToEvent(event)">
+          <div class="cancelled-overlay" v-if="isCancelled(event)">
+            <p>{{ textContent.eventCancelled }}</p>
+          </div>
           <div class="top-row">
             <h3 class="event-name">{{ eventName(event) }}</h3>
           </div>
@@ -68,6 +71,9 @@ export default {
     },
   },
   methods: {
+    isCancelled(event: IDriftEvent) {
+      return event?.isCancelled || false
+    },
     isEventActive(event: IDriftEvent) {
       return event?.slug === this.eventSlug;
     },
@@ -132,6 +138,27 @@ export default {
         // display: inline-block;
         text-decoration: none;
         color: var(--white-1);
+
+        .cancelled-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          z-index: 1;
+          border-radius: 5px;
+
+          p {
+            font-size: 24px;
+            line-height: 80px;
+            color: var(--error-color);
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+            vertical-align: middle;
+          }
+        }
 
         .top-row {
           .event-name {
@@ -203,6 +230,13 @@ export default {
             }
             .country {
               font-size: 14px;
+            }
+          }
+
+          .cancelled-overlay {
+            p {
+              line-height: 60px;
+              font-size: 20px;
             }
           }
         }

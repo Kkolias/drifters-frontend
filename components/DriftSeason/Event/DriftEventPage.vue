@@ -16,6 +16,7 @@
         :isLiveUpdates="isLiveUpdates"
         v-if="showLiveStatus"
       />
+      <DriftEventCancelled v-if="isCancelled" />
       <!-- <h2 class="event-details">{{ textContent.event }} {{ driftEventName }}</h2>
       <h2 class="event-details">{{ textContent.track }} {{ eventTrackCityShort }}</h2>
       <h2 class="event-details">{{ textContent.dates }} {{ eventDates }}</h2> -->
@@ -166,6 +167,9 @@ export default {
   computed: {
     showLiveStatus(): boolean {
       return isEventTwoDaysAhead(this.driftEvent);
+    },
+    isCancelled(): boolean {
+      return this.driftEvent?.isCancelled || false;
     },
     isLiveUpdates(): boolean {
       return this.driftEvent?.liveUpdates || false;

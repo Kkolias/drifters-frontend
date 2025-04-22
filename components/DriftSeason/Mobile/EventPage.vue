@@ -11,6 +11,7 @@
           textContent.seasonOverview
         }}</NuxtLink>
         <DriftEventLiveUpdatesStatus v-if="showLiveStatus" :isLiveUpdates="isLiveUpdates" />
+        <DriftEventCancelled v-if="isCancelled" />
       </section>
       <section class="select-view-section">
         <DriftSeasonMobileViewSelection
@@ -158,6 +159,9 @@ export default {
   computed: {
     showLiveStatus(): boolean {
       return isEventTwoDaysAhead(this.driftEvent);
+    },
+    isCancelled(): boolean {
+      return this.driftEvent?.isCancelled || false;
     },
     isLiveUpdates(): boolean {
       return this.driftEvent?.liveUpdates || false;

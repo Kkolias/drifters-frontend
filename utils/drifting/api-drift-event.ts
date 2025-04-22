@@ -13,6 +13,7 @@ const DRIFT_EVENT_ENDPOINTS = {
   SET_IS_FINISHED: "/drift-event/set-is-finished",
   ADD_DAY_SCHEDULE: "/drift-event/add-day-schedule",
   SET_LIVE_UPDATES: "/drift-event/set-live-updates",
+  UPDATE_IS_CANCELLED: "/drift-event/update-is-cancelled",
 };
 
 export class DriftEventApi extends ApiUtil {
@@ -142,14 +143,17 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async addDaySchedule(eventId: string, daySchedules: any): Promise<IDriftEvent | null> {
+  async addDaySchedule(
+    eventId: string,
+    daySchedules: any
+  ): Promise<IDriftEvent | null> {
     try {
       const event = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.ADD_DAY_SCHEDULE,
         payload: {
           eventId,
-          daySchedules
-        }
+          daySchedules,
+        },
       });
 
       return event;
@@ -159,14 +163,37 @@ export class DriftEventApi extends ApiUtil {
     }
   }
 
-  async setLiveUpdates(eventId: string, liveUpdates: boolean): Promise<boolean> {
+  async setLiveUpdates(
+    eventId: string,
+    liveUpdates: boolean
+  ): Promise<boolean> {
     try {
       const r = await this.post({
         url: DRIFT_EVENT_ENDPOINTS.SET_LIVE_UPDATES,
         payload: {
           eventId,
-          liveUpdates
-        }
+          liveUpdates,
+        },
+      });
+
+      return r;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
+  async updateIsCancelled(
+    eventId: string,
+    isCancelled: boolean
+  ): Promise<boolean> {
+    try {
+      const r = await this.post({
+        url: DRIFT_EVENT_ENDPOINTS.UPDATE_IS_CANCELLED,
+        payload: {
+          eventId,
+          isCancelled,
+        },
       });
 
       return r;
