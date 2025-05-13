@@ -11,6 +11,7 @@ export const TRACK_LAYOUTS: Record<string, string> = {
   "66af9539b2c2a169c1ea82b6": "/track-layouts/dmec_round_6_poland_layout.png",
 
   // DMEC 2025
+  "675d6f58ba7244bef957bee0": "/track-layouts/dmec_2025_round_2_spain_layout.png",
   "675d6f8955a8d833809e9ed4": "/track-layouts/dmec_round_3_finland_layout.png",
   "675d6fbaba7244bef957bee8": "/track-layouts/dmec_round_2_ireland_layout.png",
   "675d6fe4ba7244bef957bef2": "/track-layouts/dmec_round_4_latvia_layout.png",
