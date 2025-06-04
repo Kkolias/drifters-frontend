@@ -9,7 +9,7 @@
 
     <QualifyingResultList
       v-if="qualifying"
-      :qualifyingResults="qualifying.resultList"
+      :qualifyingResults="currentResultList"
       :allDriversList="allDriversList"
       :driftSerie="driftSerie"
       :showRunStats="showRunStats"
@@ -36,6 +36,8 @@ import Language from "~/mixins/language.vue";
 import { formatISODateToStringShort } from "~/utils/time";
 import translations from "~/lang/components/QualifyingViewWrapper.lang";
 
+// TODO tänne
+
 export default {
   mixins: [Language],
   props: {
@@ -60,6 +62,9 @@ export default {
       default: null,
     },
   },
+  data: () => ({
+    currentResultList: [] as IQualifyingResultItem[],
+  }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
@@ -99,6 +104,15 @@ export default {
     eventName(): string {
       return this.qualifying?.event?.name || "";
     },
+  },
+  mounted() {
+    this.currentResultList = this.qualifying?.resultList || [];
+    this.$socket.on("qualifying:updated", (data) => {
+      const resultList = data?.resultList || [];
+      if (resultList?.length) {
+        this.currentResultList = resultList;
+      }
+    });
   },
   methods: {
     setResultId(id: string): void {

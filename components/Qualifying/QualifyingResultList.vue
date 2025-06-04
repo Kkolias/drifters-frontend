@@ -18,7 +18,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(result, index) in qualifyingResults" :key="result._id">
+        <tr
+          v-for="(result, index) in qualifyingResults"
+          :key="result._id"
+          :class="{ 'score-updated': scoreHasChanged(result) }"
+        >
           <td>
             <button class="blank" @click="handleClick(result)">
               {{ index + 1 }}.
@@ -72,13 +76,45 @@ export default {
   },
   data: () => ({
     showPoints: false,
+
+    lastResultListState: [] as IQualifyingResultItem[],
+    changedResultIds: [] as string[],
   }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
     },
   },
+  watch: {
+    qualifyingResults() {
+      console.log("qualifyingResults changed", this.qualifyingResults);
+      if (!this.lastResultListState?.length) {
+        this.lastResultListState = [...this.qualifyingResults];
+      } else {
+        const resultsWithChangedRunPoints = this.qualifyingResults.filter(
+          (result, index) => {
+            const lastResult = this.lastResultListState?.find(i => i?._id === result._id);
+            if (!lastResult) return false;
+            const hasChangedRun1Points =
+              result.run1Points !== lastResult.run1Points;
+            const hasChangedRun2Points =
+              result.run2Points !== lastResult.run2Points;
+            return hasChangedRun1Points || hasChangedRun2Points;
+          }
+        );
+
+        const changedIds = resultsWithChangedRunPoints.map(
+          (result) => result._id
+        );
+        this.changedResultIds = changedIds;
+        this.lastResultListState = [...this.qualifyingResults];
+      }
+    },
+  },
   methods: {
+    scoreHasChanged(resultItem: IQualifyingResultItem): boolean {
+      return this.changedResultIds.includes(resultItem?._id || "");
+    },
     getDriverName(resultItem: IQualifyingResultItem): string {
       const driverId = resultItem?.driver;
       const driver = this.allDriversList.find((d) => d?._id === driverId);
@@ -126,6 +162,41 @@ export default {
     @media only screen and (max-width: 768px) {
       font-size: 12px;
     }
+  }
+
+  .scoreboard-table {
+    tbody {
+      tr {
+        &.score-updated {
+          td {
+            animation: indicateChangeFlash 3s ease-in-out forwards;
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes indicateChangeFlash {
+    0% {
+    background-color: var(--black-2);
+    color: var(--white-1);
+  }
+  25% {
+    background-color: var(--green-1);
+    color: var(--black-1);
+  }
+  50% {
+    background-color: var(--black-2);
+    color: var(--white-1);
+  }
+  75% {
+    background-color: var(--green-1);
+    color: var(--black-1);
+  }
+  100% {
+    background-color: var(--black-2);
+    color: var(--white-1);
+  }
   }
 }
 </style>
