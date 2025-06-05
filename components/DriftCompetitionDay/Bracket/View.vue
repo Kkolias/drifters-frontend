@@ -128,7 +128,8 @@ import Language from "~/mixins/language.vue";
 const translations = {
   fi: {
     bracketText: "Tulokset kaavio muodossa.",
-    moreInfo: "Näet parien tarkemmat tulokset valitsemalla haluamasi heatin. UUTTA: Näet nyt myös kuljettajien voitto jakauman klikkaamalla haluamasi heatin!",
+    moreInfo:
+      "Näet parien tarkemmat tulokset valitsemalla haluamasi heatin. UUTTA: Näet nyt myös kuljettajien voitto jakauman klikkaamalla haluamasi heatin!",
   },
   en: {
     bracketText: "Results in bracket format.",
@@ -149,6 +150,9 @@ export default {
       default: () => [],
     },
   },
+  data: () => ({
+    heatList: [] as IHeat[],
+  }),
   computed: {
     textContent() {
       return this.getTranslation(translations);
@@ -163,7 +167,7 @@ export default {
     competitionDayId(): string {
       return this.competitionDayItem?._id || "";
     },
-    heatList(): IHeat[] {
+    initialHeatList(): IHeat[] {
       return this.competitionDayItem?.heatList || [];
     },
     heatListTop32Sorted(): IHeat[] {
@@ -224,6 +228,15 @@ export default {
         ) || []
       );
     },
+  },
+  mounted() {
+    this.heatList = this.initialHeatList || [];
+    this.$socket.on("bracket-results:updated", (data) => {
+      const heatList = data?.competitionDay?.heatList || [];
+      if (heatList?.length) {
+        this.heatList = heatList;
+      }
+    });
   },
   methods: {
     closeHeatModal(): void {

@@ -93,7 +93,9 @@ export default {
       } else {
         const resultsWithChangedRunPoints = this.qualifyingResults.filter(
           (result, index) => {
-            const lastResult = this.lastResultListState?.find(i => i?._id === result._id);
+            const lastResult = this.lastResultListState?.find(
+              (i) => i?._id === result._id
+            );
             if (!lastResult) return false;
             const hasChangedRun1Points =
               result.run1Points !== lastResult.run1Points;
@@ -178,25 +180,25 @@ export default {
 
   @keyframes indicateChangeFlash {
     0% {
-    background-color: var(--black-2);
-    color: var(--white-1);
-  }
-  25% {
-    background-color: var(--green-1);
-    color: var(--black-1);
-  }
-  50% {
-    background-color: var(--black-2);
-    color: var(--white-1);
-  }
-  75% {
-    background-color: var(--green-1);
-    color: var(--black-1);
-  }
-  100% {
-    background-color: var(--black-2);
-    color: var(--white-1);
-  }
+      background-color: var(--black-2);
+      color: var(--white-1);
+    }
+    25% {
+      background-color: var(--green-1);
+      color: var(--black-1);
+    }
+    50% {
+      background-color: var(--black-2);
+      color: var(--white-1);
+    }
+    75% {
+      background-color: var(--green-1);
+      color: var(--black-1);
+    }
+    100% {
+      background-color: var(--black-2);
+      color: var(--white-1);
+    }
   }
 }
 </style>

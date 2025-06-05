@@ -2,17 +2,24 @@
   <div class="component-BracketColumnFinal">
     <div class="flex-container" :class="{ 'one-column': !hasHeat3 }">
       <ul class="heat-list">
-        <li class="heat" @click="showHeat(getHeatForNumber(1))">
+        <li
+          class="heat"
+          @click="showHeat(heat1)"
+          :class="{ changed: changedHeatId === getHeatId(heat1) }"
+        >
           <h3>Top 1 vs Top 4</h3>
           <div class="heat-wrapper">
+            <div v-if="isOmtNeeded(heat1)" class="omt-indicator">
+              <span>OMT</span>
+            </div>
             <div
               class="lead driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(1), 'driver1'),
+                winner: isWinnerOfHeat(heat1, 'driver1'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(1).driver1) }}
+                {{ getDriver(heat1.driver1) }}
               </p>
             </div>
             <div class="heat-number">
@@ -21,26 +28,33 @@
             <div
               class="chase driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(1), 'driver2'),
+                winner: isWinnerOfHeat(heat1, 'driver2'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(1).driver2) }}
+                {{ getDriver(heat1.driver2) }}
               </p>
             </div>
           </div>
         </li>
-        <li class="heat" @click="showHeat(getHeatForNumber(2))">
+        <li
+          class="heat"
+          @click="showHeat(heat2)"
+          :class="{ changed: changedHeatId === getHeatId(heat2) }"
+        >
           <h3>Top 2 vs Top 3</h3>
           <div class="heat-wrapper bronze">
+            <div v-if="isOmtNeeded(heat2)" class="omt-indicator">
+              <span>OMT</span>
+            </div>
             <div
               class="lead driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(2), 'driver1'),
+                winner: isWinnerOfHeat(heat2, 'driver1'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(2).driver1) }}
+                {{ getDriver(heat2.driver1) }}
               </p>
             </div>
             <div class="heat-number">
@@ -49,28 +63,35 @@
             <div
               class="chase driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(2), 'driver2'),
+                winner: isWinnerOfHeat(heat2, 'driver2'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(2).driver2) }}
+                {{ getDriver(heat2.driver2) }}
               </p>
             </div>
           </div>
         </li>
       </ul>
       <ul class="heat-list" v-if="!!hasHeat3">
-        <li class="heat" @click="showHeat(getHeatForNumber(3))">
+        <li
+          class="heat"
+          @click="showHeat(heat3)"
+          :class="{ changed: changedHeatId === getHeatId(heat3) }"
+        >
           <h3>Showdown {{ textContent.final }}</h3>
           <div class="heat-wrapper final">
+            <div v-if="isOmtNeeded(heat3)" class="omt-indicator">
+              <span>OMT</span>
+            </div>
             <div
               class="lead driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(3), 'driver1'),
+                winner: isWinnerOfHeat(heat3, 'driver1'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(3).driver1) }}
+                {{ getDriver(heat3.driver1) }}
               </p>
             </div>
             <div class="heat-number">
@@ -79,11 +100,11 @@
             <div
               class="chase driver"
               :class="{
-                winner: isWinnerOfHeat(getHeatForNumber(3), 'driver2'),
+                winner: isWinnerOfHeat(heat3, 'driver2'),
               }"
             >
               <p>
-                {{ getDriver(getHeatForNumber(3).driver2) }}
+                {{ getDriver(heat3.driver2) }}
               </p>
             </div>
           </div>
@@ -121,6 +142,12 @@ export default {
       default: () => [],
     },
   },
+  data: () => ({
+    currentHeatList: [] as IShowdownHeat[],
+
+    lastHeatList: [] as IShowdownHeat[],
+    changedHeatId: null as string | null,
+  }),
   // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
   computed: {
     textContent() {
@@ -130,8 +157,52 @@ export default {
       const heat3 = this.getHeatForNumber(3);
       return !!heat3?._id;
     },
+    heat1() {
+      return this.getHeatForNumber(1);
+    },
+    heat2() {
+      return this.getHeatForNumber(2);
+    },
+    heat3() {
+      return this.getHeatForNumber(3);
+    },
   },
+  mounted() {
+    this.currentHeatList = this.heatList || [];
+    this.lastHeatList = [...this.currentHeatList];
+    this.$socket.on("qualifying-showdown:updated", (data) => {
+      const heatList = data?.updatedResults?.heatList || [];
+      this.currentHeatList = heatList;
+      this.handleUpdatedHeat();
+    });
+  },
+
   methods: {
+    handleUpdatedHeat() {
+      const changedHeat = this.currentHeatList?.find((heat) => {
+        const lastHeat = this.lastHeatList?.find((i) => i?._id === heat?._id);
+
+        const differingRun = heat?.runList?.find((run) => {
+          const lastRun = lastHeat?.runList?.find((i) => i?._id === run?._id);
+
+          const judgePointsChanged =
+            run?.judgePoint1 !== lastRun?.judgePoint1 ||
+            run?.judgePoint2 !== lastRun?.judgePoint2 ||
+            run?.judgePoint3 !== lastRun?.judgePoint3;
+
+          return judgePointsChanged;
+        });
+        return differingRun;
+      });
+
+      if (changedHeat) {
+        this.changedHeatId = changedHeat._id;
+      } else {
+        this.changedHeatId = null;
+      }
+
+      this.lastHeatList = [...this.currentHeatList];
+    },
     showHeat(heat: IShowdownHeat) {
       this.$emit("showHeat", heat?._id);
     },
@@ -144,15 +215,19 @@ export default {
       const winnerId = getWinnerIdOfHeat(heat);
       return winnerId === driverId;
     },
+    getHeatId(heat): string {
+      return heat ? heat._id : "";
+    },
     getHeatForNumber(number: number): any {
       return (
-        this.heatList.find((heat) => heat.bracketNumber === number) || {
+        this.currentHeatList.find((heat) => heat.bracketNumber === number) || {
           driver1: "",
           driver2: "",
         }
       );
     },
     getDriver(driverProp: any): string {
+      if (!driverProp) return "";
       if (typeof driverProp === "string") {
         const driver =
           this.allDriversList.find((d) => d._id === (driverProp as string)) ||
@@ -163,6 +238,15 @@ export default {
       const lastName = driverProp?.lastName ?? "";
       const name = `${firstName} ${lastName}`;
       return name ?? "N/A";
+    },
+    isOmtNeeded(heat: IShowdownHeat): boolean {
+      const lastRun = heat?.runList?.[heat.runList.length - 1];
+      if (!lastRun) return false;
+
+      const judgePointsNotGiven =
+        !lastRun.judgePoint1 && !lastRun.judgePoint2 && !lastRun.judgePoint3;
+
+      return lastRun?.type === "omt" && judgePointsNotGiven;
     },
   },
 };
@@ -214,6 +298,23 @@ export default {
         background: var(--black-2);
         border-radius: 10px;
         min-width: 100px;
+        position: relative;
+
+        .omt-indicator {
+          position: absolute;
+          top: -10px;
+          left: -15px;
+          width: 40px;
+          height: 30px;
+          background-color: var(--green-1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--black-1);
+          font-weight: bold;
+          font-size: 14px;
+          border-radius: 5px;
+        }
 
         .heat-number {
           text-align: center;
@@ -246,6 +347,59 @@ export default {
             border: 1px solid var(--black-dark);
           }
         }
+      }
+
+      &.changed {
+        .heat-wrapper {
+          .winner {
+            animation: indicateWinnerFlash 3s ease-in-out forwards;
+          }
+
+          .omt-indicator {
+            animation: indicateOMTFlash 3s ease-in-out forwards;
+          }
+        }
+      }
+    }
+
+    @keyframes indicateWinnerFlash {
+      0% {
+        background-color: var(--green-1-50);
+        color: var(--black-1);
+      }
+      25% {
+        background-color: var(--black-2);
+        color: var(--white-1);
+      }
+      50% {
+        background-color: var(--green-1-50);
+        color: var(--black-1);
+      }
+      75% {
+        background-color: var(--black-2);
+        color: var(--white-1);
+      }
+      100% {
+        background-color: var(--green-1-50);
+        color: var(--black-1);
+      }
+    }
+
+    @keyframes indicateOMTFlash {
+      0% {
+        opacity: 1;
+      }
+      25% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      75% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
       }
     }
   }

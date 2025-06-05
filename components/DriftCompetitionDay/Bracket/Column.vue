@@ -3,12 +3,22 @@
     <!-- {{ heatList }} -->
     <h3>{{ title }}</h3>
     <ul class="heat-list">
-      <li v-for="number in heatNumberList" :key="number" class="heat" @click="showHeat(getHeatForNumber(number))">
+      <li
+        v-for="number in heatNumberList"
+        :key="number"
+        class="heat"
+        :class="{
+          changed: changedHeatId === getHeatId(getHeatForNumber(number)),
+        }"
+        @click="showHeat(getHeatForNumber(number))"
+      >
+        <div v-if="isOmtNeeded(getHeatForNumber(number))" class="omt-indicator">
+          <span>OMT</span>
+        </div>
         <div
           class="lead driver"
           :class="{
             winner: isWinnerOfHeat(getHeatForNumber(number), 'driver1'),
-            clown: isPelimies(getHeatForNumber(number).driver1),
           }"
         >
           <p>
@@ -22,7 +32,6 @@
           class="chase driver"
           :class="{
             winner: isWinnerOfHeat(getHeatForNumber(number), 'driver2'),
-            clown: isPelimies(getHeatForNumber(number).driver2),
           }"
         >
           <p>
@@ -67,17 +76,47 @@ export default {
       default: 0,
     },
   },
+  data: () => ({
+    changedHeatId: null as string | null,
+
+    lastHeatList: [] as IHeat[],
+  }),
 
   // lisää prefix mistä luvusta aloitetaan runListissä bracketNumberina
   computed: {
-    // firstHeatNumber(): number {
-    //   return this.heatList[0]?.bracketNumber || 0;
-    // },
     heatNumberList(): number[] {
       return Array.from(
         { length: this.runListLength },
         (_, i) => i + this.firstHeatNumber
       );
+    },
+  },
+  watch: {
+    heatList() {
+      if (this.lastHeatList?.length) {
+        const changedHeat = this.heatList?.find((heat) => {
+          const lastHeat = this.lastHeatList?.find((i) => i?._id === heat?._id);
+
+          const differingRun = heat?.runList?.find((run) => {
+            const lastRun = lastHeat?.runList?.find((i) => i?._id === run?._id);
+
+            const judgePointsChanged =
+              run?.judgePoint1 !== lastRun?.judgePoint1 ||
+              run?.judgePoint2 !== lastRun?.judgePoint2 ||
+              run?.judgePoint3 !== lastRun?.judgePoint3;
+
+            return judgePointsChanged;
+          });
+          return differingRun;
+        });
+
+        if (changedHeat) {
+          this.changedHeatId = changedHeat._id;
+        } else {
+          this.changedHeatId = null;
+        }
+      }
+      this.lastHeatList = [...this.heatList];
     },
   },
   methods: {
@@ -90,7 +129,7 @@ export default {
       // if (!driver1 || !driver2) return false;
       const driverId = driverType === "driver1" ? driver1 : driver2;
 
-      if(!driverId) return false;
+      if (!driverId) return false;
 
       const winnerId = getWinnerIdOfHeat(heat);
       return winnerId === driverId;
@@ -104,26 +143,33 @@ export default {
       );
     },
     getDriver(driverProp: any): string {
-        if(typeof driverProp === 'string') {
+      if (typeof driverProp === "string") {
+        const driver =
+          this.allDriversList.find((d) => d._id === (driverProp as string)) ||
+          null;
+        return driver ? `${driver.firstName} ${driver.lastName}` : "N/A";
+      }
+      const firstName = driverProp?.firstName ?? "";
+      const lastName = driverProp?.lastName ?? "";
 
-            const driver =
-            this.allDriversList.find((d) => d._id === driverProp as string) || null;
-            return driver ? `${driver.firstName} ${driver.lastName}` : "N/A";
-        }
-        const firstName = driverProp?.firstName ?? '';
-        const lastName = driverProp?.lastName ?? '';
+      const name = `${firstName} ${lastName}`;
+      return name ?? "N/A";
+    },
 
-        if(this.isPelimies(driverProp)) return  `${firstName} ${lastName}`
-        const name = `${firstName} ${lastName}`;
-        return name ?? 'N/A';
-    },
-    isPelimies(driverProp: any): boolean {
-      const isMondelloPark = this.competitionDayId === "666e179f3cb6e6f25a78fe08";
-      const isPelimies = driverProp?._id === "665898af0b7030b5088af8f7";
-      return isMondelloPark && isPelimies && this.firstHeatNumber > 9;
-    },
     getBracketNumber(heat: IHeat): string {
       return `Heat ${heat?.bracketNumber ?? 0 + this.firstHeatNumber}`;
+    },
+    isOmtNeeded(heat: IHeat): boolean {
+      const lastRun = heat?.runList?.[heat.runList.length - 1];
+      if (!lastRun) return false;
+
+      const judgePointsNotGiven =
+        !lastRun.judgePoint1 && !lastRun.judgePoint2 && !lastRun.judgePoint3;
+
+      return lastRun?.type === "omt" && judgePointsNotGiven;
+    },
+    getHeatId(heat: IHeat): string {
+      return heat?._id || "";
     },
   },
 };
@@ -158,6 +204,24 @@ export default {
       background: var(--black-2);
       border-radius: 10px;
       min-width: 100px;
+      position: relative;
+
+      .omt-indicator {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 30px;
+        height: 20px;
+        background-color: var(--green-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--black-1);
+        font-weight: bold;
+        font-size: 0.7rem;
+        border-radius: 5px;
+        z-index: 3;
+      }
 
       .heat-number {
         text-align: center;
@@ -168,7 +232,6 @@ export default {
         margin: 6px;
         font-size: 13px;
         text-align: center;
-
       }
       .driver {
         border: 1px solid var(--white-1);
@@ -188,6 +251,57 @@ export default {
             top: -8px;
             right: -8px;
           }
+        }
+      }
+
+
+      &.changed {
+        .winner {
+          animation: indicateWinnerFlash 3s ease-in-out forwards;
+        }
+        .omt-indicator {
+          animation: indicateOMTFlash 3s ease-in-out forwards;
+        }
+      }
+
+      @keyframes indicateWinnerFlash {
+        0% {
+          background-color: var(--green-1-50);
+          color: var(--black-1);
+        }
+        25% {
+          background-color: var(--black-2);
+          color: var(--white-1);
+        }
+        50% {
+          background-color: var(--green-1-50);
+          color: var(--black-1);
+        }
+        75% {
+          background-color: var(--black-2);
+          color: var(--white-1);
+        }
+        100% {
+          background-color: var(--green-1-50);
+          color: var(--black-1);
+        }
+      }
+
+      @keyframes indicateOMTFlash {
+        0% {
+          opacity: 1;
+        }
+        25% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        75% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
         }
       }
     }
