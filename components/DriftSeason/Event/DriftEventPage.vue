@@ -301,6 +301,7 @@ export default {
     if (this.competitionDayId) {
       this.fetchCompetitionDay();
     }
+    this.liveUpdatesStatusSocketHandler();
   },
   watch: {
     eventSlug() {
@@ -314,6 +315,18 @@ export default {
     },
   },
   methods: {
+    liveUpdatesStatusSocketHandler() {
+      this.$socket.on("event-live-updates:changed", (data: any) => {
+        const eventId = data?.eventId;
+        const isLiveUpdates = data?.liveUpdates || false;
+        if (eventId === this.driftEvent?._id) {
+          this.driftEvent = {
+            ...this.driftEvent,
+            liveUpdates: isLiveUpdates,
+          };
+        }
+      });
+    },
     setInitialView(): void {
       const hasHash = !!this.$route.hash;
       if (!hasHash) {
