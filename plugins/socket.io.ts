@@ -6,7 +6,7 @@ const API_URL = "wss://drifters-api-v2.fly.dev"
 
 export default defineNuxtPlugin((nuxtApp) => {
   const socket: Socket = io(API_URL, {
-    transports: ["websocket", "polling"],
+    transports: ["websocket"],
   }); // tai oma API-osoitteesi
 
   socket.on("connect", () => {
