@@ -10,6 +10,7 @@
       <h1 class="big-header">
         {{ serie }} {{ seasonYear }} {{ textContent.results }}
       </h1>
+      <p v-if="subText" class="subtext">{{ subText }}</p>
       <p class="event-details">
         {{ driftEventName }}
         <span class="city">{{ eventTrackCity }}</span>
@@ -77,6 +78,7 @@ import Language from "~/mixins/language.vue";
 import { useDriversStore } from "~/store/drivers";
 import apiDriftSeason from "~/utils/drifting/api-drift-season";
 import translations from "~/lang/components/DriftSeasonDesktopSeasonPage.lang";
+import countryLang from "~/lang/country.lang";
 
 interface IData {
   driftEvent: IDriftEvent | null;
@@ -117,11 +119,43 @@ export default {
     },
   }),
   computed: {
+    subText(): string {
+      const isDm = this.seasonSlug.includes("drift-masters");
+      if (isDm) {
+        const text = this.textContent.subTextDm
+          .replace("%%SEASON_YEAR%%", this.seasonYear)
+          .replace("%%COUNTRY_LIST%%", this.countryList.join(", "));
+        return text;
+      }
+      const isDriftSm =
+        this.seasonSlug.includes("drift-sm-pro") &&
+        !this.seasonSlug.includes("drift-sm-pro-2-");
+      console.log("isDriftSm", isDriftSm);
+      if (isDriftSm) {
+        const text = this.textContent.subTextDirftSmPro.replaceAll(
+          "%%SEASON_YEAR%%",
+          this.seasonYear
+        );
+        return text;
+      }
+
+      return "";
+    },
+    countryList(): string[] {
+      const countryesRaw = this.season?.driftEvents?.map((i) => i?.country);
+      return (
+        countryesRaw?.map((i) => getCountryName(i, this.countryTextContent)) ||
+        []
+      );
+    },
     isSeasonFinished(): boolean {
       return this.season?.isFinished || false;
     },
     textContent() {
       return this.getTranslation(translations);
+    },
+    countryTextContent() {
+      return this.getTranslation(countryLang);
     },
     navigationList(): { label: string; key: string }[] {
       const output = [
@@ -289,9 +323,14 @@ export default {
   }
   h1 {
     font-size: 2.6rem;
+    max-width: 600px;
     text-align: center;
     color: var(--green-1);
     margin: 0 auto;
+  }
+  .subtext {
+    max-width: 600px;
+    margin: 24px auto 0;
   }
   section {
     &.scroll-section {
@@ -364,6 +403,17 @@ export default {
 
   .view-section {
     margin-top: 24px;
+  }
+
+  @media only screen and (max-width: 1090px) {
+    h1 {
+      max-width: 500px;
+    }
+  }
+  @media only screen and (max-width: 900px) {
+    h1 {
+      max-width: 380px;
+    }
   }
 }
 </style>

@@ -98,6 +98,7 @@
         <DriftSeriesList :selectedSeason="seasonId" />
       </section>
     </div>
+    <!-- <SchemaSetter v-if="schemaLoaded" :schemaContent="schemaContent" /> -->
   </div>
 </template>
 
@@ -164,7 +165,49 @@ export default {
       competitionDay: true,
     },
   }),
+
   computed: {
+    // TÄTÄ TÄYTYY VIELÄ MIETTIÄ
+    schemaLoaded(): boolean {
+      return !!this.driftEvent && !!this.season && !this.isLoading;
+    },
+    schemaContent() {
+      const organizer = this.eventOrganizer
+      return {
+        "@type": "SportsEvent",
+        name: `${this.serie} ${this.seasonYear} ${this.country} - ${this.driftEventName} ${this.textContent.results}`,
+        startDate: this.driftEvent?.startsAt || "",
+        endDate: this.driftEvent?.endsAt || "",
+        description: `Follow the ${this.serie} ${this.seasonYear} season event ${this.driftEventName} with full results, standings and schedule updated live.`,
+        organizer,
+        publisher: {
+          "@type": "Organization",
+          name: "DriftDataan",
+          url: "https://driftdataan.fi",
+        },
+      };
+    },
+    eventOrganizer(): Record<string, string> {
+      const isDm = this.season?.serie === "dmec";
+      if (isDm) {
+        return {
+          "@type": "Organization",
+          name: "Drift Masters",
+          url: "https://www.driftmasters.gp/",
+        };
+      }
+      const isDriftSm = this.season?.serie === "driftsmpro";
+      if (isDriftSm) {
+        return {
+          "@type": "Organization",
+          name: "Drift SM",
+          url: "https://driftsm.fi",
+        };
+      }
+
+      // unknown
+      return {};
+    },
     showLiveStatus(): boolean {
       return isEventTwoDaysAhead(this.driftEvent);
     },
@@ -316,14 +359,14 @@ export default {
   },
   methods: {
     liveUpdatesStatusSocketHandler() {
-      this.$socket.on("event-live-updates:changed", (data: any) => {
+      (this.$socket as any).on("event-live-updates:changed", (data: any) => {
         const eventId = data?.eventId;
         const isLiveUpdates = data?.liveUpdates || false;
         if (eventId === this.driftEvent?._id) {
           this.driftEvent = {
             ...this.driftEvent,
             liveUpdates: isLiveUpdates,
-          };
+          } as any;
         }
       });
     },

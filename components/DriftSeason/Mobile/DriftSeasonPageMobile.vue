@@ -3,8 +3,8 @@
     <LoadingIndicator v-if="isLoading" />
     <div class="content-wrapper" v-if="!isLoading">
       <section class="hero-section">
-        <h1 class="big-header">{{ serie }} {{ seasonYear }}</h1>
-        <p class="subtext">{{ textContent.overview }}</p>
+        <h1 class="big-header">{{ serie }} {{ seasonYear }} {{ textContent.results }}</h1>
+        <!-- <p class="subtext">{{ textContent.overview }}</p> -->
       </section>
       <section class="select-view-section">
         <DriftSeasonMobileViewSelection
@@ -76,6 +76,7 @@ const translations = {
     seasons: "Muut kaudet",
     scoreChart: "Pistetilanne kehitys kauden aikana",
     qualifyingAverage: "Kuljettajien lajittelun pistekeskiarvo",
+    results: "Tulokset, pisteet ja kisakalenteri",
     
   },
   en: {
@@ -86,6 +87,7 @@ const translations = {
     seasons: "Other seasons",
     scoreChart: "Scoreboard development during the season",
     qualifyingAverage: "Drivers qualifying score average",
+    results: "Results, points and event schedule",
   },
 };
 
@@ -295,6 +297,8 @@ export default {
 
   h1 {
     font-size: 2.6rem;
+    max-width: 500px;
+    padding: 0 16px;
     text-align: center;
     color: var(--green-1);
     margin: 0 auto;
