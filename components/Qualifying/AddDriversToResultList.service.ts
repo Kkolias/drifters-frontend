@@ -10,20 +10,34 @@ class AddDriversToResultListService {
     qualifyingId: string,
     driverList: { id: string; orderNumber: number }[]
   ): Promise<IQualifying | null> {
-    if(!driverList?.length) return null
+    if (!driverList?.length) return null;
     return (await qualifyingApi.createResultItemListToQualifying(
       qualifyingId,
       driverList
     )) as IQualifying;
   }
 
+  async updateDriverResultListOrder(
+    qualifyingId: string,
+    orderList: { id: string; orderNumber: number }[]
+  ): Promise<IQualifying | null> {
+    if (!orderList?.length) return null;
+    return await qualifyingApi.updateResultListOrder(qualifyingId, orderList);
+  }
+
   async getAllDrivers(): Promise<IDriver[]> {
     return await apiDrivers.getAllDrivers();
   }
 
-  async deleteResultList(qualifyingId: string, driverIdList: string[]): Promise<IQualifying | null> {
-    if(!driverIdList?.length) return null
-    return await qualifyingApi.deleteResultsByDriverIds(qualifyingId, driverIdList);
+  async deleteResultList(
+    qualifyingId: string,
+    driverIdList: string[]
+  ): Promise<IQualifying | null> {
+    if (!driverIdList?.length) return null;
+    return await qualifyingApi.deleteResultsByDriverIds(
+      qualifyingId,
+      driverIdList
+    );
   }
 
   getDriverIdListToDelete(

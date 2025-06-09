@@ -25,7 +25,8 @@
     "chart.js": "^4.4.4",
     "less": "^4.2.0",
     "pinia": "^2.1.7",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "vue-draggable-next": "^2.2.1"
   },
   "version": "1.0.40"
 }

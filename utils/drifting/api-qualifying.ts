@@ -9,6 +9,7 @@ const DRIFT_SEASON_ENDPOINTS = {
   CREATE: "/qualifying/create",
   CREATE_RESULT_ITEM: "/qualifying/create-result-item",
   CREATE_RESULT_ITEM_LIST: "/qualifying/create-result-item-list",
+  REORDER_RESULT_ITEM_LIST: "/qualifying/reorder-result-item-list",
   ADD_RUN_TO_RESULT: "/qualifying/add-run-to-result",
   DELETE_RESULTS: "/qualifying/delete-results-by-driver-ids",
 };
@@ -69,6 +70,24 @@ export class QualifyingApi extends ApiUtil {
       return null;
     }
   }
+
+  async updateResultListOrder(
+    qualifyingId: string,
+    orderedList: { id: string; orderNumber: number }[]
+  ): Promise<IQualifying | null> {
+    try {
+      const qualifying = await this.post({
+        url: DRIFT_SEASON_ENDPOINTS.REORDER_RESULT_ITEM_LIST,
+        payload: { qualifyingId, orderedList},
+      });
+
+      return qualifying;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+  
 
   async updateQualifyingRuns(
     qualifyingId: string,

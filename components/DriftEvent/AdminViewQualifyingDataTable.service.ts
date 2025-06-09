@@ -21,7 +21,7 @@ export class AdminViewQualifyingDataTableService {
     qualifyingResultList: IQualifyingResultItem[],
     parsedDriverList: IParsedDriver[]
   ): IParsedQualifyingResultItem[] {
-    return sortResultListByOrderNumber(
+    const r = sortResultListByOrderNumber(
       qualifyingResultList.map((q) => {
         return {
           ...q,
@@ -33,6 +33,8 @@ export class AdminViewQualifyingDataTableService {
         };
       }) || []
     ) as IParsedQualifyingResultItem[];
+    console.log("Parsed Data List:", r);
+    return r;
   }
 
   private getDriverName(
